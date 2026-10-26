@@ -10,7 +10,7 @@
     },
     "icon": "icon.png",
     "vender": "Toni & Claude",
-    "description": "ORBIT: calm digital watchface with weather and three rings; accent color, rings, date and location row editable"
+    "description": "ORBIT: calm digital watchface with weather and three rings; accent color, rings, date and the row under the time are editable"
   },
   "permissions": [
     "data:user.hd.heart_rate",
