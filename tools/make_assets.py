@@ -3,7 +3,6 @@
 
 Digits and labels use the free font Sora (tools/fonts, SIL OFL), the icons are drawn by hand.
 Run with a Python that has Pillow: python3 tools/make_assets.py
-With fontTools installed it also writes the small Sora font for the city name (fonts/sora.ttf).
 Also writes watchface/sizes.js with the width of every glyph and the accent colors, the layout in
 watchface/index.js uses it.
 
@@ -573,47 +572,20 @@ def row_previews():
             out.alpha_composite(t, (10, (h - t.height) // 2))  # the area starts 10 px left of the date
             save(out, f'edit/{lang}/date_{style}.png')
         w, h = EDIT['row']
-        city = {'de': 'STANDORT', 'en': 'LOCATION'}[lang]
-        for kind, text in (('day', WEEK_LONG[lang][SAMPLE['wd']]), ('city', city), ('empty', '·  ·  ·')):
+        for kind, text in (('day', WEEK_LONG[lang][SAMPLE['wd']]), ('empty', '·  ·  ·')):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
             t = text_img(text, f_date, GRAY if kind != 'empty' else DIM, DAY_TRACK)
-            if kind == 'city':
-                pin = ring_icon('distance', GRAY).resize((14, 18), Image.LANCZOS)
-                x = (w - pin.width - 10 - t.width) // 2
-                out.alpha_composite(pin, (x, (h - pin.height) // 2))
-                out.alpha_composite(t, (x + pin.width + 10, (h - t.height) // 2))
-            else:
-                paste_center(out, t, w / 2, h / 2)
+            paste_center(out, t, w / 2, h / 2)
             save(out, f'edit/{lang}/row_{kind}.png')
 
 
-def city_font():
-    """Sora Regular cut down to Latin letters, for the city name (TEXT widget)."""
-    try:
-        from fontTools.ttLib import TTFont
-        from fontTools.varLib.instancer import instantiateVariableFont
-        from fontTools import subset
-    except ImportError:
-        print('fontTools missing, fonts/sora.ttf not rebuilt')
-        return
-    f = instantiateVariableFont(TTFont(FONT), {'wght': 400})
-    opts = subset.Options()
-    opts.name_IDs = ['*']  # keep copyright and license (SIL OFL) in the font
-    sub = subset.Subsetter(opts)
-    sub.populate(unicodes=list(range(0x20, 0x7f)) + list(range(0xa0, 0x180)) + [0x2019, 0x2013])
-    sub.subset(f)
-    os.makedirs(os.path.join(OUT, 'fonts'), exist_ok=True)
-    f.save(os.path.join(OUT, 'fonts', 'sora.ttf'))
-
-
 def clean():
-    """Removes the old pictures, so renamed ones don't stay behind. The font stays if fontTools is missing."""
+    """Removes the old pictures, so renamed ones don't stay behind."""
     if not os.path.isdir(OUT):
         return
     for name in os.listdir(OUT):
-        if name != 'fonts':
-            p = os.path.join(OUT, name)
-            shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
+        p = os.path.join(OUT, name)
+        shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
 
 
 def write_sizes():
@@ -637,7 +609,6 @@ if __name__ == '__main__':
     ring_previews()
     color_previews()
     row_previews()
-    city_font()
     write_sizes()
     for k in ('time_h', 'date', 'bat', 'val', 'big', 'temp', 'hilo'):
         print(k, sizes[k]['h'], sizes[k]['w'])

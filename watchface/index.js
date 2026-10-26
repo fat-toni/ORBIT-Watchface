@@ -1,5 +1,5 @@
 // ORBIT: digital watchface for the Bip 6 (390x450). Date and battery on top, hours white and minutes in
-// the accent color, the weekday (or city), the weather (icon, temperature, high and low of the day) and
+// the accent color, the weekday, the weather (icon, temperature, high and low of the day) and
 // three rings. In the watchface editor the accent color, the content of each ring, the date style and
 // the row under the time can be chosen.
 // All pictures come from tools/make_assets.py, their sizes and the accent colors from the generated sizes.js.
@@ -11,7 +11,6 @@ import { Time, Battery, Step, HeartRate, Calorie, Distance, Pai, Stand, BloodOxy
 import { SIZES } from './sizes'
 
 const TRACK = 0x232b2b // ring background
-const GRAY = 0x969a9e // keep in sync with GRAY in tools/make_assets.py
 
 // Layout, all in px of the 390x450 screen.
 const SIDE = 34
@@ -66,20 +65,20 @@ const COLOR_TYPE = 100001 // + index in SIZES.colors
 const RING_EMPTY = 100100
 const DATE_TYPE = 100201 // + date style 0-3, see dateItems()
 const DATE_STYLES = 4
-const ROW_TYPES = { day: 100301, city: 100302, empty: 100303 }
+const ROW_TYPES = { day: 100301, empty: 100303 } // 100302 was the city, the watch does not give it
 
 const TITLES = {
   de: {
     colors: ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber'],
     empty: 'Leer',
     dates: ['Datum lang', 'Mit Wochentag', 'Zahlen', 'Mit Kalenderwoche'],
-    rows: { day: 'Wochentag', city: 'Standort', empty: 'Leer' },
+    rows: { day: 'Wochentag', empty: 'Leer' },
   },
   en: {
     colors: ['Mint', 'Ice blue', 'Amber', 'Rose', 'Lavender', 'Silver'],
     empty: 'Empty',
     dates: ['Long date', 'With weekday', 'Numbers', 'With week number'],
-    rows: { day: 'Weekday', city: 'Location', empty: 'Empty' },
+    rows: { day: 'Weekday', empty: 'Empty' },
   },
 }
 
@@ -344,24 +343,8 @@ WatchFace({
       show_level: hmUI.show_level.ONLY_AOD,
     })
 
-    // --- row under the time: weekday or city; the weekday also stands in when there is no city ---
+    // --- row under the time: weekday or nothing ---
     if (this.row !== 'empty') this.dayLong = img(0, DAY_Y, `txt/${L}/day_0.png`)
-    if (this.row === 'city') {
-      this.city = hmUI.createWidget(hmUI.widget.TEXT, {
-        x: 20,
-        y: DAY_Y - 2,
-        w: 350,
-        h: 30,
-        color: GRAY,
-        text_size: 19,
-        char_space: 6,
-        align_h: hmUI.align.CENTER_H,
-        text_style: hmUI.text_style.NONE,
-        font: 'fonts/sora.ttf',
-        text: '',
-        ...NORMAL,
-      })
-    }
 
     // --- weather: bound to the system data, the system updates it ---
     // A white layer and an accent layer, both picked by the system from the weather index.
@@ -438,11 +421,6 @@ WatchFace({
       this.maxHr = 220 - (getProfile().age || 35)
     } catch (e) {
       this.maxHr = 185
-    }
-    if (this.row === 'city') {
-      try {
-        this.weather = hmSensor.createSensor(hmSensor.id.WEATHER)
-      } catch (e) {}
     }
 
     this.updateAll()
@@ -537,19 +515,10 @@ WatchFace({
 
   updateRow() {
     if (!this.dayLong) return
-    let city = ''
-    if (this.city) {
-      try {
-        city = String(this.weather.getForecastWeather().cityName || '').toUpperCase()
-      } catch (e) {}
-      this.city.setProperty(hmUI.prop.TEXT, city)
-      this.city.setProperty(hmUI.prop.VISIBLE, !!city)
-    }
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7
     const src = `txt/${this.lang}/day_${wd}.png`
     const dw = txtW(src)
     this.dayLong.setProperty(hmUI.prop.MORE, { x: Math.round((390 - dw) / 2), y: DAY_Y, w: dw, h: 26, src })
-    this.dayLong.setProperty(hmUI.prop.VISIBLE, !city)
   },
 
   updateBattery() {

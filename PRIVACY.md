@@ -22,7 +22,7 @@ A value is only read when you show it in one of the rings.
 | Stress (`data:user.hd.stress`) | Stress ring |
 | User info (`data:user.info`) | Your age, for the maximum heart rate (220 minus age) that fills the heart-rate ring |
 
-The weather, the location name and the battery level come from the watch itself. The choices you make in the
+The weather and the battery level come from the watch itself. The choices you make in the
 watchface editor are kept by the watch.
 
 ORBIT has no internet access, no phone-side part, no account, no analytics, no ads and no third-party SDKs.
