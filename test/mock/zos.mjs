@@ -1,3 +1,5 @@
+import { readFileSync, statSync } from 'node:fs'
+
 // Stand-in for every @zos module in Node tests: a simulated Bip 6. The watchface draws into
 // zos.widgets; time, sensors, settings and the editor choices come from zos and can be set by a
 // test before the watchface is built (see test/face.mjs). Every sensor that is created and every
@@ -26,6 +28,9 @@ export function resetZos() {
       stress: 34,
     },
     city: 'Ulm', // city name of the weather forecast ('' = none)
+    forecasts: 0, // how often the whole forecast was read
+    clock: 1793000000000, // ms, Time.getTime()
+    files: [], // asset files read
     edit: {}, // edit_id -> type the user picked in the watchface editor
     noEditTypes: false, // a firmware without hmUI.edit_type
     sensors: {}, // sensor name -> how many were created
@@ -133,6 +138,9 @@ export class Time {
   getHours() {
     return zos.now.hours
   }
+  getTime() {
+    return zos.clock
+  }
   getMinutes() {
     return zos.now.minutes
   }
@@ -236,9 +244,28 @@ export class Weather {
     sensor('weather')
   }
   getForecast() {
+    zos.forecasts++
     return { cityName: zos.city, forecastData: { data: [], count: 0 }, tideData: { data: [], count: 0 } }
   }
 }
+
+// ---- @zos/fs: the assets of the watchface ----
+const ASSETS = new URL('../../assets/default.w390-s/', import.meta.url).pathname
+const open = new Map()
+export const O_RDONLY = 0
+export const statAssetsSync = ({ path }) => ({ size: statSync(ASSETS + path).size })
+export function openAssetsSync({ path }) {
+  zos.files.push(path)
+  const fd = open.size + 3
+  open.set(fd, readFileSync(ASSETS + path))
+  return fd
+}
+export function readSync({ fd, buffer }) {
+  const data = open.get(fd)
+  new Uint8Array(buffer).set(data)
+  return data.length
+}
+export const closeSync = (fd) => open.delete(typeof fd === 'object' ? fd.fd : fd)
 
 // The watchface registers itself with this global, like on the watch.
 globalThis.WatchFace = (face) => (zos.face = face)

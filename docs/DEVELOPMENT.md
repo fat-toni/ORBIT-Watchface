@@ -16,15 +16,19 @@ npm run release-check -- --zab   # the same, then builds and checks dist/ORBIT-<
 
 ## How it is made
 
-- `watchface/index.js` is the whole watchface: layout, the watchface editor (`readEditor()`), sensors and drawing.
+- `watchface/index.js` builds the watchface and updates it (sensors, time, date, rings); the rest is in
+  `watchface/lib/`: `layout.js` (positions and what the rings can show), `draw.js` (pictures, text, rings,
+  tap areas; a widget is only changed when something is different), `lang.js` (languages and number formats) and
+  `editor.js` (the watchface editor).
 - Every picture comes from **`tools/make_assets.py`** (`npm run assets`): digits and words in
   [Sora](https://github.com/sora-xor/sora-font), the icons drawn by hand in code, everything that has the accent
   color once per color under `assets/default.w390-s/c/<color>/`, and the previews of the editor. It also writes
   `watchface/sizes.js` with the size of every picture and the color list, which the layout uses.
   It needs Python with Pillow; with [fontTools](https://github.com/fonttools/fonttools) it also rebuilds the two small
   Sora fonts in `assets/default.w390-s/fonts/`.
-- Words that change rarely (date, weekday or location, battery, ring labels, AM/PM) are text in those fonts; the words
-  of every language come from `tools/langs.json`. The watch cannot measure text in a font of its own, so
+- Words that change rarely (date, weekday or location, battery, ring labels, AM/PM) are text in those fonts. Every
+  language from `tools/langs.json` is written to its own small file (`assets/default.w390-s/lang/<code>.json`), and
+  the watchface reads only the one of the watch, so the other languages never take up memory. The watch cannot measure text in a font of its own, so
   `make_assets.py` writes the width of every letter to `sizes.js` (`text19`) for the layout.
 - The location name comes from `Weather.getForecast().cityName` – on the watch only `getForecast()` exists, not the
   `getForecastWeather()` of the Zepp OS docs.
@@ -49,10 +53,16 @@ The tests run without a watch or simulator: `test/mock/zos.mjs` is a simulated B
 
 What only the real watch shows (how pictures look, taps, real sensor values) is checked by hand.
 
-## Battery
+## Battery and memory
 
 ORBIT should cost as little as possible: sensors only for the rings that are shown, values by events instead of
-timers, one update per minute for the time, and a fresh read of everything when the screen wakes up.
+timers, one update per minute for the time, a fresh read when the screen wakes up (but the location at most once
+an hour), and only what changed is redrawn.
+
+On the watch every picture takes about width × height bytes, transparent or not (Zeus turns the PNGs into an
+uncompressed format). So the editor previews are cut to what they show, and languages with the same preview share
+one picture. The editor centers a preview in its area and shows all options in the size of the first one, so the
+previews of one area keep one size.
 
 ## README pictures
 

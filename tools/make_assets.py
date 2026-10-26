@@ -480,6 +480,7 @@ def ring_previews():
     f_cap = font(11, 'SemiBold')
     for name, r in (('ring_s', 48), ('ring_b', 64)):
         w, h = EDIT[name]
+        outs = []
         for kind in RING_PREVIEW:
             img, d = canvas(w, h)
             box = ((w / 2 - r) * S, (h / 2 - r) * S, (w / 2 + r) * S, (h / 2 + r) * S)
@@ -494,6 +495,8 @@ def ring_previews():
                 paste_center(out, icon, w / 2, h / 2 - 4 - icon.height / 2)
                 unit = text_img(UNITS['km' if kind == 'distance' else kind], f_cap, GRAY, 2)
                 paste_center(out, unit, w / 2, h / 2 + 12)
+            outs.append(out)
+        for kind, out in zip(RING_PREVIEW, trim_group(outs)):
             save(out, f'edit/{name}_{kind}.png', colors=48)
 
 
@@ -501,6 +504,7 @@ def color_previews():
     """The time "10 08" with the minutes in each accent color, the size of the time area."""
     f_time = font(110, 'SemiBold')
     w, h = EDIT['color']
+    outs = []
     for key, col in COLORS:
         hrs, mins = text_img('10', f_time, WHITE, 2), text_img('08', f_time, col, 2)
         hrs, mins = trim_v([hrs, mins])
@@ -509,6 +513,8 @@ def color_previews():
         y = (h - hrs.height) // 2
         out.alpha_composite(hrs, (x, y))
         out.alpha_composite(mins, (x + hrs.width + 22, y))
+        outs.append(out)
+    for (key, _), out in zip(COLORS, trim_group(outs)):
         save(out, f'c/{key}/edit.png', colors=48)
 
 
@@ -524,19 +530,38 @@ def date_text(lang, style):
     return ''.join(words.get(t, t) for t in L['dates'][style])
 
 
+def trim_group(images):
+    """Cuts all previews of one editor area to the box their content shares. The editor centers a preview
+    in its area and shows every option in the size of the first one, so the previews of an area must keep
+    one size; but the empty space around them goes, and on the watch every pixel costs a byte."""
+    boxes = [i.getbbox() for i in images if i.getbbox()]
+    box = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+    return [i.crop(box) for i in images]
+
+
+previews = {}  # picture content -> path, so languages with the same preview share one file
+
+
+def save_preview(img, lang, name):
+    """Saves an editor preview of a language under edit/l/, once per distinct picture."""
+    key = (img.size, img.tobytes())
+    if key not in previews:
+        previews[key] = f'edit/l/{lang}_{name}.png'
+        save(img, previews[key], colors=48)
+    LANGS[lang].setdefault('previews', {})[name] = previews[key]
+
+
 def row_previews():
+    """Previews of the date styles and of the row under the time, per language; each area cut to one size."""
     f_date = font(19, 'Regular')
-    w, h = EDIT['row']
-    out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    paste_center(out, text_img('·  ·  ·', f_date, DIM, DAY_TRACK), w / 2, h / 2)
-    save(out, 'edit/row_empty.png')  # the same in every language
+    dates, rows = [], []  # (lang, name, picture)
     for lang, L in LANGS.items():
         w, h = EDIT['date']
         for style in range(DATE_STYLES):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
             t = text_img(date_text(lang, style), f_date, LIGHT, DATE_TRACK)
             out.alpha_composite(t, (10, (h - t.height) // 2))  # the area starts 10 px left of the date
-            save(out, f'edit/{lang}/date_{style}.png')
+            dates.append((lang, f'date_{style}', out))
         w, h = EDIT['row']
         for kind, text in (('day', L['days'][SAMPLE['wd']]), ('city', L['titles']['city'].upper())):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
@@ -549,7 +574,16 @@ def row_previews():
                 out.alpha_composite(t, (x + pin.width + 10, (h - t.height) // 2))
             else:
                 paste_center(out, t, w / 2, h / 2)
-            save(out, f'edit/{lang}/row_{kind}.png')
+            rows.append((lang, f'row_{kind}', out))
+    w, h = EDIT['row']
+    empty = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    paste_center(empty, text_img('·  ·  ·', f_date, DIM, DAY_TRACK), w / 2, h / 2)
+    *rows_cut, empty = trim_group([o for _, _, o in rows] + [empty])
+    save(empty, 'edit/row_empty.png')  # the same in every language
+    for (lang, name, _), out in zip(rows, rows_cut):
+        save_preview(out, lang, name)
+    for (lang, name, _), out in zip(dates, trim_group([o for _, _, o in dates])):
+        save_preview(out, lang, name)
 
 
 # Basic Latin, Latin-1, Latin Extended-A and the Romanian Ș/Ț: every letter of tools/langs.json and of
@@ -590,9 +624,16 @@ def clean():
 
 def write_sizes():
     sizes['colors'] = [[key, (col[0] << 16) | (col[1] << 8) | col[2]] for key, col in COLORS]
-    # what the watchface needs of every language
-    rules = ('zepp', 'group', 'decimal', 'minGroup', 'dates', 'titles', 'days', 'daysShort', 'months', 'monthsShort')
-    sizes['langs'] = {lang: {k: L[k] for k in rules} for lang, L in LANGS.items()}
+    # Every language in its own small file (lang/<code>.json); the watchface reads only the one of the watch,
+    # so the words of the other languages never take up memory. ASCII with \u escapes, the watch reads bytes.
+    # sizes.js only knows which watch language code belongs to which file, and English as a fallback.
+    rules = ('group', 'decimal', 'minGroup', 'dates', 'titles', 'days', 'daysShort', 'months', 'monthsShort', 'previews')
+    os.makedirs(os.path.join(OUT, 'lang'), exist_ok=True)
+    for lang, L in LANGS.items():
+        with open(os.path.join(OUT, 'lang', f'{lang}.json'), 'w') as f:
+            json.dump({k: L[k] for k in rules}, f, ensure_ascii=True, separators=(',', ':'))
+    sizes['langCodes'] = {str(code): lang for lang, L in LANGS.items() for code in L['zepp']}
+    sizes['langEn'] = {k: LANGS['en'][k] for k in rules}
     with open(SIZES, 'w') as f:
         f.write('// Written by tools/make_assets.py, do not edit. Widths and heights of the pictures in px.\n')
         f.write('export const SIZES = ' + json.dumps(sizes, indent=2, sort_keys=True, ensure_ascii=False) + '\n')
