@@ -36,7 +36,8 @@ const SLOTS = [
   { id: 104, x: 330, r: 48, set: 'val', size: 'ring_s', def: 'heart' },
 ]
 
-// Ring contents: unit label (txt/u_*.png) and the data type that opens the matching app on tap.
+// Ring contents: their type in the watchface editor (hmUI.edit_type) and the data type that opens the
+// matching app on tap (hmUI.data_type).
 const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress']
 const KIND = {
   step: { edit: 'STEP', data: 'STEP' },
@@ -102,9 +103,26 @@ function txtW(path) {
   return SIZES.txt[path] || 0
 }
 
+// Changes a widget only when something is different: every change makes the watch redraw.
+// What each widget shows is kept here, not on the widget object the system hands out.
+const state = new Map()
+function update(w, props) {
+  const key = JSON.stringify(props)
+  const st = state.get(w) || {}
+  if (st.key === key) return
+  state.set(w, { ...st, key })
+  w.setProperty(hmUI.prop.MORE, props)
+}
+function show(w, visible) {
+  const st = state.get(w) || {}
+  if (st.visible === visible) return
+  state.set(w, { ...st, visible })
+  w.setProperty(hmUI.prop.VISIBLE, visible)
+}
+
 // A row of pictures drawn as separate IMG widgets. Items are glyph names of the set ('7', 'dot'),
-// text pictures { src } or extra space { gap }. Each update sets position and picture of every slot,
-// unused slots are hidden. dir puts the glyphs under c/<color>/.
+// text pictures { src } or extra space { gap }. Each update sets position and picture of every slot
+// that changed, unused slots are hidden. dir puts the glyphs under c/<color>/.
 function numberRow(set, slots, y, track = 0, dir = '') {
   const g = SIZES[set]
   const parts = []
@@ -124,12 +142,12 @@ function numberRow(set, slots, y, track = 0, dir = '') {
         const iw = itemW(c)
         if (typeof c === 'string' || c.src) {
           const src = typeof c === 'string' ? `${base}${c}.png` : c.src
-          parts[i].setProperty(hmUI.prop.MORE, { x: cx, y, w: iw, h: g.h, src })
-          parts[i++].setProperty(hmUI.prop.VISIBLE, true)
+          update(parts[i], { x: cx, y, w: iw, h: g.h, src })
+          show(parts[i++], true)
         }
         cx += iw + track
       })
-      for (; i < slots; i++) parts[i].setProperty(hmUI.prop.VISIBLE, false)
+      for (; i < slots; i++) show(parts[i], false)
       return left
     },
   }
@@ -172,8 +190,8 @@ function ring(cx, cy, r, color) {
   const arc = hmUI.createWidget(hmUI.widget.ARC, { ...box, start_angle: -90, end_angle: -90, color })
   return (part) => {
     const p = Math.max(0, Math.min(1, part))
-    arc.setProperty(hmUI.prop.MORE, { ...box, start_angle: -90, end_angle: -90 + Math.round(360 * p), color })
-    arc.setProperty(hmUI.prop.VISIBLE, p > 0)
+    update(arc, { ...box, start_angle: -90, end_angle: -90 + Math.round(360 * p), color })
+    show(arc, p > 0)
   }
 }
 
@@ -469,9 +487,9 @@ WatchFace({
     if (this.h12) {
       const src = hours < 12 ? 'txt/am.png' : 'txt/pm.png'
       const x = mx + this.timeM.width(m) + AMPM_GAP
-      this.ampm.setProperty(hmUI.prop.MORE, { x, y: TIME_Y + 6, w: txtW(src), h: SIZES.ampm.h, src })
+      update(this.ampm, { x, y: TIME_Y + 6, w: txtW(src), h: SIZES.ampm.h, src })
     }
-    this.ampm.setProperty(hmUI.prop.VISIBLE, this.h12)
+    show(this.ampm, this.h12)
   },
 
   // Date styles of the editor (previews in make_assets.py, date_text()):
@@ -521,7 +539,7 @@ WatchFace({
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7
     const src = `txt/${this.lang}/day_${wd}.png`
     const dw = txtW(src)
-    this.dayLong.setProperty(hmUI.prop.MORE, { x: Math.round((390 - dw) / 2), y: DAY_Y, w: dw, h: 26, src })
+    update(this.dayLong, { x: Math.round((390 - dw) / 2), y: DAY_Y, w: dw, h: 26, src })
   },
 
   updateBattery() {
@@ -536,7 +554,7 @@ WatchFace({
     const items = [...chars(b, 'en', false), 'pct']
     const left = this.batText.draw(items, 390 - SIDE, 'right', low ? 'num/batlow_' : undefined)
     const bi = SIZES.bat_icon
-    this.batIcon.setProperty(hmUI.prop.MORE, {
+    update(this.batIcon, {
       x: left - 9 - bi.w,
       y: TOP_Y + 3,
       w: bi.w,
@@ -603,7 +621,7 @@ WatchFace({
       s.arc(part)
       const unit = this.unitSrc(s.kind)
       const uw = txtW(unit)
-      s.unit.setProperty(hmUI.prop.MORE, { x: s.x - Math.round(uw / 2), y: s.unitY, w: uw, h: SIZES.unit_h, src: unit })
+      update(s.unit, { x: s.x - Math.round(uw / 2), y: s.unitY, w: uw, h: SIZES.unit_h, src: unit })
     })
   },
 

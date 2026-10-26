@@ -502,8 +502,6 @@ def frames():
     img, d = canvas(TIPS_W, TIPS_H)
     d.rounded_rectangle((0, 0, TIPS_W * S, TIPS_H * S), radius=TIPS_H * S // 2, fill=LIGHT)  # the system writes black
     save(small(img, TIPS_W, TIPS_H), 'edit/tips.png')
-    save(Image.new('RGBA', (390, 450), (0, 0, 0, 255)), 'edit/mask100.png')
-    save(Image.new('RGBA', (390, 450), (0, 0, 0, 178)), 'edit/mask70.png')
     sizes['edit'] = {name: list(wh) for name, wh in EDIT.items()}
     sizes['edit']['tips'] = [TIPS_W, TIPS_H]
 

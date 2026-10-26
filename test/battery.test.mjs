@@ -33,6 +33,20 @@ test('no timers: only the minute and day events of the watch', () => {
   assert.doesNotMatch(src, /setInterval|setTimeout|createTimer|@zos\/timer/)
 })
 
+test('only what changed is redrawn: a step, a minute, waking up', async () => {
+  await build({ rings: ['cal', 'step', 'heart'], values: { step: { current: 8462, target: 8000 } } })
+  let before = zos.changes
+  zos.values.step = { current: 8463, target: 8000 }
+  zos.listeners.step.forEach((fn) => fn())
+  assert.equal(zos.changes - before, 1, 'one more step: one digit')
+  before = zos.changes
+  tick({ minutes: 9 })
+  assert.equal(zos.changes - before, 1, '10:08 -> 10:09: one digit')
+  before = zos.changes
+  zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call()
+  assert.equal(zos.changes - before, 0, 'waking up with nothing new')
+})
+
 test('one minute changes only the time pictures', async () => {
   await build({ rings: ['cal', 'step', 'heart'] })
   const before = zos.changes
