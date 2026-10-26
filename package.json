@@ -5,9 +5,10 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
+    "test": "node --import ./test/mock/setup.mjs --test test/*.test.mjs",
     "assets": "python3 tools/make_assets.py",
     "format": "prettier --write \"**/*.{js,mjs}\"",
-    "check": "prettier --check \"**/*.{js,mjs}\"",
+    "check": "prettier --check \"**/*.{js,mjs}\" && npm test",
     "build": "bash tools/build.sh",
     "release-check": "node tools/release_check.mjs"
   },
