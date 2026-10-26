@@ -20,8 +20,7 @@ npm run release-check -- --zab   # the same, then builds and checks dist/ORBIT-<
   [Sora](https://github.com/sora-xor/sora-font), the icons drawn by hand in code, everything that has the accent
   color once per color under `assets/default.w390-s/c/<color>/`, and the previews of the editor. It also writes
   `watchface/sizes.js` with the size of every picture and the color list, which the layout uses.
-  It needs Python with Pillow; with [fontTools](https://github.com/fonttools/fonttools) it also rebuilds the small
-  font for the city name (`assets/default.w390-s/fonts/sora.ttf`).
+  It needs Python with Pillow.
 - The numbers are separate pictures, not a font: the watch draws them as images, which keeps them sharp and lets
   each digit have its own width.
 - Weather, temperatures and the always-on time are system widgets, the watch updates them itself.

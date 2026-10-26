@@ -7,8 +7,5 @@ All icons and pictures are drawn by `tools/make_assets.py` and are part of ORBIT
 
 The digits and words of the watchface are drawn with **[Sora](https://github.com/sora-xor/sora-font)**,
 Copyright 2019 The Sora Project Authors, licensed under the
-[SIL Open Font License 1.1](tools/fonts/OFL.txt) (`tools/fonts/Sora.ttf`).
-
-`assets/default.w390-s/fonts/sora.ttf`, used for the city name, is a modified version of Sora: only the Regular weight and
-the Latin letters (`tools/make_assets.py`, `city_font()`). It keeps the copyright and license notice in its name table
-and stays under the SIL Open Font License 1.1.
+[SIL Open Font License 1.1](tools/fonts/OFL.txt) (`tools/fonts/Sora.ttf`). The watchface carries no font file, only
+pictures drawn with it.

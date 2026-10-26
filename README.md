@@ -57,7 +57,7 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender or Silver**.
 - **Each ring:** steps, heart rate, calories, battery, distance (km or miles, as set on the watch), PAI, stand,
   SpO₂, stress – or empty
 - **Date:** “26 OCTOBER”, “MON 26 OCT”, “10/26/2026” or “26 OCT · WK 44”
-- **Row under the time:** weekday, location or empty
+- **Row under the time:** weekday or empty
 
 **🔋 Light on the battery**
 

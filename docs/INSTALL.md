@@ -92,7 +92,7 @@ get once from your Zepp account. Gadgetbridge explains it in its
 ## Make it yours
 
 Long-press the watchface and tap the **pencil** to open the editor. Tap the time for the accent color, a ring for its
-content, the date for its style and the row under the time for weekday, location or nothing. Your choice stays until
+content, the date for its style and the row under the time for the weekday or nothing. Your choice stays until
 you change it again.
 
 ← [Back to the README](../README.md)
