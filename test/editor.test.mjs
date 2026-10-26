@@ -7,12 +7,12 @@ import { build, imgs, rings, editGroups, EDIT, TYPE, SIZES } from './face.mjs'
 const zos = globalThis.zos
 const group = (id) => editGroups().find((g) => g.props.edit_id === id)
 
-test('the editor offers 6 colors, 10 ring contents, 4 date styles and 2 rows', async () => {
+test('the editor offers 6 colors, 10 ring contents, 3 date styles and 3 rows', async () => {
   await build()
   assert.equal(group(EDIT.color).props.count, 6)
   for (const id of EDIT.rings) assert.equal(group(id).props.count, 10)
   assert.equal(group(EDIT.date).props.count, 3)
-  assert.equal(group(EDIT.row).props.count, 2)
+  assert.equal(group(EDIT.row).props.count, 3)
   for (const g of editGroups()) {
     assert.equal(g.props.count, g.props.optional_types.length)
     // own types need a title, the editor shows it
@@ -28,7 +28,10 @@ test('titles in the language of the watch', async () => {
     ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber'],
   )
   await build({ lang: 'en' })
-  assert.equal(group(EDIT.row).props.optional_types[0].title_en, 'Weekday')
+  assert.deepEqual(
+    group(EDIT.row).props.optional_types.map((t) => t.title_en),
+    ['Weekday', 'Location', 'Empty'],
+  )
 })
 
 test('after installing: mint, calories | steps | heart rate, long date, weekday', async () => {
@@ -74,8 +77,11 @@ test('the chosen color reaches everything that has the accent color', async () =
   }
 })
 
-test('unknown choices fall back to the default: the old "location" row, foreign types', async () => {
-  await build({ lang: 'de', edit: { [EDIT.row]: 100302, [EDIT.color]: 100099, [EDIT.date]: 5, [EDIT.rings[1]]: 999 } })
+test('unknown choices fall back to the default: the old week date style, foreign types', async () => {
+  await build({
+    lang: 'de',
+    edit: { [EDIT.row]: 100399, [EDIT.color]: 100099, [EDIT.date]: 100204, [EDIT.rings[1]]: 999 },
+  })
   assert.equal(imgs(/txt\/de\/day_/).length, 1)
   assert.equal(imgs(/^c\/mint\//).length > 0, true)
   assert.equal(imgs(/txt\/de\/mon_9/).length, 1)

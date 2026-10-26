@@ -236,6 +236,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Ubicació",
         "colors": [
           "Menta",
           "Blau gel",
@@ -286,6 +287,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Místo",
         "colors": [
           "Mátová",
           "Ledově modrá",
@@ -334,6 +336,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Sted",
         "colors": [
           "Mint",
           "Isblå",
@@ -382,6 +385,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Standort",
         "colors": [
           "Mint",
           "Eisblau",
@@ -428,6 +432,7 @@ export const SIZES = {
       "group": "",
       "minGroup": 1,
       "titles": {
+        "city": "Location",
         "colors": [
           "Mint",
           "Ice blue",
@@ -474,6 +479,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 2,
       "titles": {
+        "city": "Ubicación",
         "colors": [
           "Menta",
           "Azul hielo",
@@ -522,6 +528,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Sijainti",
         "colors": [
           "Minttu",
           "Jäänsininen",
@@ -568,6 +575,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Lieu",
         "colors": [
           "Menthe",
           "Bleu glacier",
@@ -619,6 +627,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Helyszín",
         "colors": [
           "Menta",
           "Jégkék",
@@ -665,6 +674,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Località",
         "colors": [
           "Menta",
           "Azzurro ghiaccio",
@@ -713,6 +723,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Sted",
         "colors": [
           "Mint",
           "Isblå",
@@ -759,6 +770,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Locatie",
         "colors": [
           "Mint",
           "IJsblauw",
@@ -805,6 +817,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 2,
       "titles": {
+        "city": "Lokalizacja",
         "colors": [
           "Mięta",
           "Lodowy błękit",
@@ -851,6 +864,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Localização",
         "colors": [
           "Menta",
           "Azul gelo",
@@ -898,6 +912,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Locație",
         "colors": [
           "Mentă",
           "Albastru gheață",
@@ -948,6 +963,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Miesto",
         "colors": [
           "Mätová",
           "Ľadovo modrá",
@@ -999,6 +1015,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Lokacija",
         "colors": [
           "Menta",
           "Ledeno plava",
@@ -1045,6 +1062,7 @@ export const SIZES = {
       "group": "space",
       "minGroup": 1,
       "titles": {
+        "city": "Plats",
         "colors": [
           "Mint",
           "Isblå",
@@ -1091,6 +1109,7 @@ export const SIZES = {
       "group": ".",
       "minGroup": 1,
       "titles": {
+        "city": "Konum",
         "colors": [
           "Nane",
           "Buz mavisi",
