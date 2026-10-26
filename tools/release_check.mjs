@@ -1,6 +1,6 @@
 // Everything a machine can check before a release, in one run. Prints one line per check and
 // exits with 1 if any fails.
-// Usage: npm run release-check            formatting, versions, pictures, private files, privacy policy
+// Usage: npm run release-check            formatting, tests, versions, pictures, private files, privacy policy
 //        npm run release-check -- --zab   the same, then builds the .zab for GitHub and checks it
 import { spawnSync } from 'node:child_process'
 import { readFileSync, readdirSync, existsSync, copyFileSync } from 'node:fs'
@@ -38,9 +38,9 @@ const app = JSON.parse(read('app.json'))
 const version = app.app.version.name
 console.log(`ORBIT ${version} (code ${app.app.version.code})\n`)
 
-// 1. Formatting. The --zab build runs the same check itself first.
+// 1. Formatting and all tests. The --zab build runs the same check itself first.
 if (!zab)
-  check('formatting (npm run check)', () => {
+  check('formatting and tests (npm run check)', () => {
     const r = sh('npm', ['run', 'check'])
     return r.status === 0 ? [] : [(r.stdout + r.stderr).trim().split('\n').slice(-10).join('\n    ')]
   })
@@ -92,7 +92,15 @@ for (const [name, script, paths] of [
 
 // 4. The local-only files stay off GitHub.
 check('private files stay local (.gitignore)', () => {
-  const local = ['TODO.md', 'CHANGELOG.de.md', 'BESCHREIBUNG.md', 'store/LISTING.md', '.claude/x', 'sim-debug.log']
+  const local = [
+    'TODO.md',
+    'UHRTEST.md',
+    'CHANGELOG.de.md',
+    'BESCHREIBUNG.md',
+    'store/LISTING.md',
+    '.claude/x',
+    'sim-debug.log',
+  ]
   const problems = []
   for (const f of local) {
     if (sh('git', ['check-ignore', '-q', '--no-index', f]).status !== 0) problems.push(`${f} is not in .gitignore`)

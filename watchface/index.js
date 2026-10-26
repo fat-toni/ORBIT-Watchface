@@ -142,10 +142,13 @@ function chars(n, lang, group) {
   return t.split('').map((c) => (c === '.' ? 'dot' : c))
 }
 
-// Steps: up to 99999 in full ("12.345"), from 100000 short ("123k").
-function stepChars(n, lang) {
-  if (n < 100000) return chars(n, lang, true)
-  return [...String(Math.floor(n / 1000)).split(''), 'k']
+// Steps: in the large ring up to 99999 in full ("12.345"), in a small one up to 9999 and then with
+// one decimal ("12,3k"); from 100000 short ("123k").
+function stepChars(n, lang, big) {
+  if (n < (big ? 100000 : 10000)) return chars(n, lang, true)
+  if (n >= 100000) return [...String(Math.floor(n / 1000)).split(''), 'k']
+  const t = Math.floor(n / 100)
+  return [...String(Math.floor(t / 10)).split(''), lang === 'de' ? 'comma' : 'dot', String(t % 10), 'k']
 }
 
 // Distance with one decimal ("3,4"), from 100 without.
@@ -543,14 +546,14 @@ WatchFace({
     this.updateRings('battery')
   },
 
-  // Value and filling of one ring content: { items, part }.
-  readRing(kind) {
+  // Value and filling of one ring content: { items, part }. big: the larger middle ring.
+  readRing(kind, big) {
     const L = this.lang
     const read = (fn) => safeRead(() => fn(this.sensor(kind)), 0)
     switch (kind) {
       case 'step': {
         const cur = read((s) => s.getCurrent())
-        return { items: stepChars(cur, L), part: cur / (read((s) => s.getTarget()) || 8000) }
+        return { items: stepChars(cur, L, big), part: cur / (read((s) => s.getTarget()) || 8000) }
       }
       case 'heart': {
         let v = read((s) => s.getCurrent())
@@ -595,7 +598,7 @@ WatchFace({
   updateRings(kind) {
     this.slots.forEach((s) => {
       if (s.kind === 'empty' || (kind && s.kind !== kind)) return
-      const { items, part } = this.readRing(s.kind)
+      const { items, part } = this.readRing(s.kind, s.set === 'big')
       s.value.draw(items, s.x, 'center')
       s.arc(part)
       const unit = this.unitSrc(s.kind)

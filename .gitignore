@@ -12,8 +12,9 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
-# local idea and test list
+# local idea and test list, checklist for the real watch
 TODO.md
+UHRTEST.md
 # German changelog, local only
 CHANGELOG.de.md
 # detailed description, local only

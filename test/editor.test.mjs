@@ -1,0 +1,114 @@
+// The watchface editor: what the user can pick and what happens with choices the watchface does
+// not know (anymore).
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { build, imgs, rings, editGroups, EDIT, TYPE, SIZES } from './face.mjs'
+
+const zos = globalThis.zos
+const group = (id) => editGroups().find((g) => g.props.edit_id === id)
+
+test('the editor offers 6 colors, 10 ring contents, 4 date styles and 2 rows', async () => {
+  await build()
+  assert.equal(group(EDIT.color).props.count, 6)
+  for (const id of EDIT.rings) assert.equal(group(id).props.count, 10)
+  assert.equal(group(EDIT.date).props.count, 4)
+  assert.equal(group(EDIT.row).props.count, 2)
+  for (const g of editGroups()) {
+    assert.equal(g.props.count, g.props.optional_types.length)
+    // own types need a title, the editor shows it
+    for (const t of g.props.optional_types)
+      if (t.type >= 100000) assert.ok(t.title_en && t.title_sc && t.title_tc, `title of ${t.type}`)
+  }
+})
+
+test('titles in the language of the watch', async () => {
+  await build({ lang: 'de' })
+  assert.deepEqual(
+    group(EDIT.color).props.optional_types.map((t) => t.title_en),
+    ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber'],
+  )
+  await build({ lang: 'en' })
+  assert.equal(group(EDIT.row).props.optional_types[0].title_en, 'Weekday')
+})
+
+test('after installing: mint, calories | steps | heart rate, long date, weekday', async () => {
+  await build()
+  assert.deepEqual(
+    rings().map((r) => r.cx),
+    [60, 195, 330],
+  )
+  assert.equal(imgs(/^c\/mint\/icon\/cal\.png$/).length, 1)
+  assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
+  assert.equal(imgs(/^c\/mint\/icon\/heart\.png$/).length, 1)
+  assert.equal(imgs(/txt\/en\/mon_9/).length, 1)
+  assert.equal(imgs(/txt\/en\/day_0/).length, 1)
+})
+
+test('the chosen color reaches everything that has the accent color', async () => {
+  for (let i = 0; i < 6; i++) {
+    await build({ color: i })
+    const key = SIZES.colors[i][0]
+    const hex = SIZES.colors[i][1]
+    assert.ok(
+      imgs(/num\/time_m_/).every((w) => w.props.src.startsWith(`c/${key}/`)),
+      `minutes ${key}`,
+    )
+    assert.ok(
+      imgs(/num\/bat_/).every((w) => w.props.src.startsWith(`c/${key}/`)),
+      `battery ${key}`,
+    )
+    assert.ok(
+      imgs(/icon\/(cal|step|heart)\.png/).every((w) => w.props.src.startsWith(`c/${key}/`)),
+      `icons ${key}`,
+    )
+    const arcs = zos.widgets.filter((w) => w.type === 'ARC' && w.props.start_angle === -90)
+    assert.ok(
+      arcs.every((a) => a.props.color === hex),
+      `rings ${key}`,
+    )
+    const accent = zos.widgets.filter((w) => w.type === 'IMG_LEVEL')[1].props.image_array
+    assert.ok(
+      accent.every((p) => p === 'wx/empty.png' || p.startsWith(`c/${key}/wx/`)),
+      `weather ${key}`,
+    )
+  }
+})
+
+test('unknown choices fall back to the default: the old "location" row, foreign types', async () => {
+  await build({ lang: 'de', edit: { [EDIT.row]: 100302, [EDIT.color]: 100099, [EDIT.date]: 5, [EDIT.rings[1]]: 999 } })
+  assert.equal(imgs(/txt\/de\/day_/).length, 1)
+  assert.equal(imgs(/^c\/mint\//).length > 0, true)
+  assert.equal(imgs(/txt\/de\/mon_9/).length, 1)
+  assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
+})
+
+test('a firmware without editor types still shows the default rings', async () => {
+  await build({ noEditTypes: true })
+  assert.equal(rings().length, 3)
+  assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
+})
+
+test('a tap on a ring opens the app of its content', async () => {
+  const want = {
+    step: 'STEP',
+    heart: 'HEART',
+    cal: 'CAL',
+    battery: 'BATTERY',
+    distance: 'DISTANCE',
+    pai: 'PAI_WEEKLY',
+    stand: 'STAND',
+    spo2: 'SPO2',
+    stress: 'STRESS',
+  }
+  const { data_type } = await import('./mock/zos.mjs')
+  for (const [kind, type] of Object.entries(want)) {
+    await build({ rings: [kind, 'empty', 'empty'] })
+    const clicks = zos.widgets.filter((w) => w.type === 'IMG_CLICK')
+    assert.deepEqual(
+      clicks.map((c) => c.props.type),
+      [data_type[type]],
+      kind,
+    )
+  }
+  assert.equal(TYPE.empty, 100100)
+})
