@@ -7,7 +7,12 @@ export { SIZES }
 export const W = 390
 export const H = 450
 export const ASSETS = new URL('../assets/default.w390-s/', import.meta.url).pathname
-export const LANGS = Object.keys(SIZES.langs)
+export const LANGS = [...new Set(Object.values(SIZES.langCodes))]
+// The rules and words of a language, as the watchface reads them.
+export const langData = (lang) =>
+  lang === 'en'
+    ? SIZES.langEn
+    : JSON.parse(readFileSync(new URL(`../assets/default.w390-s/lang/${lang}.json`, import.meta.url)))
 export const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'empty']
 const zos = globalThis.zos
 let run = 0
@@ -31,7 +36,7 @@ const EDIT_TYPE = {
 // date: 0-2, row: 'day'|'city'|'empty', city: name of the forecast, now: {...}, values: {...}, edit: {...raw editor choices} }
 export async function build(o = {}) {
   resetZos()
-  zos.language = SIZES.langs[o.lang || 'en'].zepp[0]
+  zos.language = Number(Object.keys(SIZES.langCodes).find((c) => SIZES.langCodes[c] === (o.lang || 'en')))
   zos.hour12 = !!o.hour12
   zos.imperial = !!o.imperial
   if (o.city !== undefined) zos.city = o.city

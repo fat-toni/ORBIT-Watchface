@@ -1,7 +1,7 @@
 // What the watchface writes: time, date, battery and the ring values in both languages.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, imgs, text, rings, tick, words, textWidget, textWidth, LANGS, SIZES } from './face.mjs'
+import { build, imgs, text, rings, tick, words, textWidget, textWidth, langData, LANGS, SIZES } from './face.mjs'
 
 const time = () => text(imgs(/num\/time_[hm]_/))
 const date = () => words.date()
@@ -66,7 +66,7 @@ test('date styles in every language follow tools/langs.json', async () => {
   for (const lang of LANGS)
     for (let style = 0; style < 3; style++) {
       await build({ lang, date: style })
-      const f = SIZES.langs[lang]
+      const f = langData(lang)
       const word = {
         d: '26',
         dd: '26',

@@ -28,6 +28,38 @@ test('the weather sensor only for the location row, the city read again only whe
   assert.equal(zos.changes - before, 0, 'same city: nothing redrawn')
 })
 
+test('only the language of the watch is read, from its own file', async () => {
+  await build({ lang: 'de' })
+  assert.deepEqual(zos.files, ['lang/de.json'])
+  await build({ lang: 'en' })
+  assert.deepEqual(zos.files, [], 'English is built in')
+  // a new language on the watch: its file is read on the next wake-up, once
+  await build({ lang: 'de' })
+  const resume = zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call
+  zos.language = 6 // French
+  resume()
+  resume()
+  assert.deepEqual(zos.files, ['lang/de.json', 'lang/fr.json'])
+  assert.equal(words.row(), 'LUNDI')
+})
+
+test('the city is read at most once an hour, a missing one again on the next wake-up', async () => {
+  await build({ row: 'city', city: 'Ulm' })
+  const resume = zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call
+  assert.equal(zos.forecasts, 1)
+  zos.clock += 59 * 60000
+  resume()
+  assert.equal(zos.forecasts, 1, 'within the hour: no new forecast')
+  zos.clock += 2 * 60000
+  zos.city = 'Biberach'
+  resume()
+  assert.equal(zos.forecasts, 2)
+  assert.equal(words.row(), 'BIBERACH')
+  await build({ row: 'city', city: '' })
+  zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call()
+  assert.equal(zos.forecasts, 2, 'no city yet: asked again on wake-up')
+})
+
 test('values come by events, PAI without one is read on wake', async () => {
   await build({ rings: ['step', 'heart', 'pai'] })
   assert.ok(zos.listeners.step?.length)
