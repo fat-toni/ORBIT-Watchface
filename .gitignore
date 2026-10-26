@@ -1,0 +1,27 @@
+.DS_Store
+node_modules/**
+dist/*
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+selenium-debug.log
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+# local idea and test list
+TODO.md
+# German changelog, local only
+CHANGELOG.de.md
+# detailed description, local only
+BESCHREIBUNG.md
+__pycache__/
+# Zepp App Store pictures and texts, local only
+store/
+# Claude Code skills for this project, local only
+.claude/
+# simulator log
+sim-debug.log

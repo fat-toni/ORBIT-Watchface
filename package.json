@@ -1,0 +1,24 @@
+{
+  "name": "orbit-watchface",
+  "version": "1.0.0",
+  "description": "ORBIT: calm digital watchface for the Amazfit Bip 6 (Zepp OS)",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "assets": "python3 tools/make_assets.py",
+    "format": "prettier --write \"**/*.{js,mjs}\"",
+    "check": "prettier --check \"**/*.{js,mjs}\"",
+    "build": "bash tools/build.sh",
+    "release-check": "node tools/release_check.mjs"
+  },
+  "author": "Toni",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@zeppos/device-types": "^3.0.0",
+    "prettier": "^3.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fat-toni/ORBIT-Watchface.git"
+  }
+}

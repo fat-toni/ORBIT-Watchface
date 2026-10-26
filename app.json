@@ -1,0 +1,62 @@
+{
+  "configVersion": "v3",
+  "app": {
+    "appId": 1133016,
+    "appName": "ORBIT",
+    "appType": "watchface",
+    "version": {
+      "code": 1,
+      "name": "1.0.0"
+    },
+    "icon": "icon.png",
+    "vender": "Toni & Claude",
+    "description": "ORBIT: calm digital watchface with weather and three rings; accent color, rings, date and location row editable"
+  },
+  "permissions": [
+    "data:user.hd.heart_rate",
+    "data:user.hd.step",
+    "data:user.hd.calorie",
+    "data:user.hd.distance",
+    "data:user.hd.pai",
+    "data:user.hd.stand",
+    "data:user.hd.spo2",
+    "data:user.hd.stress",
+    "data:user.info"
+  ],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "4.0",
+      "target": "4.0",
+      "minVersion": "4.0"
+    }
+  },
+  "targets": {
+    "default": {
+      "module": {
+        "watchface": {
+          "path": "watchface/index",
+          "main": 1,
+          "editable": 1,
+          "lockscreen": 0,
+          "hightCost": 0
+        }
+      },
+      "platforms": [
+        {
+          "st": "s",
+          "sr": "w390",
+          "dw": 390
+        }
+      ]
+    }
+  },
+  "i18n": {
+    "en-US": {
+      "appName": "ORBIT"
+    },
+    "de-DE": {
+      "appName": "ORBIT"
+    }
+  },
+  "defaultLanguage": "en-US"
+}
