@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Draws the pictures for the GitHub README: the banner (also the repo's social preview), the
-watchface in a Bip 6 watch frame and a row with all six accent colors.
+watchface in a Bip 6 style watch frame and a row with all six accent colors.
 
 The screens are simulator screenshots in docs/images/screenshots (390x450, taken with the mouse
 hidden). The simulator often has no weather data, so the weather row is drawn on top from the
@@ -147,14 +147,14 @@ def banner(shots):
     d.text((80, 105), 'ORBIT', font=font(124, 'SemiBold'), fill=WHITE)
     d.text((84, 270), 'A calm watchface.', font=font(40, 'SemiBold'), fill=MINT)
     d.text((84, 320), 'Your colors, your rings.', font=font(40, 'SemiBold'), fill=MINT)
-    d.text((84, 400), 'Digital watchface for the Amazfit Bip 6', font=font(25, 'Light'), fill=MUTED)
+    d.text((84, 400), 'Digital watchface for Amazfit', font=font(25, 'Light'), fill=MUTED)
     f = font(19, 'Regular')
     x = pill(d, 84, 455, '6 accent colors', f)
     x = pill(d, x, 455, '9 ring contents', f)
     pill(d, x, 455, 'Weather', f)
     x = pill(d, 84, 505, '19 languages', f)
     pill(d, x, 505, 'Free & open source', f)
-    d.text((84, 590), 'Amazfit Bip 6 · Zepp OS 4+', font=font(18, 'Regular'), fill=(92, 98, 104))
+    d.text((84, 590), 'Amazfit Bip 6 · Active 2 (Square) · Zepp OS 4+', font=font(18, 'Regular'), fill=(92, 98, 104))
     img.convert('RGB').save(os.path.join(IMAGES, 'banner.png'), optimize=True)
 
 

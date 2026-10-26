@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="docs/images/banner.png" alt="ORBIT – A calm watchface. Your colors, your rings. Digital watchface for the Amazfit Bip 6">
+  <img src="docs/images/banner.png" alt="ORBIT – A calm watchface. Your colors, your rings. Digital watchface for the Amazfit Bip 6 and Active 2 (Square)">
 </p>
 
 <p align="center">
   <a href="https://github.com/fat-toni/ORBIT-Watchface/releases/latest"><img src="https://img.shields.io/github/v/release/fat-toni/ORBIT-Watchface?label=download&color=70c098&labelColor=23272c&style=for-the-badge" alt="Download the latest version"></a>
-  <img src="https://img.shields.io/badge/Amazfit-Bip%206-70c098?labelColor=23272c&style=for-the-badge" alt="Amazfit Bip 6">
+  <img src="https://img.shields.io/badge/Amazfit-Bip%206%20%C2%B7%20Active%202%20Square-70c098?labelColor=23272c&style=for-the-badge" alt="Amazfit Bip 6 and Active 2 (Square)">
   <img src="https://img.shields.io/badge/Zepp%20OS-4%2B-70c098?labelColor=23272c&style=for-the-badge" alt="Zepp OS 4+">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-70c098?labelColor=23272c&style=for-the-badge" alt="GPL-3.0 License"></a>
 </p>
@@ -67,7 +67,8 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender or Silver**.
 
 ## ⌚ Get it on your watch
 
-ORBIT runs on the **Amazfit Bip 6** (Zepp OS 4 or newer). It is not in the Zepp app store yet;
+ORBIT runs on the **Amazfit Bip 6** and the **Amazfit Active 2 (Square)** (Zepp OS 4 or newer; on the Active 2 it is
+not tested yet). It is not in the Zepp app store yet;
 grab the newest version from the **[Releases](https://github.com/fat-toni/ORBIT-Watchface/releases/latest)**.
 
 | | 📱 With the Zepp app | 🤖 With Gadgetbridge |
@@ -81,8 +82,8 @@ grab the newest version from the **[Releases](https://github.com/fat-toni/ORBIT-
 ## 🙋 Testers wanted
 
 > [!TIP]
-> **Got another square Amazfit watch with Zepp OS 4+?** ORBIT is made for the Bip 6, and the Active 2 (Square) and
-> Bip Max have the same screen – I would love to bring it to them, and later to round watches too.
+> **Got another square Amazfit watch with Zepp OS 4+?** ORBIT is made for the Bip 6 and also runs on the Active 2 (Square),
+> which has the same screen – but nobody has tried it there yet. The Bip Max is next, and later round watches too.
 >
 > 1. Open an **[issue](https://github.com/fat-toni/ORBIT-Watchface/issues/new?title=Tester:%20)** with your watch model and
 >    its Zepp OS version (on the watch: Settings → About).
