@@ -53,7 +53,7 @@ const SLOTS = [
   { id: 104, x: 330, r: 48, set: 'val', size: 'ring_s', def: 'heart' },
 ]
 
-// Ring contents: their type in the watchface editor (hmUI.edit_type) and the data type that opens the
+// Ring contents: their type in the watchface editor (hmUI.edit_type, or an own type) and the data type that opens the
 // matching app on tap (hmUI.data_type).
 const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress']
 const KIND = {
@@ -62,7 +62,8 @@ const KIND = {
   cal: { edit: 'CAL', data: 'CAL' },
   battery: { edit: 'BATTERY', data: 'BATTERY' },
   distance: { edit: 'DISTANCE', data: 'DISTANCE' },
-  pai: { edit: 'PAI', data: 'PAI_WEEKLY' },
+  // own type: the system's PAI is called "PAI today", ORBIT shows the PAI of the week (goal 100)
+  pai: { own: 100110, data: 'PAI_WEEKLY' },
   stand: { edit: 'STAND', data: 'STAND' },
   spo2: { edit: 'SPO2', data: 'SPO2' },
   stress: { edit: 'STRESS', data: 'STRESS' },
@@ -322,9 +323,10 @@ WatchFace({
     } else
       this.slots = SLOTS.map((s) => {
         const [w, h] = SIZES.edit[s.size]
-        const options = KINDS.filter((k) => et[KIND[k].edit] !== undefined).map((k) => ({
-          type: et[KIND[k].edit],
+        const options = KINDS.filter((k) => KIND[k].own || et[KIND[k].edit] !== undefined).map((k) => ({
+          type: KIND[k].own || et[KIND[k].edit],
           preview: `edit/${s.size}_${k}.png`,
+          title: KIND[k].own ? T[k] : undefined,
           kind: k,
         }))
         options.push({ type: RING_EMPTY, preview: `edit/${s.size}_empty.png`, title: T.empty, kind: 'empty' })
@@ -516,9 +518,11 @@ WatchFace({
     // 12-hour format: "9 15" without a leading zero, AM/PM next to it
     const h = this.h12 ? String(hours % 12 || 12).split('') : two(hours)
     const m = two(safeRead(() => this.time.getMinutes(), 0))
-    const left = Math.round((390 - this.timeH.width(h) - TIME_GAP - this.timeM.width(m)) / 2)
+    // a single hour digit ("1 58") gets more room, so it does not read as one number
+    const gap = h.length === 1 ? TIME_GAP + 12 : TIME_GAP
+    const left = Math.round((390 - this.timeH.width(h) - gap - this.timeM.width(m)) / 2)
     this.timeH.draw(h, left)
-    const mx = left + this.timeH.width(h) + TIME_GAP
+    const mx = left + this.timeH.width(h) + gap
     this.timeM.draw(m, mx)
     if (this.h12) {
       const src = hours < 12 ? 'txt/am.png' : 'txt/pm.png'
