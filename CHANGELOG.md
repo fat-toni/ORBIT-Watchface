@@ -2,9 +2,18 @@
 
 All changes to ORBIT, newest version first. Downloads are on the [Releases page](https://github.com/fat-toni/ORBIT-Watchface/releases).
 
-**Versions:** [1.0.0](#100--2026-10-26)
+**Versions:** [1.0.1](#101--2026-10-26) · [1.0.0](#100--2026-10-26)
 
 ← [Back to the README](README.md)
+
+## 1.0.1 · 2026-10-26
+
+> Ready for the Zepp App Store, and a second watch.
+
+### ✨ New
+
+- **Amazfit Active 2 (Square):** ORBIT now also runs on it – same screen as the Bip 6, not tested on the watch yet.
+- **Preview picture:** the watchface list on the watch shows ORBIT itself at 10:09 instead of a ring icon.
 
 ## 1.0.0 · 2026-10-26
 
