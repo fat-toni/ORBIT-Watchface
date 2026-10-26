@@ -34,7 +34,7 @@ The tests run without a watch or simulator: `test/mock/zos.mjs` is a simulated B
 - **Layout** (`test/layout.test.mjs`): every color × date style × row × language × time format, every ring content
   in every ring and 300 random combinations, each with the longest values: every picture exists, nothing leaves the
   screen, the values stay inside their ring.
-- **Texts and numbers** (`test/format.test.mjs`): time and AM/PM, date styles, ISO calendar week around New Year,
+- **Texts and numbers** (`test/format.test.mjs`): time and AM/PM, the date styles of every language, number formats,
   thousands separators, distance in km and miles, battery below 5 %, ring filling.
 - **Editor** (`test/editor.test.mjs`): the options and titles, the default look, the accent color everywhere,
   unknown choices fall back to the default, a tap opens the app of the ring's content.

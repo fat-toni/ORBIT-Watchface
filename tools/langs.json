@@ -1,0 +1,410 @@
+{
+  "_comment": [
+    "Every language of ORBIT. tools/make_assets.py draws the words as pictures and copies the rules to watchface/sizes.js.",
+    "zepp: language codes of the watch (Zepp OS 'Multilingual Mapping'). group: thousands separator ('.', 'space' or ''),",
+    "decimal: ',' or '.', minGroup: 2 = no separator below 10,000 (CLDR). Month and weekday words follow Unicode CLDR,",
+    "'months' in the form used after the day (genitive where the language needs it).",
+    "dates: the three date styles of the editor as tokens: d / dd day, m / mm month, yyyy year,",
+    "MONTH long month, MON short month, WD short weekday, ' ' a space,",
+    "'.' '/' '-' ',' signs. titles: names in the watchface editor."
+  ],
+  "en": {
+    "zepp": [2],
+    "group": "",
+    "decimal": ".",
+    "minGroup": 1,
+    "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"],
+    "daysShort": ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+    "months": ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"],
+    "monthsShort": ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["m", "/", "d", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Silver"],
+      "empty": "Empty",
+      "dates": ["Long date", "With weekday", "Numbers"],
+      "day": "Weekday"
+    }
+  },
+  "de": {
+    "zepp": [7],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MONTAG", "DIENSTAG", "MITTWOCH", "DONNERSTAG", "FREITAG", "SAMSTAG", "SONNTAG"],
+    "daysShort": ["MO", "DI", "MI", "DO", "FR", "SA", "SO"],
+    "months": ["JANUAR", "FEBRUAR", "MÄRZ", "APRIL", "MAI", "JUNI", "JULI", "AUGUST", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DEZEMBER"],
+    "monthsShort": ["JAN", "FEB", "MÄR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Silber"],
+      "empty": "Leer",
+      "dates": ["Datum lang", "Mit Wochentag", "Zahlen"],
+      "day": "Wochentag"
+    }
+  },
+  "es": {
+    "zepp": [3],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 2,
+    "days": ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"],
+    "daysShort": ["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"],
+    "months": ["DE ENERO", "DE FEBRERO", "DE MARZO", "DE ABRIL", "DE MAYO", "DE JUNIO", "DE JULIO", "DE AGOSTO", "DE SEPTIEMBRE", "DE OCTUBRE", "DE NOVIEMBRE", "DE DICIEMBRE"],
+    "monthsShort": ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEPT", "OCT", "NOV", "DIC"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["d", "/", "m", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Plata"],
+      "empty": "Vacío",
+      "dates": ["Fecha larga", "Con día", "Números"],
+      "day": "Día de la semana"
+    }
+  },
+  "fr": {
+    "zepp": [6],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI", "SAMEDI", "DIMANCHE"],
+    "daysShort": ["LUN.", "MAR.", "MER.", "JEU.", "VEN.", "SAM.", "DIM."],
+    "months": ["JANVIER", "FÉVRIER", "MARS", "AVRIL", "MAI", "JUIN", "JUILLET", "AOÛT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DÉCEMBRE"],
+    "monthsShort": ["JANV.", "FÉVR.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", "/", "mm", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Argent"],
+      "empty": "Vide",
+      "dates": ["Date longue", "Avec le jour", "Chiffres"],
+      "day": "Jour"
+    }
+  },
+  "it": {
+    "zepp": [10],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["LUNEDÌ", "MARTEDÌ", "MERCOLEDÌ", "GIOVEDÌ", "VENERDÌ", "SABATO", "DOMENICA"],
+    "daysShort": ["LUN", "MAR", "MER", "GIO", "VEN", "SAB", "DOM"],
+    "months": ["GENNAIO", "FEBBRAIO", "MARZO", "APRILE", "MAGGIO", "GIUGNO", "LUGLIO", "AGOSTO", "SETTEMBRE", "OTTOBRE", "NOVEMBRE", "DICEMBRE"],
+    "monthsShort": ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", "/", "mm", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Argento"],
+      "empty": "Vuoto",
+      "dates": ["Data lunga", "Con il giorno", "Numeri"],
+      "day": "Giorno"
+    }
+  },
+  "pt": {
+    "zepp": [15, 20],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO", "DOMINGO"],
+    "daysShort": ["SEG.", "TER.", "QUA.", "QUI.", "SEX.", "SÁB.", "DOM."],
+    "months": ["DE JANEIRO", "DE FEVEREIRO", "DE MARÇO", "DE ABRIL", "DE MAIO", "DE JUNHO", "DE JULHO", "DE AGOSTO", "DE SETEMBRO", "DE OUTUBRO", "DE NOVEMBRO", "DE DEZEMBRO"],
+    "monthsShort": ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", "/", "mm", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Prata"],
+      "empty": "Vazio",
+      "dates": ["Data longa", "Com o dia", "Números"],
+      "day": "Dia da semana"
+    }
+  },
+  "nl": {
+    "zepp": [16],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MAANDAG", "DINSDAG", "WOENSDAG", "DONDERDAG", "VRIJDAG", "ZATERDAG", "ZONDAG"],
+    "daysShort": ["MA", "DI", "WO", "DO", "VR", "ZA", "ZO"],
+    "months": ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"],
+    "monthsShort": ["JAN", "FEB", "MRT", "APR", "MEI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEC"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", "-", "mm", "-", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Zilver"],
+      "empty": "Leeg",
+      "dates": ["Lange datum", "Met weekdag", "Cijfers"],
+      "day": "Weekdag"
+    }
+  },
+  "ca": {
+    "zepp": [25],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["DILLUNS", "DIMARTS", "DIMECRES", "DIJOUS", "DIVENDRES", "DISSABTE", "DIUMENGE"],
+    "daysShort": ["DL.", "DT.", "DC.", "DJ.", "DV.", "DS.", "DG."],
+    "months": ["DE GENER", "DE FEBRER", "DE MARÇ", "D'ABRIL", "DE MAIG", "DE JUNY", "DE JULIOL", "D'AGOST", "DE SETEMBRE", "D'OCTUBRE", "DE NOVEMBRE", "DE DESEMBRE"],
+    "monthsShort": ["GEN.", "FEBR.", "MARÇ", "ABR.", "MAIG", "JUNY", "JUL.", "AG.", "SET.", "OCT.", "NOV.", "DES."],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["d", "/", "m", "/", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Plata"],
+      "empty": "Buit",
+      "dates": ["Data llarga", "Amb el dia", "Números"],
+      "day": "Dia de la setmana"
+    }
+  },
+  "da": {
+    "zepp": [28],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MANDAG", "TIRSDAG", "ONSDAG", "TORSDAG", "FREDAG", "LØRDAG", "SØNDAG"],
+    "daysShort": ["MAN.", "TIRS.", "ONS.", "TORS.", "FRE.", "LØR.", "SØN."],
+    "months": ["JANUAR", "FEBRUAR", "MARTS", "APRIL", "MAJ", "JUNI", "JULI", "AUGUST", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"],
+    "monthsShort": ["JAN.", "FEB.", "MAR.", "APR.", "MAJ", "JUN.", "JUL.", "AUG.", "SEP.", "OKT.", "NOV.", "DEC."],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
+      "empty": "Tom",
+      "dates": ["Lang dato", "Med ugedag", "Tal"],
+      "day": "Ugedag"
+    }
+  },
+  "sv": {
+    "zepp": [29],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MÅNDAG", "TISDAG", "ONSDAG", "TORSDAG", "FREDAG", "LÖRDAG", "SÖNDAG"],
+    "daysShort": ["MÅN", "TIS", "ONS", "TORS", "FRE", "LÖR", "SÖN"],
+    "months": ["JANUARI", "FEBRUARI", "MARS", "APRIL", "MAJ", "JUNI", "JULI", "AUGUSTI", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER"],
+    "monthsShort": ["JAN.", "FEB.", "MARS", "APR.", "MAJ", "JUNI", "JULI", "AUG.", "SEP.", "OKT.", "NOV.", "DEC."],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["yyyy", "-", "mm", "-", "dd"]
+    ],
+    "titles": {
+      "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Silver"],
+      "empty": "Tom",
+      "dates": ["Långt datum", "Med veckodag", "Siffror"],
+      "day": "Veckodag"
+    }
+  },
+  "nb": {
+    "zepp": [27],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MANDAG", "TIRSDAG", "ONSDAG", "TORSDAG", "FREDAG", "LØRDAG", "SØNDAG"],
+    "daysShort": ["MAN.", "TIR.", "ONS.", "TOR.", "FRE.", "LØR.", "SØN."],
+    "months": ["JANUAR", "FEBRUAR", "MARS", "APRIL", "MAI", "JUNI", "JULI", "AUGUST", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"],
+    "monthsShort": ["JAN.", "FEB.", "MAR.", "APR.", "MAI", "JUN.", "JUL.", "AUG.", "SEP.", "OKT.", "NOV.", "DES."],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
+      "empty": "Tom",
+      "dates": ["Lang dato", "Med ukedag", "Tall"],
+      "day": "Ukedag"
+    }
+  },
+  "fi": {
+    "zepp": [26],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["MAANANTAI", "TIISTAI", "KESKIVIIKKO", "TORSTAI", "PERJANTAI", "LAUANTAI", "SUNNUNTAI"],
+    "daysShort": ["MA", "TI", "KE", "TO", "PE", "LA", "SU"],
+    "months": ["TAMMIKUUTA", "HELMIKUUTA", "MAALISKUUTA", "HUHTIKUUTA", "TOUKOKUUTA", "KESÄKUUTA", "HEINÄKUUTA", "ELOKUUTA", "SYYSKUUTA", "LOKAKUUTA", "MARRASKUUTA", "JOULUKUUTA"],
+    "monthsShort": ["TAMMIK.", "HELMIK.", "MAALISK.", "HUHTIK.", "TOUKOK.", "KESÄK.", "HEINÄK.", "ELOK.", "SYYSK.", "LOKAK.", "MARRASK.", "JOULUK."],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["d", ".", "m", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Hopea"],
+      "empty": "Tyhjä",
+      "dates": ["Pitkä päiväys", "Viikonpäivällä", "Numerot"],
+      "day": "Viikonpäivä"
+    }
+  },
+  "pl": {
+    "zepp": [9],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 2,
+    "days": ["PONIEDZIAŁEK", "WTOREK", "ŚRODA", "CZWARTEK", "PIĄTEK", "SOBOTA", "NIEDZIELA"],
+    "daysShort": ["PON.", "WT.", "ŚR.", "CZW.", "PT.", "SOB.", "NIEDZ."],
+    "months": ["STYCZNIA", "LUTEGO", "MARCA", "KWIETNIA", "MAJA", "CZERWCA", "LIPCA", "SIERPNIA", "WRZEŚNIA", "PAŹDZIERNIKA", "LISTOPADA", "GRUDNIA"],
+    "monthsShort": ["STY", "LUT", "MAR", "KWI", "MAJ", "CZE", "LIP", "SIE", "WRZ", "PAŹ", "LIS", "GRU"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Srebro"],
+      "empty": "Puste",
+      "dates": ["Długa data", "Z dniem tygodnia", "Cyfry"],
+      "day": "Dzień tygodnia"
+    }
+  },
+  "cs": {
+    "zepp": [22],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["PONDĚLÍ", "ÚTERÝ", "STŘEDA", "ČTVRTEK", "PÁTEK", "SOBOTA", "NEDĚLE"],
+    "daysShort": ["PO", "ÚT", "ST", "ČT", "PÁ", "SO", "NE"],
+    "months": ["LEDNA", "ÚNORA", "BŘEZNA", "DUBNA", "KVĚTNA", "ČERVNA", "ČERVENCE", "SRPNA", "ZÁŘÍ", "ŘÍJNA", "LISTOPADU", "PROSINCE"],
+    "monthsShort": ["LED", "ÚNO", "BŘE", "DUB", "KVĚ", "ČVN", "ČVC", "SRP", "ZÁŘ", "ŘÍJ", "LIS", "PRO"],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["d", ".", " ", "m", ".", " ", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Stříbrná"],
+      "empty": "Prázdné",
+      "dates": ["Dlouhé datum", "S dnem v týdnu", "Čísla"],
+      "day": "Den v týdnu"
+    }
+  },
+  "sk": {
+    "zepp": [32],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["PONDELOK", "UTOROK", "STREDA", "ŠTVRTOK", "PIATOK", "SOBOTA", "NEDEĽA"],
+    "daysShort": ["PO", "UT", "ST", "ŠT", "PI", "SO", "NE"],
+    "months": ["JANUÁRA", "FEBRUÁRA", "MARCA", "APRÍLA", "MÁJA", "JÚNA", "JÚLA", "AUGUSTA", "SEPTEMBRA", "OKTÓBRA", "NOVEMBRA", "DECEMBRA"],
+    "monthsShort": ["JAN", "FEB", "MAR", "APR", "MÁJ", "JÚN", "JÚL", "AUG", "SEP", "OKT", "NOV", "DEC"],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["d", ".", " ", "m", ".", " ", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Strieborná"],
+      "empty": "Prázdne",
+      "dates": ["Dlhý dátum", "S dňom v týždni", "Čísla"],
+      "day": "Deň v týždni"
+    }
+  },
+  "hu": {
+    "zepp": [30],
+    "group": "space",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["HÉTFŐ", "KEDD", "SZERDA", "CSÜTÖRTÖK", "PÉNTEK", "SZOMBAT", "VASÁRNAP"],
+    "daysShort": ["H", "K", "SZE", "CS", "P", "SZO", "V"],
+    "months": ["JANUÁR", "FEBRUÁR", "MÁRCIUS", "ÁPRILIS", "MÁJUS", "JÚNIUS", "JÚLIUS", "AUGUSZTUS", "SZEPTEMBER", "OKTÓBER", "NOVEMBER", "DECEMBER"],
+    "monthsShort": ["JAN.", "FEBR.", "MÁRC.", "ÁPR.", "MÁJ.", "JÚN.", "JÚL.", "AUG.", "SZEPT.", "OKT.", "NOV.", "DEC."],
+    "dates": [
+      ["MONTH", " ", "d", "."],
+      ["MON", " ", "d", ".", " ", "WD"],
+      ["yyyy", ".", " ", "mm", ".", " ", "dd", "."]
+    ],
+    "titles": {
+      "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Ezüst"],
+      "empty": "Üres",
+      "dates": ["Hosszú dátum", "A nappal", "Számok"],
+      "day": "A hét napja"
+    }
+  },
+  "ro": {
+    "zepp": [21],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["LUNI", "MARȚI", "MIERCURI", "JOI", "VINERI", "SÂMBĂTĂ", "DUMINICĂ"],
+    "daysShort": ["LUN.", "MAR.", "MIE.", "JOI", "VIN.", "SÂM.", "DUM."],
+    "months": ["IANUARIE", "FEBRUARIE", "MARTIE", "APRILIE", "MAI", "IUNIE", "IULIE", "AUGUST", "SEPTEMBRIE", "OCTOMBRIE", "NOIEMBRIE", "DECEMBRIE"],
+    "monthsShort": ["IAN.", "FEBR.", "MAR.", "APR.", "MAI", "IUN.", "IUL.", "AUG.", "SEPT.", "OCT.", "NOV.", "DEC."],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["WD", " ", "d", " ", "MON"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Argintiu"],
+      "empty": "Gol",
+      "dates": ["Dată lungă", "Cu ziua", "Cifre"],
+      "day": "Ziua săptămânii"
+    }
+  },
+  "sr": {
+    "zepp": [24],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["PONEDELJAK", "UTORAK", "SREDA", "ČETVRTAK", "PETAK", "SUBOTA", "NEDELJA"],
+    "daysShort": ["PON", "UTO", "SRE", "ČET", "PET", "SUB", "NED"],
+    "months": ["JANUAR", "FEBRUAR", "MART", "APRIL", "MAJ", "JUN", "JUL", "AVGUST", "SEPTEMBAR", "OKTOBAR", "NOVEMBAR", "DECEMBAR"],
+    "monthsShort": ["JAN", "FEB", "MAR", "APR", "MAJ", "JUN", "JUL", "AVG", "SEP", "OKT", "NOV", "DEC"],
+    "dates": [
+      ["d", ".", " ", "MONTH"],
+      ["WD", " ", "d", ".", " ", "MON"],
+      ["d", ".", " ", "m", ".", " ", "yyyy", "."]
+    ],
+    "titles": {
+      "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Srebrna"],
+      "empty": "Prazno",
+      "dates": ["Dugi datum", "Sa danom", "Brojevi"],
+      "day": "Dan u nedelji"
+    }
+  },
+  "tr": {
+    "zepp": [17],
+    "group": ".",
+    "decimal": ",",
+    "minGroup": 1,
+    "days": ["PAZARTESİ", "SALI", "ÇARŞAMBA", "PERŞEMBE", "CUMA", "CUMARTESİ", "PAZAR"],
+    "daysShort": ["PZT", "SAL", "ÇAR", "PER", "CUM", "CMT", "PAZ"],
+    "months": ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"],
+    "monthsShort": ["OCA", "ŞUB", "MAR", "NİS", "MAY", "HAZ", "TEM", "AĞU", "EYL", "EKİ", "KAS", "ARA"],
+    "dates": [
+      ["d", " ", "MONTH"],
+      ["d", " ", "MON", " ", "WD"],
+      ["dd", ".", "mm", ".", "yyyy"]
+    ],
+    "titles": {
+      "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Gümüş"],
+      "empty": "Boş",
+      "dates": ["Uzun tarih", "Gün adıyla", "Rakamlar"],
+      "day": "Haftanın günü"
+    }
+  }
+}

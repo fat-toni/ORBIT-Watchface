@@ -1,10 +1,10 @@
 // What the watchface writes: time, date, battery and the ring values in both languages.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, imgs, text, rings, tick } from './face.mjs'
+import { build, imgs, text, rings, tick, LANGS, SIZES } from './face.mjs'
 
 const time = () => text(imgs(/num\/time_[hm]_/))
-const date = () => text(imgs(/num\/date_|txt\/(de|en)\/(mon|mons|wd|kw)/))
+const date = () => text(imgs(/num\/date_|txt\/\w+\/(mon|mons|wd)_/))
 const ringText = (i) => rings()[i].text
 
 test('time: 24-hour with leading zero, 12-hour without, AM/PM only in the 12-hour format', async () => {
@@ -32,33 +32,60 @@ test('the time is centered', async () => {
   }
 })
 
-test('date styles in German and English', async () => {
+test('date styles, written by hand for a few languages', async () => {
   const want = {
-    de: ['26.[mon_9]', '[wd_0]26.[mons_9]', '26.10.2026', '26.[mons_9]·[kw]44'],
-    en: ['26[mon_9]', '[wd_0]26[mons_9]', '10/26/2026', '26[mons_9]·[kw]44'],
+    de: ['26.[mon_9]', '[wd_0]26.[mons_9]', '26.10.2026'],
+    en: ['26[mon_9]', '[wd_0]26[mons_9]', '10/26/2026'],
+    hu: ['[mon_9]26.', '[mons_9]26.[wd_0]', '2026.10.26.'],
+    sv: ['26[mon_9]', '[wd_0]26[mons_9]', '2026-10-26'],
+    nl: ['26[mon_9]', '[wd_0]26[mons_9]', '26-10-2026'],
   }
-  for (const lang of ['de', 'en'])
-    for (let style = 0; style < 4; style++) {
+  for (const [lang, styles] of Object.entries(want))
+    for (let style = 0; style < 3; style++) {
       await build({ lang, date: style })
-      assert.equal(date(), want[lang][style], `${lang} style ${style}`)
+      assert.equal(date(), styles[style], `${lang} style ${style}`)
     }
   await build({ lang: 'de', date: 2, now: { year: 2026, month: 3, date: 5, day: 4 } })
   assert.equal(date(), '05.03.2026')
 })
 
-test('calendar week by ISO 8601, also around the turn of the year', async () => {
-  const cases = [
-    [{ year: 2026, month: 12, date: 31, day: 4 }, '53'],
-    [{ year: 2027, month: 1, date: 1, day: 5 }, '53'],
-    [{ year: 2027, month: 1, date: 4, day: 1 }, '1'],
-    [{ year: 2025, month: 12, date: 29, day: 1 }, '1'],
-    [{ year: 2026, month: 1, date: 1, day: 4 }, '1'],
-    [{ year: 2024, month: 12, date: 30, day: 1 }, '1'],
-  ]
-  for (const [now, week] of cases) {
-    await build({ lang: 'de', date: 3, now })
-    assert.equal(date().split('[kw]')[1], week, JSON.stringify(now))
+test('date styles in every language follow tools/langs.json', async () => {
+  const sign = { '.': '.', '/': '/', '-': '-', ',': ',', ' ': '' }
+  const word = { d: '26', dd: '26', m: '10', mm: '10', yyyy: '2026', MONTH: '[mon_9]', MON: '[mons_9]', WD: '[wd_0]' }
+  for (const lang of LANGS)
+    for (let style = 0; style < 3; style++) {
+      await build({ lang, date: style })
+      const want = SIZES.langs[lang].dates[style].map((t) => word[t] ?? sign[t]).join('')
+      assert.equal(date(), want, `${lang} style ${style}`)
+    }
+})
+
+test('numbers in the style of the language', async () => {
+  const gaps = () => {
+    const ws = rings()[0]
+      .values.slice()
+      .sort((a, b) => a.props.x - b.props.x)
+    return ws.slice(1).map((w, i) => w.props.x - (ws[i].props.x + ws[i].props.w))
   }
+  const cases = [
+    // lang, steps, text, a gap of a thousands space after the first digit
+    ['fr', 8462, '8462', true],
+    ['pl', 8462, '8462', false],
+    ['pl', 12345, '12345', true],
+    ['es', 8462, '8462', false],
+    ['es', 12345, '12.345', false],
+    ['it', 8462, '8.462', false],
+    ['en', 12345, '12345', false],
+  ]
+  for (const [lang, current, txt, space] of cases) {
+    await build({ lang, rings: ['empty', 'step', 'empty'], values: { step: { current, target: 8000 } } })
+    assert.equal(rings()[0].text, txt, `${lang} ${current}`)
+    const g = gaps()
+    const at = String(current).length % 3 || 3
+    assert.equal(g[at - 1] > g[0 === at - 1 ? 1 : 0], space, `${lang} ${current}: ${g}`)
+  }
+  await build({ lang: 'fr', rings: ['distance', 'step', 'heart'], values: { distance: 3456 } })
+  assert.equal(rings()[0].text, '3,4')
 })
 
 test('weekday row or nothing', async () => {

@@ -11,7 +11,7 @@ test('the editor offers 6 colors, 10 ring contents, 4 date styles and 2 rows', a
   await build()
   assert.equal(group(EDIT.color).props.count, 6)
   for (const id of EDIT.rings) assert.equal(group(id).props.count, 10)
-  assert.equal(group(EDIT.date).props.count, 4)
+  assert.equal(group(EDIT.date).props.count, 3)
   assert.equal(group(EDIT.row).props.count, 2)
   for (const g of editGroups()) {
     assert.equal(g.props.count, g.props.optional_types.length)

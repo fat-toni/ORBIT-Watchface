@@ -18,6 +18,6 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 - **Three rings** for steps, calories and heart rate; the middle one is larger and shows up to 99,999 steps in full.
   Tap a ring to open the matching app.
 - **Watchface editor:** six accent colors (Mint, Ice blue, Amber, Rose, Lavender, Silver), nine ring contents or an
-  empty ring, four date styles, and the weekday or nothing under the time.
+  empty ring, three date styles, and the weekday or nothing under the time.
 - **Always-on display** with a dimmed time.
-- **English and German.**
+- **19 languages:** English, German, Spanish, French, Italian, Portuguese, Dutch, Catalan, Danish, Swedish, Norwegian, Finnish, Polish, Czech, Slovak, Hungarian, Romanian, Serbian (Latin) and Turkish. Dates and numbers are written the way each language writes them.
