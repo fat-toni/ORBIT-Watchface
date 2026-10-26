@@ -92,8 +92,8 @@ export const SIZES = {
       140
     ],
     "ring_s": [
-      108,
-      108
+      116,
+      116
     ],
     "row": [
       280,

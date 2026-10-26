@@ -21,9 +21,9 @@ export const VAL_TRACK = 1
 // The three rings. x = center, r = radius, set = digit pictures of the value, def = content after
 // installing, size = editor area and previews (see EDIT in make_assets.py).
 export const SLOTS = [
-  { id: 102, x: 60, r: 48, set: 'val', size: 'ring_s', def: 'cal' },
+  { id: 102, x: 65, r: 52, set: 'val', size: 'ring_s', def: 'cal' },
   { id: 103, x: 195, r: 64, set: 'big', size: 'ring_b', def: 'step' },
-  { id: 104, x: 330, r: 48, set: 'val', size: 'ring_s', def: 'heart' },
+  { id: 104, x: 325, r: 52, set: 'val', size: 'ring_s', def: 'heart' },
 ]
 
 // Ring contents: their type in the watchface editor (hmUI.edit_type, or an own type) and the data type

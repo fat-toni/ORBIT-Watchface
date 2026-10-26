@@ -446,7 +446,7 @@ def app_icon():
 # its area.
 EDIT = {
     'color': (330, 100),
-    'ring_s': (108, 108),
+    'ring_s': (116, 116),
     'ring_b': (140, 140),
     'row': (280, 40),
     'date': (250, 36),
@@ -478,7 +478,7 @@ def paste_center(out, img, cx, cy):
 def ring_previews():
     """Gray ring with icon and label for every ring content, in both ring sizes."""
     f_cap = font(11, 'SemiBold')
-    for name, r in (('ring_s', 48), ('ring_b', 64)):
+    for name, r in (('ring_s', 52), ('ring_b', 64)):
         w, h = EDIT[name]
         outs = []
         for kind in RING_PREVIEW:
