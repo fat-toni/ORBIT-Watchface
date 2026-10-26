@@ -1,0 +1,4 @@
+dist
+node_modules
+# written by tools/make_assets.py
+watchface/sizes.js
