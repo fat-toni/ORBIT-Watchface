@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Draws the preview picture of the watchface (assets/default.w390-s/icon.png): the watch's watchface list and
 the Zepp App Store show it. Zepp asks for 10:09 and sample data, in 266x307 for the 390x450 screen.
+Also writes store/preview.png in full screen size for the store form.
 
 The watchface itself decides what is drawn where: tools/preview_widgets.mjs builds it on the simulated Bip 6
 of the tests and lists the widgets, this script paints them with the watchface's own pictures and fonts.
@@ -16,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, 'assets', 'default.w390-s')
+STORE = os.path.join(ROOT, 'store')
 W, H = 390, 450
 PREVIEW = (266, 307)  # "Watchface preview image resolution" of the Bip 6 and Active 2 (Square)
 S = 4  # rings are drawn 4x larger and scaled down for smooth edges
@@ -100,7 +102,10 @@ def main():
         elif t == 'ARC':
             arc(img, w)
     img.resize(PREVIEW, Image.LANCZOS).save(os.path.join(ASSETS, 'icon.png'), optimize=True)
-    print('done:', os.path.join(ASSETS, 'icon.png'))
+    # full size for the "Watch Face Preview" of the store form (390x450, up to 1 MB); store/ stays local
+    os.makedirs(STORE, exist_ok=True)
+    img.convert('RGB').save(os.path.join(STORE, 'preview.png'), optimize=True)
+    print('done:', os.path.join(ASSETS, 'icon.png'), os.path.join(STORE, 'preview.png'))
 
 
 if __name__ == '__main__':
