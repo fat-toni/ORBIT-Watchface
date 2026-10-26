@@ -9,6 +9,7 @@ The digits and words of the watchface are drawn with **[Sora](https://github.com
 Copyright 2019 The Sora Project Authors, licensed under the
 [SIL Open Font License 1.1](tools/fonts/OFL.txt) (`tools/fonts/Sora.ttf`).
 
-`assets/default.w390-s/fonts/sora.ttf`, used for the location name, is a modified version of Sora: only the Regular
-weight and the Latin letters (`tools/make_assets.py`, `city_font()`). It keeps the copyright and license notice in its
-name table and stays under the SIL Open Font License 1.1.
+`assets/default.w390-s/fonts/sora.ttf` and `sora-sb.ttf`, used for the words on the watch (date, weekday, location,
+battery, ring labels, AM/PM), are modified versions of Sora: only the Regular and SemiBold weights and the Latin
+letters (`tools/make_assets.py`, `fonts()`). They keep the copyright and license notice in their name table and stay
+under the SIL Open Font License 1.1.

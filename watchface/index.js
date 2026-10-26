@@ -3,6 +3,8 @@
 // three rings. In the watchface editor the accent color, the content of each ring, the date style and
 // the row under the time (weekday, location or nothing) can be chosen.
 // All pictures come from tools/make_assets.py, their sizes and the accent colors from the generated sizes.js.
+// Words that change rarely (date, battery, weekday or city, ring labels, AM/PM) are text in the Sora font;
+// numbers that change often (time, ring values) and everything the system draws are pictures.
 import * as hmUI from '@zos/ui'
 import { getLanguage, getTimeFormat, getDistanceUnit, TIME_FORMAT_12, DISTANCE_UNIT_IMPERIAL } from '@zos/settings'
 import { getProfile } from '@zos/user'
@@ -27,18 +29,15 @@ const TRACK = 0x232b2b // ring background
 // Layout, all in px of the 390x450 screen.
 const SIDE = 34
 const TOP_Y = 40
-const DATE_TRACK = 3 // letter spacing of the date row, as in make_assets.py
-const DATE_GAP = 6 // extra space between the words of the date
-// the date ends this far left of the battery at 100 % (icon, gap and "100%")
-const DATE_MAX_W = (() => {
-  const b = SIZES.bat.w
-  return 390 - 2 * SIDE - (b['1'] + 2 * b['0'] + b.pct + 3) - 9 - SIZES.bat_icon.w - 14
-})()
+const DATE_TRACK = 3 // letter spacing of the date
+const BAT_TRACK = 1
+const BAT_GAP = 9 // between battery icon and percent
 const TIME_Y = 98
 const TIME_GAP = 22
 const TIME_TRACK = 2 // space between the digits of hours and minutes
 const AMPM_GAP = 8 // AM/PM right of the minutes, 12-hour format only
 const DAY_Y = 200
+const DAY_TRACK = 10 // letter spacing of the weekday
 const WX_Y = 240
 const WX_X = 98 // weather icon; temperature and high/low follow to the right
 const RING_LINE = 6
@@ -85,7 +84,6 @@ const RING_EMPTY = 100100
 const DATE_TYPE = 100201 // + date style 0-2, see dateItems()
 const DATE_STYLES = 3
 const ROW_TYPES = { day: 100301, city: 100302, empty: 100303 }
-const GRAY = 0x969a9e // the weekday color, keep in sync with GRAY in tools/make_assets.py
 
 // Languages: the rules of every language from tools/langs.json (words, date styles, number format and
 // editor titles); the Zepp language code of the watch picks one, English for the rest.
@@ -106,8 +104,31 @@ function img(x, y, src, extra) {
   return hmUI.createWidget(hmUI.widget.IMG, { x, y, src, ...NORMAL, ...extra })
 }
 
-function txtW(path) {
-  return SIZES.txt[path] || 0
+// Text: Sora cut down by make_assets.py (Regular, and SemiBold for the small labels). The watch measures
+// text only in its own font, so widths come from the letter table of make_assets.py (Regular, 19 px).
+const FONT = 'fonts/sora.ttf'
+const FONT_SB = 'fonts/sora-sb.ttf'
+const TEXT_H = SIZES.text19.h
+// keep in sync with the colors in tools/make_assets.py
+const LIGHT = 0xdadcde // date
+const GRAY = 0x969a9e // weekday, city, labels
+const RED = 0xe8564c // battery below 5 %
+
+function textW(text, space) {
+  const adv = SIZES.text19.adv
+  let w = 0
+  for (const c of text) w += adv[c] !== undefined ? adv[c] : adv.M
+  return Math.ceil(w + space * Math.max(0, text.length - 1))
+}
+
+function label(props) {
+  return hmUI.createWidget(hmUI.widget.TEXT, {
+    text: '',
+    text_style: hmUI.text_style.NONE,
+    align_v: hmUI.align.CENTER_V,
+    ...NORMAL,
+    ...props,
+  })
 }
 
 // Changes a widget only when something is different: every change makes the watch redraw.
@@ -120,11 +141,12 @@ function update(w, props) {
   state.set(w, { ...st, key })
   w.setProperty(hmUI.prop.MORE, props)
 }
-function setText(w, text, charSpace) {
+// Text and other properties of a TEXT widget, again only what changed.
+function setText(w, text, props) {
+  if (props) update(w, props)
   const st = state.get(w) || {}
   if (st.text === text) return
   state.set(w, { ...st, text })
-  w.setProperty(hmUI.prop.MORE, { char_space: charSpace })
   w.setProperty(hmUI.prop.TEXT, text)
 }
 function show(w, visible) {
@@ -134,29 +156,27 @@ function show(w, visible) {
   w.setProperty(hmUI.prop.VISIBLE, visible)
 }
 
-// A row of pictures drawn as separate IMG widgets. Items are glyph names of the set ('7', 'dot'),
-// text pictures { src } or extra space { gap }. Each update sets position and picture of every slot
-// that changed, unused slots are hidden. dir puts the glyphs under c/<color>/.
+// A row of pictures drawn as separate IMG widgets. Items are glyph names of the set ('7', 'dot') or extra
+// space { gap }. Each update sets position and picture of every slot that changed, unused slots are hidden.
+// dir puts the glyphs under c/<color>/.
 function numberRow(set, slots, y, track = 0, dir = '') {
   const g = SIZES[set]
   const parts = []
   for (let i = 0; i < slots; i++) parts.push(img(0, y, `${dir}num/${set}_0.png`))
-  const itemW = (c) => (typeof c === 'string' ? g.w[c] : c.gap !== undefined ? c.gap - track : txtW(c.src))
+  const itemW = (c) => (typeof c === 'string' ? g.w[c] : c.gap - track)
   const width = (items) => items.reduce((s, c) => s + itemW(c) + track, 0) - (items.length ? track : 0)
   return {
     width,
     // align: 'left' (x = left edge), 'center' (x = middle) or 'right' (x = right edge); returns the left edge.
-    // base = path start of the glyphs of another set with the same sizes (e.g. the red 'num/batlow_')
-    draw(items, x, align = 'left', base = `${dir}num/${set}_`) {
+    draw(items, x, align = 'left') {
       const w = width(items)
       let cx = align === 'center' ? Math.round(x - w / 2) : align === 'right' ? x - w : x
       const left = cx
       let i = 0
       items.forEach((c) => {
         const iw = itemW(c)
-        if (typeof c === 'string' || c.src) {
-          const src = typeof c === 'string' ? `${base}${c}.png` : c.src
-          update(parts[i], { x: cx, y, w: iw, h: g.h, src })
+        if (typeof c === 'string') {
+          update(parts[i], { x: cx, y, w: iw, h: g.h, src: `${dir}num/${set}_${c}.png` })
           show(parts[i++], true)
         }
         cx += iw + track
@@ -356,14 +376,15 @@ WatchFace({
     const C = this.color
 
     // --- top row: date left, battery right ---
-    this.dateRow = numberRow('date', 12, TOP_Y, DATE_TRACK) // "2026. 10. 26." has 11 pictures
+    const line = { y: TOP_Y, h: TEXT_H, text_size: 19, font: FONT }
+    this.dateLabel = label({ ...line, x: SIDE, w: 390 - 2 * SIDE, color: LIGHT, char_space: DATE_TRACK })
     this.batIcon = img(0, TOP_Y + 3, `${C.dir}icon/bat_5.png`)
-    this.batText = numberRow('bat', 4, TOP_Y, 1, C.dir)
+    this.batText = label({ ...line, x: 390 - SIDE - 100, w: 100, align_h: hmUI.align.RIGHT, char_space: BAT_TRACK })
 
     // --- time: tight digits drawn one by one, so a 1 leaves no gap ---
     this.timeH = numberRow('time_h', 2, TIME_Y, TIME_TRACK)
     this.timeM = numberRow('time_m', 2, TIME_Y, TIME_TRACK, C.dir)
-    this.ampm = img(0, TIME_Y, 'txt/am.png')
+    this.ampm = label({ x: 0, y: TIME_Y + 4, w: 40, h: 22, color: GRAY, text_size: 16, char_space: 1, font: FONT_SB })
     // always-on mode runs no JavaScript, there the system draws the time (digits in equal cells)
     const tw = SIZES.aod_h.w['0']
     const aodX = Math.round((390 - 4 * tw - TIME_GAP) / 2)
@@ -384,22 +405,17 @@ WatchFace({
     })
 
     // --- row under the time: weekday, city or nothing; without a city name the weekday stands in ---
-    if (this.row !== 'empty') this.dayLong = img(0, DAY_Y, `txt/${L}/day_0.png`)
-    if (this.row === 'city') {
-      // any name the watch sends, so text in the font instead of pictures
-      this.city = hmUI.createWidget(hmUI.widget.TEXT, {
+    if (this.row !== 'empty') {
+      this.rowText = label({
         x: 20,
-        y: DAY_Y - 3,
+        y: DAY_Y,
         w: 350,
-        h: 32,
+        h: TEXT_H,
         color: GRAY,
         text_size: 19,
-        char_space: 8,
+        font: FONT,
         align_h: hmUI.align.CENTER_H,
         text_style: hmUI.text_style.ELLIPSIS,
-        font: 'fonts/sora.ttf',
-        text: '',
-        ...NORMAL,
       })
     }
 
@@ -455,8 +471,17 @@ WatchFace({
       s.arc = ring(s.x, RING_Y, s.r, C.hex)
       img(s.x - Math.round(iw / 2), valY - 6 - ih, `${C.dir}icon/${s.kind}.png`)
       s.value = numberRow(s.set, 6, valY, VAL_TRACK)
-      s.unitY = valY + h + 3
-      s.unit = img(s.x, s.unitY, this.unitSrc(s.kind))
+      s.unit = label({
+        x: s.x - s.r,
+        y: valY + h + 2,
+        w: 2 * s.r,
+        h: 16,
+        color: GRAY,
+        text_size: 11,
+        char_space: 2,
+        font: FONT_SB,
+        align_h: hmUI.align.CENTER_H,
+      })
       dataTap(s.x - s.r, RING_Y - s.r, 2 * s.r, 2 * s.r, s.kind)
     })
 
@@ -524,69 +549,60 @@ WatchFace({
     this.timeH.draw(h, left)
     const mx = left + this.timeH.width(h) + gap
     this.timeM.draw(m, mx)
-    if (this.h12) {
-      const src = hours < 12 ? 'txt/am.png' : 'txt/pm.png'
-      const x = mx + this.timeM.width(m) + AMPM_GAP
-      update(this.ampm, { x, y: TIME_Y + 6, w: txtW(src), h: SIZES.ampm.h, src })
-    }
+    if (this.h12) setText(this.ampm, hours < 12 ? 'AM' : 'PM', { x: mx + this.timeM.width(m) + AMPM_GAP })
     show(this.ampm, this.h12)
   },
 
-  // The date in the style picked in the editor, as items of the date row: the tokens of 'dates' in
-  // tools/langs.json (e.g. ['d', '.', ' ', 'MONTH'] -> "26. OKTOBER"). A long month that does not fit
-  // next to the battery is shortened ("30 DE SEPT").
-  dateItems() {
-    const L = this.lang
+  // The date in the style picked in the editor: the tokens of 'dates' in tools/langs.json
+  // (e.g. ['d', '.', ' ', 'MONTH'] -> "26. OKTOBER"), with its letter spacing. What does not fit next to
+  // the battery at 100 % gets the short month ("30 DE SEPT"), and if that is still too long, tighter letters.
+  dateText() {
+    const f = LANGS[this.lang]
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7 // getDay: 1 = Monday ... 7 = Sunday
     const day = safeRead(() => this.time.getDate(), 1)
     const month = safeRead(() => this.time.getMonth(), 1)
     const year = safeRead(() => this.time.getFullYear(), 2026)
-    const num = (n, pad) => String(n).padStart(pad, '0').split('')
-    const txt = (name) => ({ src: `txt/${L}/${name}.png` })
-    const SIGN = { '.': 'dot', '/': 'slash', '-': 'dash', ',': 'comma' }
-    const token = {
-      d: () => num(day, 1),
-      dd: () => num(day, 2),
-      m: () => num(month, 1),
-      mm: () => num(month, 2),
-      yyyy: () => num(year, 4),
-      MONTH: () => [txt(`mon_${month - 1}`)],
-      MON: () => [txt(`mons_${month - 1}`)],
-      WD: () => [txt(`wd_${wd}`)],
-      ' ': () => [{ gap: DATE_GAP }],
+    const pad = (n) => String(n).padStart(2, '0')
+    const words = {
+      d: String(day),
+      dd: pad(day),
+      m: String(month),
+      mm: pad(month),
+      yyyy: String(year),
+      MONTH: f.months[month - 1],
+      MON: f.monthsShort[month - 1],
+      WD: f.daysShort[wd],
     }
-    const items = (tokens) => tokens.reduce((a, t) => a.concat(token[t] ? token[t]() : [SIGN[t]]), [])
-    const tokens = LANGS[L].dates[this.dateStyle] || LANGS[L].dates[0]
-    const full = items(tokens)
-    if (this.dateRow.width(full) <= DATE_MAX_W) return full
-    return items(tokens.map((t) => (t === 'MONTH' ? 'MON' : t)))
+    const write = (tokens) => tokens.map((t) => (words[t] !== undefined ? words[t] : t)).join('')
+    const tokens = f.dates[this.dateStyle] || f.dates[0]
+    const full = write(tokens)
+    const maxW = 390 - 2 * SIDE - textW('100%', BAT_TRACK) - BAT_GAP - SIZES.bat_icon.w - 14
+    if (textW(full, DATE_TRACK) <= maxW) return { text: full, space: DATE_TRACK }
+    const short = write(tokens.map((t) => (t === 'MONTH' ? 'MON' : t)))
+    return { text: short, space: textW(short, DATE_TRACK) <= maxW ? DATE_TRACK : 1 }
   },
 
   updateDate() {
-    this.dateRow.draw(this.dateItems(), SIDE)
+    const { text, space } = this.dateText()
+    setText(this.dateLabel, text, { char_space: space })
   },
 
   // Weekday or city. The city is read on start, on wake-up and once a day: getForecast() of the
   // Weather sensor (getForecastWeather() of the docs does not exist on the watch).
   updateRow() {
-    if (!this.dayLong) return
+    if (!this.rowText) return
     let city = ''
-    if (this.city) {
+    if (this.weather) {
       try {
         city = String(this.weather.getForecast().cityName || '')
           .trim()
           .toUpperCase()
       } catch (e) {}
-      // long names get less letter spacing, so more of them fits
-      if (city) setText(this.city, city, city.length > 11 ? 2 : 8)
-      show(this.city, !!city)
     }
-    show(this.dayLong, !city)
-    if (city) return
+    // long city names get less letter spacing, so more of them fits
+    if (city) return setText(this.rowText, city, { char_space: city.length > 11 ? 2 : 8 })
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7
-    const src = `txt/${this.lang}/day_${wd}.png`
-    const dw = txtW(src)
-    update(this.dayLong, { x: Math.round((390 - dw) / 2), y: DAY_Y, w: dw, h: 26, src })
+    setText(this.rowText, LANGS[this.lang].days[wd], { char_space: DAY_TRACK })
   },
 
   updateBattery() {
@@ -597,12 +613,12 @@ WatchFace({
         safeRead(() => this.battery.getCurrent(), 0),
       ),
     )
-    const low = b < 5 // red, the red pictures only exist for 0-4 %
-    const items = [...chars(b, 'en', false), 'pct']
-    const left = this.batText.draw(items, 390 - SIDE, 'right', low ? 'num/batlow_' : undefined)
+    const low = b < 5 // red
+    const t = `${b}%`
+    setText(this.batText, t, { color: low ? RED : this.color.hex })
     const bi = SIZES.bat_icon
     update(this.batIcon, {
-      x: left - 9 - bi.w,
+      x: 390 - SIDE - textW(t, BAT_TRACK) - BAT_GAP - bi.w,
       y: TOP_Y + 3,
       w: bi.w,
       h: bi.h,
@@ -654,9 +670,10 @@ WatchFace({
     }
   },
 
-  unitSrc(kind) {
-    if (kind === 'distance') return this.miles ? 'txt/u_mi.png' : 'txt/u_km.png'
-    return `txt/u_${kind}.png`
+  // the label under the value: the same short English words in every language
+  unitText(kind) {
+    if (kind === 'distance') return SIZES.units[this.miles ? 'mi' : 'km']
+    return SIZES.units[kind]
   },
 
   // all rings, or only those showing kind
@@ -666,9 +683,7 @@ WatchFace({
       const { items, part } = this.readRing(s.kind, s.set === 'big')
       s.value.draw(items, s.x, 'center')
       s.arc(part)
-      const unit = this.unitSrc(s.kind)
-      const uw = txtW(unit)
-      update(s.unit, { x: s.x - Math.round(uw / 2), y: s.unitY, w: uw, h: SIZES.unit_h, src: unit })
+      setText(s.unit, this.unitText(s.kind))
     })
   },
 

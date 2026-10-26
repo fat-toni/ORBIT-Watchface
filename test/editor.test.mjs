@@ -2,7 +2,7 @@
 // not know (anymore).
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, imgs, rings, editGroups, EDIT, TYPE, SIZES } from './face.mjs'
+import { build, imgs, rings, editGroups, words, EDIT, TYPE, SIZES } from './face.mjs'
 
 const zos = globalThis.zos
 const group = (id) => editGroups().find((g) => g.props.edit_id === id)
@@ -51,8 +51,9 @@ test('after installing: mint, calories | steps | heart rate, long date, weekday'
   assert.equal(imgs(/^c\/mint\/icon\/cal\.png$/).length, 1)
   assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
   assert.equal(imgs(/^c\/mint\/icon\/heart\.png$/).length, 1)
-  assert.equal(imgs(/txt\/en\/mon_9/).length, 1)
-  assert.equal(imgs(/txt\/en\/day_0/).length, 1)
+  assert.equal(words.date(), '26 OCTOBER')
+  assert.equal(words.row(), 'MONDAY')
+  assert.deepEqual(words.units(), ['KCAL', 'STEPS', 'BPM'])
 })
 
 test('the chosen color reaches everything that has the accent color', async () => {
@@ -65,7 +66,7 @@ test('the chosen color reaches everything that has the accent color', async () =
       `minutes ${key}`,
     )
     assert.ok(
-      imgs(/num\/bat_/).every((w) => w.props.src.startsWith(`c/${key}/`)),
+      globalThis.zos.widgets.find((w) => w.type === 'TEXT' && w.props.align_h === 2).props.color === hex,
       `battery ${key}`,
     )
     assert.ok(
@@ -90,9 +91,9 @@ test('unknown choices fall back to the default: the old week date style, foreign
     lang: 'de',
     edit: { [EDIT.row]: 100399, [EDIT.color]: 100099, [EDIT.date]: 100204, [EDIT.rings[1]]: 999 },
   })
-  assert.equal(imgs(/txt\/de\/day_/).length, 1)
+  assert.equal(words.row(), 'MONTAG')
   assert.equal(imgs(/^c\/mint\//).length > 0, true)
-  assert.equal(imgs(/txt\/de\/mon_9/).length, 1)
+  assert.equal(words.date(), '26. OKTOBER')
   assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
 })
 

@@ -1,25 +1,25 @@
 // What the watchface writes: time, date, battery and the ring values in both languages.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, imgs, text, rings, tick, LANGS, SIZES } from './face.mjs'
+import { build, imgs, text, rings, tick, words, textWidget, textWidth, LANGS, SIZES } from './face.mjs'
 
 const time = () => text(imgs(/num\/time_[hm]_/))
-const date = () => text(imgs(/num\/date_|txt\/\w+\/(mon|mons|wd)_/))
+const date = () => words.date()
 const ringText = (i) => rings()[i].text
 
 test('time: 24-hour with leading zero, 12-hour without, AM/PM only in the 12-hour format', async () => {
   await build({ now: { hours: 9, minutes: 5 } })
   assert.equal(time(), '0905')
-  assert.equal(imgs(/txt\/(am|pm)\.png/).length, 0)
+  assert.equal(words.ampm(), null)
   await build({ hour12: true, now: { hours: 0, minutes: 30 } })
   assert.equal(time(), '1230')
-  assert.equal(text(imgs(/txt\/(am|pm)\.png/)), '[am]')
+  assert.equal(words.ampm(), 'AM')
   await build({ hour12: true, now: { hours: 13, minutes: 7 } })
   assert.equal(time(), '107')
-  assert.equal(text(imgs(/txt\/(am|pm)\.png/)), '[pm]')
+  assert.equal(words.ampm(), 'PM')
   await build({ hour12: true, now: { hours: 12, minutes: 0 } })
   assert.equal(time(), '1200')
-  assert.equal(text(imgs(/txt\/(am|pm)\.png/)), '[pm]')
+  assert.equal(words.ampm(), 'PM')
 })
 
 test('a single hour digit gets more room before the minutes', async () => {
@@ -46,11 +46,12 @@ test('the time is centered', async () => {
 
 test('date styles, written by hand for a few languages', async () => {
   const want = {
-    de: ['26.[mon_9]', '[wd_0]26.[mons_9]', '26.10.2026'],
-    en: ['26[mon_9]', '[wd_0]26[mons_9]', '10/26/2026'],
-    hu: ['[mon_9]26.', '[mons_9]26.[wd_0]', '2026.10.26.'],
-    sv: ['26[mon_9]', '[wd_0]26[mons_9]', '2026-10-26'],
-    nl: ['26[mon_9]', '[wd_0]26[mons_9]', '26-10-2026'],
+    de: ['26. OKTOBER', 'MO 26. OKT', '26.10.2026'],
+    en: ['26 OCTOBER', 'MON 26 OCT', '10/26/2026'],
+    hu: ['OKTÓBER 26.', 'OKT. 26. H', '2026. 10. 26.'],
+    sv: ['26 OKTOBER', 'MÅN 26 OKT.', '2026-10-26'],
+    nl: ['26 OKTOBER', 'MA 26 OKT', '26-10-2026'],
+    es: ['26 DE OCTUBRE', 'LUN 26 OCT', '26/10/2026'],
   }
   for (const [lang, styles] of Object.entries(want))
     for (let style = 0; style < 3; style++) {
@@ -62,13 +63,29 @@ test('date styles, written by hand for a few languages', async () => {
 })
 
 test('date styles in every language follow tools/langs.json', async () => {
-  const sign = { '.': '.', '/': '/', '-': '-', ',': ',', ' ': '' }
-  const word = { d: '26', dd: '26', m: '10', mm: '10', yyyy: '2026', MONTH: '[mon_9]', MON: '[mons_9]', WD: '[wd_0]' }
   for (const lang of LANGS)
     for (let style = 0; style < 3; style++) {
       await build({ lang, date: style })
-      const want = SIZES.langs[lang].dates[style].map((t) => word[t] ?? sign[t]).join('')
-      assert.equal(date(), want, `${lang} style ${style}`)
+      const f = SIZES.langs[lang]
+      const word = {
+        d: '26',
+        dd: '26',
+        m: '10',
+        mm: '10',
+        yyyy: '2026',
+        MONTH: f.months[9],
+        MON: f.monthsShort[9],
+        WD: f.daysShort[0],
+      }
+      const full = f.dates[style].map((t) => word[t] ?? t).join('')
+      const short = f.dates[style].map((t) => (t === 'MONTH' ? word.MON : (word[t] ?? t))).join('')
+      // a long month is shortened only when it does not fit next to the battery
+      if (date() === full) continue
+      assert.equal(date(), short, `${lang} style ${style}`)
+      assert.ok(
+        textWidth(full, 3) > 390 - 68 - textWidth('100%', 1) - 9 - 38 - 14,
+        `${lang} style ${style} was shortened`,
+      )
     }
 })
 
@@ -101,42 +118,39 @@ test('numbers in the style of the language', async () => {
 })
 
 test('location row: the city in capitals, the weekday while there is none', async () => {
-  const city = () => globalThis.zos.widgets.find((w) => w.type === 'TEXT')
   await build({ lang: 'de', row: 'city', city: 'Bad Säckingen' })
-  assert.equal(city().props.text, 'BAD SÄCKINGEN')
-  assert.equal(city().visible, true)
-  assert.equal(city().props.font, 'fonts/sora.ttf')
-  assert.equal(imgs(/txt\/de\/day_/).length, 0)
+  assert.equal(words.row(), 'BAD SÄCKINGEN')
+  assert.equal(textWidget((w) => w.props.y === 200).props.font, 'fonts/sora.ttf')
   await build({ lang: 'de', row: 'city', city: '' })
-  assert.equal(city().visible, false)
-  assert.equal(imgs(/txt\/de\/day_/).length, 1)
+  assert.equal(words.row(), 'MONTAG')
   // the city arrives later: shown after waking up
   const zos = globalThis.zos
   zos.city = 'Ulm'
   zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call()
-  assert.equal(city().props.text, 'ULM')
-  assert.equal(imgs(/txt\/de\/day_/).length, 0)
+  assert.equal(words.row(), 'ULM')
   // long names get less letter spacing
   await build({ row: 'city', city: 'Sankt Margrethen' })
-  assert.ok(city().props.char_space < 8)
+  assert.ok(textWidget((w) => w.props.y === 200).props.char_space < 8)
 })
 
 test('weekday row or nothing', async () => {
   await build({ lang: 'de', now: { day: 7 } })
-  assert.equal(text(imgs(/txt\/de\/day_/)), '[day_6]')
+  assert.equal(words.row(), 'SONNTAG')
   await build({ row: 'empty' })
-  assert.equal(imgs(/txt\/(de|en)\/day_/).length, 0)
+  assert.equal(words.row(), null)
 })
 
 test('battery: accent color, red below 5 %', async () => {
   await build({ color: 2, values: { battery: 5 } })
-  assert.equal(text(imgs(/num\/bat_/)), '5%')
+  assert.equal(words.battery(), '5%')
+  assert.equal(textWidget((w) => w.props.align_h === 2).props.color, SIZES.colors[2][1])
   assert.ok(imgs(/^c\/amber\/icon\/bat_0\.png$/).length === 1)
   await build({ color: 2, values: { battery: 4 } })
-  assert.equal(text(imgs(/num\/batlow_/)), '4%')
+  assert.equal(words.battery(), '4%')
+  assert.equal(textWidget((w) => w.props.align_h === 2).props.color, 0xe8564c)
   assert.equal(imgs(/^icon\/bat_low\.png$/).length, 1)
   await build({ values: { battery: 100 } })
-  assert.equal(text(imgs(/num\/bat_/)), '100%')
+  assert.equal(words.battery(), '100%')
   assert.equal(imgs(/^c\/mint\/icon\/bat_5\.png$/).length, 1)
 })
 
@@ -179,9 +193,9 @@ test('steps in a small ring: from 10,000 with one decimal', async () => {
 test('distance in miles when the watch is set to imperial', async () => {
   await build({ lang: 'en', imperial: true, rings: ['distance', 'step', 'heart'], values: { distance: 16100 } })
   assert.equal(ringText(0), '10.0')
-  assert.equal(imgs(/txt\/u_mi\.png/).length, 1)
+  assert.equal(words.units()[0], 'MI')
   await build({ lang: 'en', rings: ['distance', 'step', 'heart'], values: { distance: 16093 } })
-  assert.equal(imgs(/txt\/u_km\.png/).length, 1)
+  assert.equal(words.units()[0], 'KM')
 })
 
 test('ring filling', async () => {
@@ -209,5 +223,5 @@ test('a new minute only redraws the time', async () => {
   await build({ hour12: true })
   const changed = tick({ hours: 14, minutes: 59 })
   assert.equal(time(), '259')
-  for (const w of changed) assert.match(w.props.src, /num\/time_[hm]_|txt\/(am|pm)\.png/)
+  for (const w of changed) assert.ok(/num\/time_[hm]_/.test(w.props.src) || w.props.text_size === 16, w.props.src)
 })
