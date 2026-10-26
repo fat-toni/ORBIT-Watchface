@@ -2,7 +2,7 @@
 // into their rings, also the longest ones.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, shown, pictures, exists, box, rings, editGroups, KINDS, W, H } from './face.mjs'
+import { build, shown, pictures, exists, box, rings, editGroups, imgs, KINDS, LANGS, W, H } from './face.mjs'
 
 const zos = globalThis.zos
 
@@ -47,9 +47,9 @@ function check(label) {
 test('every color, date style, row, language and time format', async () => {
   let n = 0
   for (let color = 0; color < 6; color++)
-    for (let date = 0; date < 4; date++)
+    for (let date = 0; date < 3; date++)
       for (const row of ['day', 'empty'])
-        for (const lang of ['de', 'en'])
+        for (const lang of LANGS)
           for (const hour12 of [false, true]) {
             // the widest date: Wednesday 30 September 2026 / 12 for the 12-hour format
             const now = { year: 2026, month: 9, date: 30, day: 3, hours: hour12 ? 12 : 20, minutes: 48 }
@@ -57,13 +57,13 @@ test('every color, date style, row, language and time format', async () => {
             check(JSON.stringify({ color, date, row, lang, hour12 }))
             n++
           }
-  assert.equal(n, 192)
+  assert.equal(n, 6 * 3 * 2 * LANGS.length * 2)
 })
 
 test('every ring content in every ring, with its longest value', async () => {
   for (const kind of KINDS)
     for (let slot = 0; slot < 3; slot++)
-      for (const lang of ['de', 'en'])
+      for (const lang of LANGS)
         for (const imperial of [false, true]) {
           const kinds = ['empty', 'empty', 'empty']
           kinds[slot] = kind
@@ -77,7 +77,7 @@ test('random full combinations with the longest values', async () => {
   const rnd = (n) => ((seed = (seed * 1103515245 + 12345) % 2 ** 31), seed % n)
   for (let i = 0; i < 300; i++) {
     const kinds = [KINDS[rnd(10)], KINDS[rnd(10)], KINDS[rnd(10)]]
-    const o = { color: rnd(6), date: rnd(4), row: rnd(2) ? 'day' : 'empty', lang: rnd(2) ? 'de' : 'en' }
+    const o = { color: rnd(6), date: rnd(3), row: rnd(2) ? 'day' : 'empty', lang: LANGS[rnd(LANGS.length)] }
     await build({
       ...o,
       hour12: !!rnd(2),
@@ -118,4 +118,22 @@ test('always-on display: only the dimmed time', async () => {
     aod.map((w) => w.type),
     ['IMG_TIME'],
   )
+})
+
+test('in every language and month the date stays clear of the battery at 100 %', async () => {
+  const bad = []
+  const days = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  for (const lang of LANGS)
+    for (let date = 0; date < 3; date++)
+      for (let month = 1; month <= 12; month++)
+        for (let day = 1; day <= (date === 1 ? 7 : 1); day++) {
+          const now = { year: 2028, month, date: days[month - 1] === 31 ? 30 : days[month - 1], day, hours: 10 }
+          await build({ lang, date, now, values: { battery: 100 } })
+          const row = imgs(/num\/date_|txt\/\w+\/(mon|mons|wd)_\d+\.png/)
+          const right = Math.max(...row.map((w) => w.props.x + w.props.w))
+          const battery = Math.min(...imgs(/icon\/bat_/).map((w) => w.props.x))
+          if (right > battery - 8)
+            bad.push(`${lang} style ${date} month ${month} day ${day}: ${right} > ${battery - 8}`)
+        }
+  assert.deepEqual(bad, [])
 })

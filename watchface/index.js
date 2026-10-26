@@ -17,6 +17,11 @@ const SIDE = 34
 const TOP_Y = 40
 const DATE_TRACK = 3 // letter spacing of the date row, as in make_assets.py
 const DATE_GAP = 6 // extra space between the words of the date
+// the date ends this far left of the battery at 100 % (icon, gap and "100%")
+const DATE_MAX_W = (() => {
+  const b = SIZES.bat.w
+  return 390 - 2 * SIDE - (b['1'] + 2 * b['0'] + b.pct + 3) - 9 - SIZES.bat_icon.w - 14
+})()
 const TIME_Y = 98
 const TIME_GAP = 22
 const TIME_TRACK = 2 // space between the digits of hours and minutes
@@ -64,30 +69,18 @@ const SENSOR = {
 // Own editor types (the editor allows numbers from 100000 for these).
 const COLOR_TYPE = 100001 // + index in SIZES.colors
 const RING_EMPTY = 100100
-const DATE_TYPE = 100201 // + date style 0-3, see dateItems()
-const DATE_STYLES = 4
+const DATE_TYPE = 100201 // + date style 0-2, see dateItems()
+const DATE_STYLES = 3
 const ROW_TYPES = { day: 100301, empty: 100303 } // 100302 was the city, the watch does not give it
 
-const TITLES = {
-  de: {
-    colors: ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber'],
-    empty: 'Leer',
-    dates: ['Datum lang', 'Mit Wochentag', 'Zahlen', 'Mit Kalenderwoche'],
-    rows: { day: 'Wochentag', empty: 'Leer' },
-  },
-  en: {
-    colors: ['Mint', 'Ice blue', 'Amber', 'Rose', 'Lavender', 'Silver'],
-    empty: 'Empty',
-    dates: ['Long date', 'With weekday', 'Numbers', 'With week number'],
-    rows: { day: 'Weekday', empty: 'Empty' },
-  },
-}
-
-// Zepp OS language codes, see "Multilingual Mapping" in the Zepp OS docs.
-const SYSTEM = { 7: 'de' }
+// Languages: the rules of every language from tools/langs.json (words, date styles, number format and
+// editor titles); the Zepp language code of the watch picks one, English for the rest.
+const LANGS = SIZES.langs
+const SYSTEM = {}
+Object.keys(LANGS).forEach((l) => LANGS[l].zepp.forEach((code) => (SYSTEM[code] = l)))
+const NUM_GAP = 5 // the space that groups thousands in French, Polish ...
 
 const NORMAL = { show_level: hmUI.show_level.ONLY_NORMAL }
-const DAY_MS = 86400000
 
 function digits(prefix) {
   const a = []
@@ -153,12 +146,23 @@ function numberRow(set, slots, y, track = 0, dir = '') {
   }
 }
 
-// "8462" -> ['8', 'dot', '4', '6', '2'] in German; English gets no separator.
+// 8462 -> ['8', 'dot', '4', '6', '2'] in German, ['8', { gap }, '4', '6', '2'] in French; group: with the
+// thousands separator of the language (English has none, Spanish and Polish only from 10,000).
 function chars(n, lang, group) {
   const s = String(Math.max(0, Math.round(n)))
-  const t = group && lang === 'de' ? s.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : s
-  return t.split('').map((c) => (c === '.' ? 'dot' : c))
+  const f = LANGS[lang]
+  if (!group || !f.group || s.length < (f.minGroup === 2 ? 5 : 4)) return s.split('')
+  const sep = f.group === 'space' ? { gap: NUM_GAP } : 'dot'
+  const out = []
+  s.split('').forEach((c, i) => {
+    if (i && (s.length - i) % 3 === 0) out.push(sep)
+    out.push(c)
+  })
+  return out
 }
+
+// the decimal sign of the language: 'comma' or 'dot'
+const decimal = (lang) => (LANGS[lang].decimal === ',' ? 'comma' : 'dot')
 
 // Steps: in the large ring up to 99999 in full ("12.345"), in a small one up to 9999 and then with
 // one decimal ("12,3k"); from 100000 short ("123k").
@@ -166,21 +170,14 @@ function stepChars(n, lang, big) {
   if (n < (big ? 100000 : 10000)) return chars(n, lang, true)
   if (n >= 100000) return [...String(Math.floor(n / 1000)).split(''), 'k']
   const t = Math.floor(n / 100)
-  return [...String(Math.floor(t / 10)).split(''), lang === 'de' ? 'comma' : 'dot', String(t % 10), 'k']
+  return [...String(Math.floor(t / 10)).split(''), decimal(lang), String(t % 10), 'k']
 }
 
 // Distance with one decimal ("3,4"), from 100 without.
 function distChars(d, lang) {
   if (d >= 100) return chars(d, lang, false)
   const t = Math.floor(d * 10)
-  return [...String(Math.floor(t / 10)).split(''), lang === 'de' ? 'comma' : 'dot', String(t % 10)]
-}
-
-// ISO calendar week (weeks start on Monday, week 1 holds the first Thursday of the year).
-function isoWeek(year, month, day) {
-  const t = Date.UTC(year, month - 1, day)
-  const thu = t + (3 - ((new Date(t).getUTCDay() + 6) % 7)) * DAY_MS
-  return 1 + Math.floor((thu - Date.UTC(new Date(thu).getUTCFullYear(), 0, 1)) / (7 * DAY_MS))
+  return [...String(Math.floor(t / 10)).split(''), decimal(lang), String(t % 10)]
 }
 
 // Ring: dark track plus an arc in the accent color from the top, clockwise.
@@ -288,7 +285,7 @@ WatchFace({
   // --- watchface editor: what the user picked ---
   readEditor() {
     const L = this.lang
-    const T = TITLES[L]
+    const T = LANGS[L].titles
     const et = hmUI.edit_type || {}
 
     const colors = SIZES.colors.map((c, i) => ({
@@ -325,7 +322,7 @@ WatchFace({
     const rows = Object.keys(ROW_TYPES).map((k) => ({
       type: ROW_TYPES[k],
       preview: `edit/${L}/row_${k}.png`,
-      title: T.rows[k],
+      title: k === 'day' ? T.day : T.empty,
     }))
     const rt = editGroup(105, 55, DAY_Y - 7, 'row', ROW_TYPES.day, rows, true)
     this.row = Object.keys(ROW_TYPES).find((k) => ROW_TYPES[k] === rt)
@@ -337,7 +334,7 @@ WatchFace({
     const C = this.color
 
     // --- top row: date left, battery right ---
-    this.dateRow = numberRow('date', 10, TOP_Y, DATE_TRACK)
+    this.dateRow = numberRow('date', 12, TOP_Y, DATE_TRACK) // "2026. 10. 26." has 11 pictures
     this.batIcon = img(0, TOP_Y + 3, `${C.dir}icon/bat_5.png`)
     this.batText = numberRow('bat', 4, TOP_Y, 1, C.dir)
 
@@ -492,42 +489,34 @@ WatchFace({
     show(this.ampm, this.h12)
   },
 
-  // Date styles of the editor (previews in make_assets.py, date_text()):
-  // 0 "26. OKTOBER", 1 "MO 26. OKT", 2 "26.10.2026", 3 "26. OKT · KW 44"; English "26 OCTOBER", "MON 26 OCT",
-  // "10/26/2026", "26 OCT · WK 44".
+  // The date in the style picked in the editor, as items of the date row: the tokens of 'dates' in
+  // tools/langs.json (e.g. ['d', '.', ' ', 'MONTH'] -> "26. OKTOBER"). A long month that does not fit
+  // next to the battery is shortened ("30 DE SEPT").
   dateItems() {
     const L = this.lang
-    const de = L === 'de'
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7 // getDay: 1 = Monday ... 7 = Sunday
     const day = safeRead(() => this.time.getDate(), 1)
     const month = safeRead(() => this.time.getMonth(), 1)
     const year = safeRead(() => this.time.getFullYear(), 2026)
     const num = (n, pad) => String(n).padStart(pad, '0').split('')
-    const dayChars = de ? [...num(day, 1), 'dot'] : num(day, 1)
-    const gap = { gap: DATE_GAP }
     const txt = (name) => ({ src: `txt/${L}/${name}.png` })
-    switch (this.dateStyle) {
-      case 1:
-        return [txt(`wd_${wd}`), gap, ...dayChars, gap, txt(`mons_${month - 1}`)]
-      case 2:
-        return de
-          ? [...num(day, 2), 'dot', ...num(month, 2), 'dot', ...num(year, 4)]
-          : [...num(month, 1), 'slash', ...num(day, 1), 'slash', ...num(year, 4)]
-      case 3:
-        return [
-          ...dayChars,
-          gap,
-          txt(`mons_${month - 1}`),
-          gap,
-          'mid',
-          gap,
-          txt('kw'),
-          gap,
-          ...num(isoWeek(year, month, day), 1),
-        ]
-      default:
-        return [...dayChars, gap, txt(`mon_${month - 1}`)]
+    const SIGN = { '.': 'dot', '/': 'slash', '-': 'dash', ',': 'comma' }
+    const token = {
+      d: () => num(day, 1),
+      dd: () => num(day, 2),
+      m: () => num(month, 1),
+      mm: () => num(month, 2),
+      yyyy: () => num(year, 4),
+      MONTH: () => [txt(`mon_${month - 1}`)],
+      MON: () => [txt(`mons_${month - 1}`)],
+      WD: () => [txt(`wd_${wd}`)],
+      ' ': () => [{ gap: DATE_GAP }],
     }
+    const items = (tokens) => tokens.reduce((a, t) => a.concat(token[t] ? token[t]() : [SIGN[t]]), [])
+    const tokens = LANGS[L].dates[this.dateStyle] || LANGS[L].dates[0]
+    const full = items(tokens)
+    if (this.dateRow.width(full) <= DATE_MAX_W) return full
+    return items(tokens.map((t) => (t === 'MONTH' ? 'MON' : t)))
   },
 
   updateDate() {

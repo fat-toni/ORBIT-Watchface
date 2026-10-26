@@ -152,7 +152,7 @@ def banner(shots):
     x = pill(d, 84, 455, '6 accent colors', f)
     x = pill(d, x, 455, '9 ring contents', f)
     pill(d, x, 455, 'Weather', f)
-    x = pill(d, 84, 505, '4 date styles', f)
+    x = pill(d, 84, 505, '19 languages', f)
     pill(d, x, 505, 'Free & open source', f)
     d.text((84, 590), 'Amazfit Bip 6 · Zepp OS 4+', font=font(18, 'Regular'), fill=(92, 98, 104))
     img.convert('RGB').save(os.path.join(IMAGES, 'banner.png'), optimize=True)

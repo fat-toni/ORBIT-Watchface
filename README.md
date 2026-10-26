@@ -49,14 +49,14 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender or Silver**.
 - **Three rings** that fill up towards your goal; the middle one is larger and shows up to 99,999 in full
 - **Tap a ring** to open the matching app, tap the weather for the forecast
 - **Always-on display:** a dimmed, minimal time
-- **Languages:** English and German, the rest of the world gets English
+- **19 languages:** English, German, Spanish, French, Italian, Portuguese, Dutch, Catalan, Danish, Swedish, Norwegian, Finnish, Polish, Czech, Slovak, Hungarian, Romanian, Serbian (Latin) and Turkish, each with its own way of writing the date and numbers; other languages get English
 
 **✏️ In the editor** (long-press the watchface, then the pencil)
 
 - **Accent color:** six colors
 - **Each ring:** steps, heart rate, calories, battery, distance (km or miles, as set on the watch), PAI, stand,
   SpO₂, stress – or empty
-- **Date:** “26 OCTOBER”, “MON 26 OCT”, “10/26/2026” or “26 OCT · WK 44”
+- **Date:** long (“26 OCTOBER”), with the weekday (“MON 26 OCT”) or in numbers (“10/26/2026”)
 - **Row under the time:** weekday or empty
 
 **🔋 Light on the battery**
@@ -88,6 +88,9 @@ grab the newest version from the **[Releases](https://github.com/fat-toni/ORBIT-
 >    its Zepp OS version (on the watch: Settings → About).
 > 2. You get a test build for your watch.
 > 3. Wear it for a day and tell me what looks wrong. Photos of the watch help a lot.
+>
+> **Speak one of the 19 languages?** Day and month names follow the Unicode CLDR, but the names in the watchface
+> editor were translated by us – if one sounds odd, open an issue or edit [`tools/langs.json`](tools/langs.json).
 
 ---
 

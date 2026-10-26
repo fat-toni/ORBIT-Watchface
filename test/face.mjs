@@ -7,6 +7,7 @@ export { SIZES }
 export const W = 390
 export const H = 450
 export const ASSETS = new URL('../assets/default.w390-s/', import.meta.url).pathname
+export const LANGS = Object.keys(SIZES.langs)
 export const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'empty']
 const zos = globalThis.zos
 let run = 0
@@ -26,11 +27,11 @@ const EDIT_TYPE = {
   stress: 208,
 }
 
-// Builds the watchface. o: { lang: 'de'|'en', hour12, imperial, color: 0-5, rings: [kind x3],
-// date: 0-3, row: 'day'|'empty', now: {...}, values: {...}, edit: {...raw editor choices} }
+// Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: 0-5, rings: [kind x3],
+// date: 0-2, row: 'day'|'empty', now: {...}, values: {...}, edit: {...raw editor choices} }
 export async function build(o = {}) {
   resetZos()
-  zos.language = o.lang === 'de' ? 7 : 2
+  zos.language = SIZES.langs[o.lang || 'en'].zepp[0]
   zos.hour12 = !!o.hour12
   zos.imperial = !!o.imperial
   if (o.now) Object.assign(zos.now, o.now)
@@ -87,7 +88,7 @@ export function box(w) {
 }
 
 // A row of pictures as text, left to right: "26. [mon_9]", "12.345", "88%".
-const SIGNS = { dot: '.', comma: ',', slash: '/', mid: '·', pct: '%', k: 'k', deg: '°', minus: '-' }
+const SIGNS = { dot: '.', comma: ',', slash: '/', dash: '-', pct: '%', k: 'k', deg: '°', minus: '-' }
 export function text(widgets) {
   return widgets
     .slice()

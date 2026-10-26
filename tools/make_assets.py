@@ -123,25 +123,9 @@ def small(img, w, h):
 
 # ---------- texts ----------
 
-WEEK_LONG = {
-    'de': ['MONTAG', 'DIENSTAG', 'MITTWOCH', 'DONNERSTAG', 'FREITAG', 'SAMSTAG', 'SONNTAG'],
-    'en': ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'],
-}
-WEEK_SHORT = {
-    'de': ['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'],
-    'en': ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-}
-MONTHS = {
-    'de': ['JANUAR', 'FEBRUAR', 'MÄRZ', 'APRIL', 'MAI', 'JUNI', 'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER',
-           'NOVEMBER', 'DEZEMBER'],
-    'en': ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER',
-           'NOVEMBER', 'DECEMBER'],
-}
-MONTHS_SHORT = {
-    'de': ['JAN', 'FEB', 'MÄR', 'APR', 'MAI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEZ'],
-    'en': ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-}
-WEEK_NO = {'de': 'KW', 'en': 'WK'}  # calendar week
+# Words, date styles, number formats and editor titles of every language, see tools/langs.json.
+with open(os.path.join(ROOT, 'tools', 'langs.json'), encoding='utf-8') as f:
+    LANGS = {k: v for k, v in json.load(f).items() if not k.startswith('_')}
 
 # ring labels: the same short English words in every language
 UNITS = {
@@ -156,14 +140,13 @@ DAY_TRACK = 10
 def texts():
     f_date = font(19, 'Regular')
     f_cap = font(11, 'SemiBold')
-    for lang in ('de', 'en'):
+    for lang, L in LANGS.items():
         for i in range(7):
-            label(f'txt/{lang}/day_{i}.png', WEEK_LONG[lang][i], f_date, GRAY, DAY_TRACK, key='txt')
-            label(f'txt/{lang}/wd_{i}.png', WEEK_SHORT[lang][i], f_date, LIGHT, DATE_TRACK, key='txt')
+            label(f'txt/{lang}/day_{i}.png', L['days'][i], f_date, GRAY, DAY_TRACK, key='txt')
+            label(f'txt/{lang}/wd_{i}.png', L['daysShort'][i], f_date, LIGHT, DATE_TRACK, key='txt')
         for i in range(12):
-            label(f'txt/{lang}/mon_{i}.png', MONTHS[lang][i], f_date, LIGHT, DATE_TRACK, key='txt')
-            label(f'txt/{lang}/mons_{i}.png', MONTHS_SHORT[lang][i], f_date, LIGHT, DATE_TRACK, key='txt')
-        label(f'txt/{lang}/kw.png', WEEK_NO[lang], f_date, LIGHT, DATE_TRACK, key='txt')
+            label(f'txt/{lang}/mon_{i}.png', L['months'][i], f_date, LIGHT, DATE_TRACK, key='txt')
+            label(f'txt/{lang}/mons_{i}.png', L['monthsShort'][i], f_date, LIGHT, DATE_TRACK, key='txt')
     for key, text in UNITS.items():
         sizes['unit_h'] = label(f'txt/u_{key}.png', text, f_cap, GRAY, 2, key='txt').height
     # next to the minutes in the 12-hour format
@@ -181,7 +164,8 @@ def numbers():
     # always-on time: IMG_TIME needs cells of equal width
     glyph_set('aod_h', font(110, 'Light'), AOD_WHITE, cell=True)
     glyph_set('aod_m', font(110, 'Light'), AOD_MINT, cell=True)
-    glyph_set('date', font(19, 'Regular'), LIGHT, [('dot', '.'), ('slash', '/'), ('mid', '·')], trim=False)
+    signs = [('dot', '.'), ('slash', '/'), ('dash', '-'), ('comma', ',')]
+    glyph_set('date', font(19, 'Regular'), LIGHT, signs, trim=False)
     for key, col in COLORS:
         glyph_set('bat', font(19, 'Regular'), col, [('pct', '%')], trim=False, prefix=f'c/{key}/')
     glyph_set('batlow', font(19, 'Regular'), RED, [('pct', '%')], trim=False, count=5)  # 0-4 %
@@ -488,8 +472,8 @@ EDIT = {
 }
 TIPS_W, TIPS_H = 190, 34
 RING_PREVIEW = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'empty']
-SAMPLE = {'wd': 0, 'day': 26, 'mon': 9, 'year': 2026, 'week': 44}  # Monday, 26 October 2026
-DATE_STYLES = 4  # see dateItems() in index.js
+SAMPLE = {'wd': 0, 'day': 26, 'mon': 9, 'year': 2026}  # Monday, 26 October 2026
+DATE_STYLES = 3  # see 'dates' in tools/langs.json
 
 
 def frames():
@@ -548,21 +532,20 @@ def color_previews():
 
 
 def date_text(lang, style):
-    """The sample date in one of the date styles of index.js, as one string."""
-    s, de = SAMPLE, lang == 'de'
-    day = f"{s['day']}." if de else f"{s['day']}"
-    if style == 0:
-        return f"{day} {MONTHS[lang][s['mon']]}"
-    if style == 1:
-        return f"{WEEK_SHORT[lang][s['wd']]} {day} {MONTHS_SHORT[lang][s['mon']]}"
-    if style == 2:
-        return f"{s['day']}.{s['mon'] + 1}.{s['year']}" if de else f"{s['mon'] + 1}/{s['day']}/{s['year']}"
-    return f"{day} {MONTHS_SHORT[lang][s['mon']]} · {WEEK_NO[lang]} {s['week']}"
+    """The sample date in one of the date styles of tools/langs.json, as one string (dateItems() in index.js
+    draws the same from pictures)."""
+    L, s = LANGS[lang], SAMPLE
+    words = {
+        'd': str(s['day']), 'dd': f"{s['day']:02d}", 'm': str(s['mon'] + 1), 'mm': f"{s['mon'] + 1:02d}",
+        'yyyy': str(s['year']), 'MONTH': L['months'][s['mon']], 'MON': L['monthsShort'][s['mon']],
+        'WD': L['daysShort'][s['wd']],
+    }
+    return ''.join(words.get(t, t) for t in L['dates'][style])
 
 
 def row_previews():
     f_date = font(19, 'Regular')
-    for lang in ('de', 'en'):
+    for lang, L in LANGS.items():
         w, h = EDIT['date']
         for style in range(DATE_STYLES):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
@@ -570,7 +553,7 @@ def row_previews():
             out.alpha_composite(t, (10, (h - t.height) // 2))  # the area starts 10 px left of the date
             save(out, f'edit/{lang}/date_{style}.png')
         w, h = EDIT['row']
-        for kind, text in (('day', WEEK_LONG[lang][SAMPLE['wd']]), ('empty', '·  ·  ·')):
+        for kind, text in (('day', L['days'][SAMPLE['wd']]), ('empty', '·  ·  ·')):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
             t = text_img(text, f_date, GRAY if kind != 'empty' else DIM, DAY_TRACK)
             paste_center(out, t, w / 2, h / 2)
@@ -588,6 +571,9 @@ def clean():
 
 def write_sizes():
     sizes['colors'] = [[key, (col[0] << 16) | (col[1] << 8) | col[2]] for key, col in COLORS]
+    # what the watchface needs of every language; the words themselves are pictures
+    rules = ('zepp', 'group', 'decimal', 'minGroup', 'dates', 'titles')
+    sizes['langs'] = {lang: {k: L[k] for k in rules} for lang, L in LANGS.items()}
     with open(SIZES, 'w') as f:
         f.write('// Written by tools/make_assets.py, do not edit. Widths and heights of the pictures in px.\n')
         f.write('export const SIZES = ' + json.dumps(sizes, indent=2, sort_keys=True, ensure_ascii=False) + '\n')
