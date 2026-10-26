@@ -363,7 +363,7 @@ WatchFace({
 
     const rows = Object.keys(ROW_TYPES).map((k) => ({
       type: ROW_TYPES[k],
-      preview: `edit/${L}/row_${k}.png`,
+      preview: k === 'empty' ? 'edit/row_empty.png' : `edit/${L}/row_${k}.png`,
       title: T[k],
     }))
     const rt = editGroup(105, 55, DAY_Y - 7, 'row', ROW_TYPES.day, rows, true)
