@@ -6,6 +6,14 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 
 ← [Back to the README](README.md)
 
+## 1.1.0 · not released yet
+
+### ✨ New
+
+- **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
+  and a tap on it opens [Padel Punto](https://github.com/fat-toni/PadelPunto).
+- **Padel color:** a seventh accent color, the ball lime of Padel Punto.
+
 ## 1.0.1 · 2026-10-26
 
 > Ready for the Zepp App Store, and a second watch.

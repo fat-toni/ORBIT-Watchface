@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Draws the pictures for the GitHub README: the banner (also the repo's social preview), the
-watchface in a Bip 6 style watch frame and a row with all six accent colors.
+watchface in a Bip 6 style watch frame and a row with all seven accent colors.
 
 The screens are simulator screenshots in docs/images/screenshots (390x450, taken with the mouse
-hidden). The simulator often has no weather data, so the weather row is drawn on top from the
+hidden; padel.png is drawn by tools/make_preview.py from the same widgets). The simulator often has no weather data, so the weather row is drawn on top from the
 watchface's own pictures in assets/default.w390-s (run tools/make_assets.py first).
 Usage: python3 tools/readme_art.py   (writes docs/images/banner.png and docs/images/watch/*.png)
 """
@@ -19,7 +19,7 @@ ASSETS = os.path.join(ROOT, 'assets', 'default.w390-s')
 FONT = os.path.join(ROOT, 'tools', 'fonts', 'Sora.ttf')
 
 # keep in sync with COLORS in tools/make_assets.py
-COLORS = ['mint', 'ice', 'amber', 'rose', 'lavender', 'silver']
+COLORS = ['mint', 'ice', 'amber', 'rose', 'lavender', 'silver', 'padel']
 MINT = (112, 192, 152)
 BG, WHITE, MUTED = (12, 14, 15), (240, 243, 245), (139, 147, 155)
 
@@ -159,7 +159,7 @@ def banner(shots):
 
 
 def color_row(shots):
-    """All six accent colors side by side."""
+    """All seven accent colors side by side."""
     watches = [watch(shots[c], 0.5) for c in COLORS]
     gap = 18
     w = sum(i.width for i in watches) + gap * (len(watches) - 1)

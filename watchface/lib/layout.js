@@ -28,7 +28,7 @@ export const SLOTS = [
 
 // Ring contents: their type in the watchface editor (hmUI.edit_type, or an own type) and the data type
 // that opens the matching app on tap (hmUI.data_type).
-export const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress']
+export const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'padel']
 export const KIND = {
   step: { edit: 'STEP', data: 'STEP' },
   heart: { edit: 'HEART', data: 'HEART' },
@@ -40,4 +40,6 @@ export const KIND = {
   stand: { edit: 'STAND', data: 'STAND' },
   spo2: { edit: 'SPO2', data: 'SPO2' },
   stress: { edit: 'STRESS', data: 'STRESS' },
+  // own type: no value, a racket in the ring that opens the app Padel Punto
+  padel: { own: 100120, title: 'Padel Punto', app: 1132340, page: 'page/start' },
 }

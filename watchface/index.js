@@ -203,6 +203,7 @@ WatchFace({
     // --- rings: icon above the value, unit below; an empty ring draws nothing ---
     this.slots.forEach((s) => {
       if (s.kind === 'empty') return
+      if (s.kind === 'padel') return this.padelRing(s, C)
       const h = SIZES[s.set].h
       const valY = L.RING_Y - Math.round((h - SIZES.val.h) / 2)
       const [iw, ih] = SIZES.icons[s.kind]
@@ -233,6 +234,29 @@ WatchFace({
         this.updateAll()
       },
     })
+  },
+
+  // Padel ring: full ring with a racket in the middle and PADEL under it, a tap opens Padel Punto.
+  padelRing(s, C) {
+    const [iw, ih] = SIZES.icons.padel
+    ring(s.x, L.RING_Y, s.r, C.hex)(1)
+    img(s.x - Math.round(iw / 2), L.RING_Y - 7 - Math.round(ih / 2), `${C.dir}icon/padel.png`)
+    setText(
+      label({
+        x: s.x - s.r,
+        y: L.RING_Y + 16,
+        w: 2 * s.r,
+        h: 16,
+        color: GRAY,
+        text_size: 11,
+        char_space: 2,
+        font: FONT_SB,
+        align_h: hmUI.align.CENTER_H,
+      }),
+      SIZES.units.padel,
+    )
+    const k = KIND.padel
+    tapArea(s.x - s.r, L.RING_Y - s.r, 2 * s.r, 2 * s.r, k.app, k.page)
   },
 
   startSensors() {
@@ -427,7 +451,7 @@ WatchFace({
   // all rings, or only those showing kind
   updateRings(kind) {
     this.slots.forEach((s) => {
-      if (s.kind === 'empty' || (kind && s.kind !== kind)) return
+      if (s.kind === 'empty' || s.kind === 'padel' || (kind && s.kind !== kind)) return
       const { items, part } = this.readRing(s.kind, s.set === 'big')
       s.value.draw(items, s.x, 'center')
       s.arc(part)

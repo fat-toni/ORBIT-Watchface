@@ -30,6 +30,7 @@ const EDIT_TYPE = {
   stand: 206,
   spo2: 207,
   stress: 208,
+  padel: 100120,
 }
 
 // Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: 0-5, rings: [kind x3],

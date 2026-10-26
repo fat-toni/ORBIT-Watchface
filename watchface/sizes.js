@@ -76,6 +76,10 @@ export const SIZES = {
     [
       "silver",
       12896460
+    ],
+    [
+      "padel",
+      13956412
     ]
   ],
   "edit": {
@@ -138,6 +142,10 @@ export const SIZES = {
     "heart": [
       26,
       24
+    ],
+    "padel": [
+      40,
+      42
     ],
     "pai": [
       28,
@@ -268,7 +276,8 @@ export const SIZES = {
         "Amber",
         "Rose",
         "Lavender",
-        "Silver"
+        "Silver",
+        "Padel"
       ],
       "dates": [
         "Long date",
@@ -662,6 +671,7 @@ export const SIZES = {
     "heart": "BPM",
     "km": "KM",
     "mi": "MI",
+    "padel": "PADEL",
     "pai": "PAI",
     "spo2": "SPO2",
     "stand": "STAND",

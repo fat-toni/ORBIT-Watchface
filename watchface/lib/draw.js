@@ -112,12 +112,12 @@ export function ring(cx, cy, r, color) {
   }
 }
 
-// Invisible tap area that opens a system app.
-export function tapArea(x, y, w, h, appId) {
+// Invisible tap area that opens a system app, or with url a page of an installed mini program.
+export function tapArea(x, y, w, h, appId, url) {
   const hit = img(x, y, 'icon/hit.png', { w, h })
   hit.addEventListener(hmUI.event.CLICK_UP, () => {
     try {
-      launchApp({ appId, native: true })
+      launchApp(url ? { appId, url, native: false } : { appId, native: true })
     } catch (e) {}
   })
 }

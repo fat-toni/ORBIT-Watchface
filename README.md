@@ -30,13 +30,14 @@
   <img src="docs/images/watch/editor.png" alt="The watchface editor of ORBIT" width="300">
 </p>
 
-## 🎨 Six colors
+## 🎨 Seven colors
 
 Everything that glows mint in the default look – the minutes, the rings, the icons and the battery – takes the color
-you pick: **Mint, Ice blue, Amber, Rose, Lavender or Silver**.
+you pick: **Mint, Ice blue, Amber, Rose, Lavender, Silver or Padel** – the ball lime of
+[Padel Punto](https://github.com/fat-toni/PadelPunto).
 
 <p align="center">
-  <img src="docs/images/watch/colors.png" alt="ORBIT in all six accent colors">
+  <img src="docs/images/watch/colors.png" alt="ORBIT in all seven accent colors">
 </p>
 
 ## ✨ Features
@@ -53,9 +54,9 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender or Silver**.
 
 **✏️ In the editor** (long-press the watchface, then the pencil)
 
-- **Accent color:** six colors
+- **Accent color:** seven colors
 - **Each ring:** steps, heart rate, calories, battery, distance (km or miles, as set on the watch), PAI, stand,
-  SpO₂, stress – or empty
+  SpO₂, stress, a racket that opens [Padel Punto](https://github.com/fat-toni/PadelPunto) – or empty
 - **Date:** long (“26 OCTOBER”), with the weekday (“MON 26 OCT”) or in numbers (“10/26/2026”)
 - **Row under the time:** weekday, your location (the place of the weather forecast) or empty
 

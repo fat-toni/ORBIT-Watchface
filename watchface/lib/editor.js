@@ -65,7 +65,7 @@ export function readEditor(f) {
           const options = KINDS.filter((k) => KIND[k].own || et[KIND[k].edit] !== undefined).map((k) => ({
             type: KIND[k].own || et[KIND[k].edit],
             preview: `edit/${s.size}_${k}.png`,
-            title: KIND[k].own ? T[k] : undefined,
+            title: KIND[k].own ? KIND[k].title || T[k] : undefined,
             kind: k,
           }))
           options.push({ type: RING_EMPTY, preview: `edit/${s.size}_empty.png`, title: T.empty, kind: 'empty' })

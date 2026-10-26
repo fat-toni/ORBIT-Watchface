@@ -23,7 +23,7 @@
       ["m", "/", "d", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Silver"],
+      "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Silver", "Padel"],
       "empty": "Empty",
       "dates": ["Long date", "With weekday", "Numbers"],
       "day": "Weekday",
@@ -46,7 +46,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Silber"],
+      "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Silber", "Padel"],
       "empty": "Leer",
       "dates": ["Datum lang", "Mit Wochentag", "Zahlen"],
       "day": "Wochentag",
@@ -69,7 +69,7 @@
       ["d", "/", "m", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Plata"],
+      "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Plata", "Padel"],
       "empty": "Vacío",
       "dates": ["Fecha larga", "Con día", "Números"],
       "day": "Día de la semana",
@@ -92,7 +92,7 @@
       ["dd", "/", "mm", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Argent"],
+      "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Argent", "Padel"],
       "empty": "Vide",
       "dates": ["Date longue", "Avec le jour", "Chiffres"],
       "day": "Jour",
@@ -115,7 +115,7 @@
       ["dd", "/", "mm", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Argento"],
+      "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Argento", "Padel"],
       "empty": "Vuoto",
       "dates": ["Data lunga", "Con il giorno", "Numeri"],
       "day": "Giorno",
@@ -138,7 +138,7 @@
       ["dd", "/", "mm", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Prata"],
+      "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Prata", "Padel"],
       "empty": "Vazio",
       "dates": ["Data longa", "Com o dia", "Números"],
       "day": "Dia da semana",
@@ -161,7 +161,7 @@
       ["dd", "-", "mm", "-", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Zilver"],
+      "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Zilver", "Padel"],
       "empty": "Leeg",
       "dates": ["Lange datum", "Met weekdag", "Cijfers"],
       "day": "Weekdag",
@@ -184,7 +184,7 @@
       ["d", "/", "m", "/", "yyyy"]
     ],
     "titles": {
-      "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Plata"],
+      "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Plata", "Padel"],
       "empty": "Buit",
       "dates": ["Data llarga", "Amb el dia", "Números"],
       "day": "Dia de la setmana",
@@ -207,7 +207,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
+      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv", "Padel"],
       "empty": "Tom",
       "dates": ["Lang dato", "Med ugedag", "Tal"],
       "day": "Ugedag",
@@ -230,7 +230,7 @@
       ["yyyy", "-", "mm", "-", "dd"]
     ],
     "titles": {
-      "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Silver"],
+      "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Silver", "Padel"],
       "empty": "Tom",
       "dates": ["Långt datum", "Med veckodag", "Siffror"],
       "day": "Veckodag",
@@ -253,7 +253,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
+      "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv", "Padel"],
       "empty": "Tom",
       "dates": ["Lang dato", "Med ukedag", "Tall"],
       "day": "Ukedag",
@@ -276,7 +276,7 @@
       ["d", ".", "m", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Hopea"],
+      "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Hopea", "Padel"],
       "empty": "Tyhjä",
       "dates": ["Pitkä päiväys", "Viikonpäivällä", "Numerot"],
       "day": "Viikonpäivä",
@@ -299,7 +299,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Srebro"],
+      "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Srebro", "Padel"],
       "empty": "Puste",
       "dates": ["Długa data", "Z dniem tygodnia", "Cyfry"],
       "day": "Dzień tygodnia",
@@ -322,7 +322,7 @@
       ["d", ".", " ", "m", ".", " ", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Stříbrná"],
+      "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Stříbrná", "Padel"],
       "empty": "Prázdné",
       "dates": ["Dlouhé datum", "S dnem v týdnu", "Čísla"],
       "day": "Den v týdnu",
@@ -345,7 +345,7 @@
       ["d", ".", " ", "m", ".", " ", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Strieborná"],
+      "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Strieborná", "Padel"],
       "empty": "Prázdne",
       "dates": ["Dlhý dátum", "S dňom v týždni", "Čísla"],
       "day": "Deň v týždni",
@@ -368,7 +368,7 @@
       ["yyyy", ".", " ", "mm", ".", " ", "dd", "."]
     ],
     "titles": {
-      "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Ezüst"],
+      "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Ezüst", "Padel"],
       "empty": "Üres",
       "dates": ["Hosszú dátum", "A nappal", "Számok"],
       "day": "A hét napja",
@@ -391,7 +391,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Argintiu"],
+      "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Argintiu", "Padel"],
       "empty": "Gol",
       "dates": ["Dată lungă", "Cu ziua", "Cifre"],
       "day": "Ziua săptămânii",
@@ -414,7 +414,7 @@
       ["d", ".", " ", "m", ".", " ", "yyyy", "."]
     ],
     "titles": {
-      "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Srebrna"],
+      "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Srebrna", "Padel"],
       "empty": "Prazno",
       "dates": ["Dugi datum", "Sa danom", "Brojevi"],
       "day": "Dan u nedelji",
@@ -437,7 +437,7 @@
       ["dd", ".", "mm", ".", "yyyy"]
     ],
     "titles": {
-      "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Gümüş"],
+      "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Gümüş", "Padel"],
       "empty": "Boş",
       "dates": ["Uzun tarih", "Gün adıyla", "Rakamlar"],
       "day": "Haftanın günü",

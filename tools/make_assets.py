@@ -32,6 +32,7 @@ COLORS = [
     ('rose', (224, 138, 168)),
     ('lavender', (165, 155, 224)),
     ('silver', (196, 200, 204)),
+    ('padel', (212, 245, 60)),  # 0xd4f53c, the ball lime of Padel Punto (utils/theme.js)
 ]
 MINT = COLORS[0][1]
 WHITE = (245, 245, 245)
@@ -126,7 +127,7 @@ with open(os.path.join(ROOT, 'tools', 'langs.json'), encoding='utf-8') as f:
 # ring labels: the same short English words in every language
 UNITS = {
     'step': 'STEPS', 'heart': 'BPM', 'cal': 'KCAL', 'battery': 'BATT', 'km': 'KM', 'mi': 'MI',
-    'pai': 'PAI', 'stand': 'STAND', 'spo2': 'SPO2', 'stress': 'STRESS',
+    'pai': 'PAI', 'stand': 'STAND', 'spo2': 'SPO2', 'stress': 'STRESS', 'padel': 'PADEL',
 }
 
 DATE_TRACK = 3
@@ -265,6 +266,27 @@ def _gauge(d, col):
     d.ellipse(((cx - 2.6) * S, (cy - 2.6) * S, (cx + 2.6) * S, (cy + 2.6) * S), fill=col)
 
 
+def _racket(d, col):
+    # padel racket, tilted: round head with holes, short throat and handle; u across, v along the racket
+    ang = math.radians(35)
+    c, s_ = math.cos(ang), math.sin(ang)
+    ox, oy = 23, 15.5  # center of the head
+
+    def P(u, v):
+        return ((ox + u * c - v * s_) * S, (oy + u * s_ + v * c) * S)
+
+    a, b = 10, 11.5
+    d.polygon([P(math.cos(t) * a, math.sin(t) * b) for t in (2 * math.pi * k / 72 for k in range(72))], fill=col)
+    d.polygon([P(-5, 9), P(5, 9), P(2, 16), P(-2, 16)], fill=col)  # throat
+    d.polygon([P(-2.1, 15), P(2.1, 15), P(2.1, 25), P(-2.1, 25)], fill=col)  # handle
+    d.ellipse((P(0, 25)[0] - 2.1 * S, P(0, 25)[1] - 2.1 * S, P(0, 25)[0] + 2.1 * S, P(0, 25)[1] + 2.1 * S), fill=col)
+    for u in range(-6, 7, 3):
+        for v in range(-7, 8, 3):
+            if (u / 7.2) ** 2 + (v / 8.6) ** 2 <= 1:
+                x, y = P(u, v)
+                d.ellipse((x - 0.95 * S, y - 0.95 * S, x + 0.95 * S, y + 0.95 * S), fill=(0, 0, 0, 0))
+
+
 RING_ICONS = {
     'step': (26, 26, _footprints),
     'heart': (26, 24, _heart),
@@ -275,6 +297,7 @@ RING_ICONS = {
     'stand': (18, 28, _stand),
     'spo2': (20, 26, _drop),
     'stress': (28, 20, _gauge),
+    'padel': (40, 42, _racket),
 }
 
 
@@ -443,7 +466,7 @@ EDIT = {
     'date': (250, 36),
 }
 TIPS_W, TIPS_H = 190, 34
-RING_PREVIEW = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'empty']
+RING_PREVIEW = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'padel', 'empty']
 SAMPLE = {'wd': 0, 'day': 26, 'mon': 9, 'year': 2026}  # Monday, 26 October 2026
 DATE_STYLES = 3  # see 'dates' in tools/langs.json
 
@@ -481,7 +504,11 @@ def ring_previews():
             else:
                 d.ellipse(box, outline=DIM, width=6 * S)
             out = small(img, w, h)
-            if kind != 'empty':
+            if kind == 'padel':  # no value, the racket sits larger in the middle
+                icon = ring_icon(kind, LIGHT)
+                paste_center(out, icon, w / 2, h / 2 - 7)
+                paste_center(out, text_img(UNITS[kind], f_cap, GRAY, 2), w / 2, h / 2 + 24)
+            elif kind != 'empty':
                 icon = ring_icon(kind, LIGHT)
                 paste_center(out, icon, w / 2, h / 2 - 4 - icon.height / 2)
                 unit = text_img(UNITS['km' if kind == 'distance' else kind], f_cap, GRAY, 2)

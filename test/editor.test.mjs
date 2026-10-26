@@ -2,15 +2,15 @@
 // not know (anymore).
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, imgs, rings, editGroups, words, EDIT, TYPE, SIZES } from './face.mjs'
+import { build, imgs, rings, shown, editGroups, words, EDIT, TYPE, SIZES } from './face.mjs'
 
 const zos = globalThis.zos
 const group = (id) => editGroups().find((g) => g.props.edit_id === id)
 
-test('the editor offers 6 colors, 10 ring contents, 3 date styles and 3 rows', async () => {
+test('the editor offers 7 colors, 11 ring contents, 3 date styles and 3 rows', async () => {
   await build()
-  assert.equal(group(EDIT.color).props.count, 6)
-  for (const id of EDIT.rings) assert.equal(group(id).props.count, 10)
+  assert.equal(group(EDIT.color).props.count, 7)
+  for (const id of EDIT.rings) assert.equal(group(id).props.count, 11)
   assert.equal(group(EDIT.date).props.count, 3)
   assert.equal(group(EDIT.row).props.count, 3)
   for (const g of editGroups()) {
@@ -25,7 +25,7 @@ test('titles in the language of the watch', async () => {
   await build({ lang: 'de' })
   assert.deepEqual(
     group(EDIT.color).props.optional_types.map((t) => t.title_en),
-    ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber'],
+    ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber', 'Padel'],
   )
   await build({ lang: 'en' })
   assert.deepEqual(
@@ -57,7 +57,7 @@ test('after installing: mint, calories | steps | heart rate, long date, weekday'
 })
 
 test('the chosen color reaches everything that has the accent color', async () => {
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < SIZES.colors.length; i++) {
     await build({ color: i })
     const key = SIZES.colors[i][0]
     const hex = SIZES.colors[i][1]
@@ -126,4 +126,17 @@ test('a tap on a ring opens the app of its content', async () => {
     )
   }
   assert.equal(TYPE.empty, 100100)
+})
+
+test('the padel ring shows a racket, no value, and a tap opens Padel Punto', async () => {
+  await build({ rings: ['empty', 'padel', 'empty'] })
+  assert.equal(imgs(/^c\/mint\/icon\/padel\.png$/).length, 1)
+  assert.equal(rings().length, 1)
+  assert.ok(shown().some((w) => w.type === 'ARC' && w.props.color === SIZES.colors[0][1] && w.props.end_angle === 270))
+  assert.equal(zos.widgets.filter((w) => w.type === 'IMG_CLICK').length, 0)
+  const tap = zos.widgets.find((w) => w.on && w.on.up && w.props.src === 'icon/hit.png' && w.props.w === 128)
+  tap.on.up()
+  assert.deepEqual(zos.launched, { appId: 1132340, url: 'page/start', native: false })
+  const title = group(EDIT.rings[1]).props.optional_types.find((t) => t.type === 100120).title_en
+  assert.equal(title, 'Padel Punto')
 })
