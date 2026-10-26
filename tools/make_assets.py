@@ -17,6 +17,8 @@ import shutil
 
 from PIL import Image, ImageDraw, ImageFont
 
+import make_preview
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'default.w390-s')
 FONT = os.path.join(ROOT, 'tools', 'fonts', 'Sora.ttf')
@@ -429,17 +431,6 @@ def hit():
     save(Image.new('RGBA', (4, 4), (0, 0, 0, 0)), 'icon/hit.png')
 
 
-def app_icon():
-    """App list icon: mint ring with a gap at the top right on black."""
-    n = 248
-    img, d = canvas(n, n)
-    d.ellipse((0, 0, n * S - 1, n * S - 1), fill=(10, 10, 10, 255))
-    m = 58 * S
-    d.arc((m, m, n * S - m, n * S - m), start=-60, end=230, fill=(46, 56, 56, 255), width=22 * S)
-    d.arc((m, m, n * S - m, n * S - m), start=-90, end=150, fill=MINT, width=22 * S)
-    save(small(img, n, n), 'icon.png')
-
-
 # ---------- watchface editor ----------
 
 # Size of the editable areas, the positions are in watchface/index.js. Every preview has the size of
@@ -648,13 +639,13 @@ if __name__ == '__main__':
     weather_icons()
     arrows()
     hit()
-    app_icon()
     frames()
     ring_previews()
     color_previews()
     row_previews()
     fonts()
     write_sizes()
+    make_preview.main()  # icon.png, drawn from the finished watchface
     for k in ('time_h', 'val', 'big', 'temp', 'hilo'):
         print(k, sizes[k]['h'], sizes[k]['w'])
     print('done:', OUT)
