@@ -88,6 +88,27 @@ test('numbers in the style of the language', async () => {
   assert.equal(rings()[0].text, '3,4')
 })
 
+test('location row: the city in capitals, the weekday while there is none', async () => {
+  const city = () => globalThis.zos.widgets.find((w) => w.type === 'TEXT')
+  await build({ lang: 'de', row: 'city', city: 'Bad Säckingen' })
+  assert.equal(city().props.text, 'BAD SÄCKINGEN')
+  assert.equal(city().visible, true)
+  assert.equal(city().props.font, 'fonts/sora.ttf')
+  assert.equal(imgs(/txt\/de\/day_/).length, 0)
+  await build({ lang: 'de', row: 'city', city: '' })
+  assert.equal(city().visible, false)
+  assert.equal(imgs(/txt\/de\/day_/).length, 1)
+  // the city arrives later: shown after waking up
+  const zos = globalThis.zos
+  zos.city = 'Ulm'
+  zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call()
+  assert.equal(city().props.text, 'ULM')
+  assert.equal(imgs(/txt\/de\/day_/).length, 0)
+  // long names get less letter spacing
+  await build({ row: 'city', city: 'Sankt Margrethen' })
+  assert.ok(city().props.char_space < 8)
+})
+
 test('weekday row or nothing', async () => {
   await build({ lang: 'de', now: { day: 7 } })
   assert.equal(text(imgs(/txt\/de\/day_/)), '[day_6]')

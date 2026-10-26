@@ -14,7 +14,7 @@ let run = 0
 
 // The editor ids and own types of watchface/index.js.
 export const EDIT = { color: 101, rings: [102, 103, 104], date: 106, row: 105 }
-export const TYPE = { color: 100001, empty: 100100, date: 100201, row: { day: 100301, empty: 100303 } }
+export const TYPE = { color: 100001, empty: 100100, date: 100201, row: { day: 100301, city: 100302, empty: 100303 } }
 const EDIT_TYPE = {
   step: 200,
   heart: 201,
@@ -28,12 +28,13 @@ const EDIT_TYPE = {
 }
 
 // Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: 0-5, rings: [kind x3],
-// date: 0-2, row: 'day'|'empty', now: {...}, values: {...}, edit: {...raw editor choices} }
+// date: 0-2, row: 'day'|'city'|'empty', city: name of the forecast, now: {...}, values: {...}, edit: {...raw editor choices} }
 export async function build(o = {}) {
   resetZos()
   zos.language = SIZES.langs[o.lang || 'en'].zepp[0]
   zos.hour12 = !!o.hour12
   zos.imperial = !!o.imperial
+  if (o.city !== undefined) zos.city = o.city
   if (o.now) Object.assign(zos.now, o.now)
   if (o.values) Object.assign(zos.values, o.values)
   if (o.color !== undefined) zos.edit[EDIT.color] = TYPE.color + o.color
@@ -64,6 +65,7 @@ export function pictures(w) {
   const list = [p.src, p.negative_image, p.invalid_image, p.unit_en, p.unit_sc, p.unit_tc, p.select_image]
   list.push(p.un_select_image, p.tips_BG)
   for (const k of ['image_array', 'font_array', 'hour_array', 'minute_array']) list.push(...(p[k] || []))
+  if (p.font) list.push(p.font)
   for (const t of p.optional_types || []) list.push(t.preview)
   return list.filter(Boolean)
 }

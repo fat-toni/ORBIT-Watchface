@@ -24,7 +24,7 @@ function check(label) {
   for (const w of zos.widgets)
     for (const p of pictures(w)) if (!exists(p)) problems.push(`${w.type}: missing picture ${p}`)
   for (const w of shown()) {
-    if (!['IMG', 'ARC', 'TEXT_IMG', 'IMG_LEVEL', 'IMG_CLICK'].includes(w.type)) continue
+    if (!['IMG', 'ARC', 'TEXT', 'TEXT_IMG', 'IMG_LEVEL', 'IMG_CLICK'].includes(w.type)) continue
     const b = box(w)
     if (b.x < 0 || b.y < 0 || b.x + b.w > W || b.y + b.h > H)
       problems.push(`${w.type} ${w.props.src || ''} at ${b.x},${b.y} ${b.w}x${b.h} leaves the screen`)
@@ -48,7 +48,7 @@ test('every color, date style, row, language and time format', async () => {
   let n = 0
   for (let color = 0; color < 6; color++)
     for (let date = 0; date < 3; date++)
-      for (const row of ['day', 'empty'])
+      for (const row of ['day', 'city', 'empty'])
         for (const lang of LANGS)
           for (const hour12 of [false, true]) {
             // the widest date: Wednesday 30 September 2026 / 12 for the 12-hour format
@@ -57,7 +57,7 @@ test('every color, date style, row, language and time format', async () => {
             check(JSON.stringify({ color, date, row, lang, hour12 }))
             n++
           }
-  assert.equal(n, 6 * 3 * 2 * LANGS.length * 2)
+  assert.equal(n, 6 * 3 * 3 * LANGS.length * 2)
 })
 
 test('every ring content in every ring, with its longest value', async () => {
@@ -77,7 +77,7 @@ test('random full combinations with the longest values', async () => {
   const rnd = (n) => ((seed = (seed * 1103515245 + 12345) % 2 ** 31), seed % n)
   for (let i = 0; i < 300; i++) {
     const kinds = [KINDS[rnd(10)], KINDS[rnd(10)], KINDS[rnd(10)]]
-    const o = { color: rnd(6), date: rnd(3), row: rnd(2) ? 'day' : 'empty', lang: LANGS[rnd(LANGS.length)] }
+    const o = { color: rnd(6), date: rnd(3), row: ['day', 'city', 'empty'][rnd(3)], lang: LANGS[rnd(LANGS.length)] }
     await build({
       ...o,
       hour12: !!rnd(2),

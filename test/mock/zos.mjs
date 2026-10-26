@@ -25,6 +25,7 @@ export function resetZos() {
       spo2: 98,
       stress: 34,
     },
+    city: 'Ulm', // city name of the weather forecast ('' = none)
     edit: {}, // edit_id -> type the user picked in the watchface editor
     noEditTypes: false, // a firmware without hmUI.edit_type
     sensors: {}, // sensor name -> how many were created
@@ -226,6 +227,16 @@ export class Stress {
   }
   getCurrent() {
     return { value: zos.values.stress, time: 0 }
+  }
+}
+
+// Like on the Bip 6: getForecast() exists, getForecastWeather() of the docs does not.
+export class Weather {
+  constructor() {
+    sensor('weather')
+  }
+  getForecast() {
+    return { cityName: zos.city, forecastData: { data: [], count: 0 }, tideData: { data: [], count: 0 } }
   }
 }
 

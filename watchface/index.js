@@ -1,13 +1,25 @@
 // ORBIT: digital watchface for the Bip 6 (390x450). Date and battery on top, hours white and minutes in
 // the accent color, the weekday, the weather (icon, temperature, high and low of the day) and
 // three rings. In the watchface editor the accent color, the content of each ring, the date style and
-// the row under the time can be chosen.
+// the row under the time (weekday, location or nothing) can be chosen.
 // All pictures come from tools/make_assets.py, their sizes and the accent colors from the generated sizes.js.
 import * as hmUI from '@zos/ui'
 import { getLanguage, getTimeFormat, getDistanceUnit, TIME_FORMAT_12, DISTANCE_UNIT_IMPERIAL } from '@zos/settings'
 import { getProfile } from '@zos/user'
 import { launchApp, SYSTEM_APP_STATUS, SYSTEM_APP_HR, SYSTEM_APP_WEATHER } from '@zos/router'
-import { Time, Battery, Step, HeartRate, Calorie, Distance, Pai, Stand, BloodOxygen, Stress } from '@zos/sensor'
+import {
+  Time,
+  Battery,
+  Step,
+  HeartRate,
+  Calorie,
+  Distance,
+  Pai,
+  Stand,
+  BloodOxygen,
+  Stress,
+  Weather,
+} from '@zos/sensor'
 import { SIZES } from './sizes'
 
 const TRACK = 0x232b2b // ring background
@@ -71,7 +83,8 @@ const COLOR_TYPE = 100001 // + index in SIZES.colors
 const RING_EMPTY = 100100
 const DATE_TYPE = 100201 // + date style 0-2, see dateItems()
 const DATE_STYLES = 3
-const ROW_TYPES = { day: 100301, empty: 100303 } // 100302 was the city, the watch does not give it
+const ROW_TYPES = { day: 100301, city: 100302, empty: 100303 }
+const GRAY = 0x969a9e // the weekday color, keep in sync with GRAY in tools/make_assets.py
 
 // Languages: the rules of every language from tools/langs.json (words, date styles, number format and
 // editor titles); the Zepp language code of the watch picks one, English for the rest.
@@ -105,6 +118,13 @@ function update(w, props) {
   if (st.key === key) return
   state.set(w, { ...st, key })
   w.setProperty(hmUI.prop.MORE, props)
+}
+function setText(w, text, charSpace) {
+  const st = state.get(w) || {}
+  if (st.text === text) return
+  state.set(w, { ...st, text })
+  w.setProperty(hmUI.prop.MORE, { char_space: charSpace })
+  w.setProperty(hmUI.prop.TEXT, text)
 }
 function show(w, visible) {
   const st = state.get(w) || {}
@@ -322,7 +342,7 @@ WatchFace({
     const rows = Object.keys(ROW_TYPES).map((k) => ({
       type: ROW_TYPES[k],
       preview: `edit/${L}/row_${k}.png`,
-      title: k === 'day' ? T.day : T.empty,
+      title: T[k],
     }))
     const rt = editGroup(105, 55, DAY_Y - 7, 'row', ROW_TYPES.day, rows, true)
     this.row = Object.keys(ROW_TYPES).find((k) => ROW_TYPES[k] === rt)
@@ -361,8 +381,25 @@ WatchFace({
       show_level: hmUI.show_level.ONLY_AOD,
     })
 
-    // --- row under the time: weekday or nothing ---
+    // --- row under the time: weekday, city or nothing; without a city name the weekday stands in ---
     if (this.row !== 'empty') this.dayLong = img(0, DAY_Y, `txt/${L}/day_0.png`)
+    if (this.row === 'city') {
+      // any name the watch sends, so text in the font instead of pictures
+      this.city = hmUI.createWidget(hmUI.widget.TEXT, {
+        x: 20,
+        y: DAY_Y - 3,
+        w: 350,
+        h: 32,
+        color: GRAY,
+        text_size: 19,
+        char_space: 8,
+        align_h: hmUI.align.CENTER_H,
+        text_style: hmUI.text_style.ELLIPSIS,
+        font: 'fonts/sora.ttf',
+        text: '',
+        ...NORMAL,
+      })
+    }
 
     // --- weather: bound to the system data, the system updates it ---
     // A white layer and an accent layer, both picked by the system from the weather index.
@@ -435,6 +472,8 @@ WatchFace({
   startSensors() {
     this.time = new Time()
     this.battery = new Battery()
+    // the city name comes with the weather forecast; only read when the row shows it
+    if (this.row === 'city') this.weather = new Weather()
     try {
       this.maxHr = 220 - (getProfile().age || 35)
     } catch (e) {
@@ -523,8 +562,23 @@ WatchFace({
     this.dateRow.draw(this.dateItems(), SIDE)
   },
 
+  // Weekday or city. The city is read on start, on wake-up and once a day: getForecast() of the
+  // Weather sensor (getForecastWeather() of the docs does not exist on the watch).
   updateRow() {
     if (!this.dayLong) return
+    let city = ''
+    if (this.city) {
+      try {
+        city = String(this.weather.getForecast().cityName || '')
+          .trim()
+          .toUpperCase()
+      } catch (e) {}
+      // long names get less letter spacing, so more of them fits
+      if (city) setText(this.city, city, city.length > 11 ? 2 : 8)
+      show(this.city, !!city)
+    }
+    show(this.dayLong, !city)
+    if (city) return
     const wd = (safeRead(() => this.time.getDay(), 1) + 6) % 7
     const src = `txt/${this.lang}/day_${wd}.png`
     const dw = txtW(src)

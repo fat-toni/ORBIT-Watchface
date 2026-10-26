@@ -18,6 +18,16 @@ test('only the sensors of the rings that are shown', async () => {
   assert.equal(zos.sensors.step, 1)
 })
 
+test('the weather sensor only for the location row, the city read again only when it changed', async () => {
+  await build({ row: 'day' })
+  assert.equal(zos.sensors.weather, undefined)
+  await build({ row: 'city', city: 'Ulm' })
+  assert.equal(zos.sensors.weather, 1)
+  const before = zos.changes
+  zos.widgets.find((w) => w.type === 'WIDGET_DELEGATE').props.resume_call()
+  assert.equal(zos.changes - before, 0, 'same city: nothing redrawn')
+})
+
 test('values come by events, PAI without one is read on wake', async () => {
   await build({ rings: ['step', 'heart', 'pai'] })
   assert.ok(zos.listeners.step?.length)

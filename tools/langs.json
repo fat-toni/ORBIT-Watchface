@@ -26,7 +26,8 @@
       "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Silver"],
       "empty": "Empty",
       "dates": ["Long date", "With weekday", "Numbers"],
-      "day": "Weekday"
+      "day": "Weekday",
+      "city": "Location"
     }
   },
   "de": {
@@ -47,7 +48,8 @@
       "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Silber"],
       "empty": "Leer",
       "dates": ["Datum lang", "Mit Wochentag", "Zahlen"],
-      "day": "Wochentag"
+      "day": "Wochentag",
+      "city": "Standort"
     }
   },
   "es": {
@@ -68,7 +70,8 @@
       "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Plata"],
       "empty": "Vacío",
       "dates": ["Fecha larga", "Con día", "Números"],
-      "day": "Día de la semana"
+      "day": "Día de la semana",
+      "city": "Ubicación"
     }
   },
   "fr": {
@@ -89,7 +92,8 @@
       "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Argent"],
       "empty": "Vide",
       "dates": ["Date longue", "Avec le jour", "Chiffres"],
-      "day": "Jour"
+      "day": "Jour",
+      "city": "Lieu"
     }
   },
   "it": {
@@ -110,7 +114,8 @@
       "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Argento"],
       "empty": "Vuoto",
       "dates": ["Data lunga", "Con il giorno", "Numeri"],
-      "day": "Giorno"
+      "day": "Giorno",
+      "city": "Località"
     }
   },
   "pt": {
@@ -131,7 +136,8 @@
       "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Prata"],
       "empty": "Vazio",
       "dates": ["Data longa", "Com o dia", "Números"],
-      "day": "Dia da semana"
+      "day": "Dia da semana",
+      "city": "Localização"
     }
   },
   "nl": {
@@ -152,7 +158,8 @@
       "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Zilver"],
       "empty": "Leeg",
       "dates": ["Lange datum", "Met weekdag", "Cijfers"],
-      "day": "Weekdag"
+      "day": "Weekdag",
+      "city": "Locatie"
     }
   },
   "ca": {
@@ -173,7 +180,8 @@
       "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Plata"],
       "empty": "Buit",
       "dates": ["Data llarga", "Amb el dia", "Números"],
-      "day": "Dia de la setmana"
+      "day": "Dia de la setmana",
+      "city": "Ubicació"
     }
   },
   "da": {
@@ -194,7 +202,8 @@
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
       "empty": "Tom",
       "dates": ["Lang dato", "Med ugedag", "Tal"],
-      "day": "Ugedag"
+      "day": "Ugedag",
+      "city": "Sted"
     }
   },
   "sv": {
@@ -215,7 +224,8 @@
       "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Silver"],
       "empty": "Tom",
       "dates": ["Långt datum", "Med veckodag", "Siffror"],
-      "day": "Veckodag"
+      "day": "Veckodag",
+      "city": "Plats"
     }
   },
   "nb": {
@@ -236,7 +246,8 @@
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv"],
       "empty": "Tom",
       "dates": ["Lang dato", "Med ukedag", "Tall"],
-      "day": "Ukedag"
+      "day": "Ukedag",
+      "city": "Sted"
     }
   },
   "fi": {
@@ -257,7 +268,8 @@
       "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Hopea"],
       "empty": "Tyhjä",
       "dates": ["Pitkä päiväys", "Viikonpäivällä", "Numerot"],
-      "day": "Viikonpäivä"
+      "day": "Viikonpäivä",
+      "city": "Sijainti"
     }
   },
   "pl": {
@@ -278,7 +290,8 @@
       "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Srebro"],
       "empty": "Puste",
       "dates": ["Długa data", "Z dniem tygodnia", "Cyfry"],
-      "day": "Dzień tygodnia"
+      "day": "Dzień tygodnia",
+      "city": "Lokalizacja"
     }
   },
   "cs": {
@@ -299,7 +312,8 @@
       "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Stříbrná"],
       "empty": "Prázdné",
       "dates": ["Dlouhé datum", "S dnem v týdnu", "Čísla"],
-      "day": "Den v týdnu"
+      "day": "Den v týdnu",
+      "city": "Místo"
     }
   },
   "sk": {
@@ -320,7 +334,8 @@
       "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Strieborná"],
       "empty": "Prázdne",
       "dates": ["Dlhý dátum", "S dňom v týždni", "Čísla"],
-      "day": "Deň v týždni"
+      "day": "Deň v týždni",
+      "city": "Miesto"
     }
   },
   "hu": {
@@ -341,7 +356,8 @@
       "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Ezüst"],
       "empty": "Üres",
       "dates": ["Hosszú dátum", "A nappal", "Számok"],
-      "day": "A hét napja"
+      "day": "A hét napja",
+      "city": "Helyszín"
     }
   },
   "ro": {
@@ -362,7 +378,8 @@
       "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Argintiu"],
       "empty": "Gol",
       "dates": ["Dată lungă", "Cu ziua", "Cifre"],
-      "day": "Ziua săptămânii"
+      "day": "Ziua săptămânii",
+      "city": "Locație"
     }
   },
   "sr": {
@@ -383,7 +400,8 @@
       "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Srebrna"],
       "empty": "Prazno",
       "dates": ["Dugi datum", "Sa danom", "Brojevi"],
-      "day": "Dan u nedelji"
+      "day": "Dan u nedelji",
+      "city": "Lokacija"
     }
   },
   "tr": {
@@ -404,7 +422,8 @@
       "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Gümüş"],
       "empty": "Boş",
       "dates": ["Uzun tarih", "Gün adıyla", "Rakamlar"],
-      "day": "Haftanın günü"
+      "day": "Haftanın günü",
+      "city": "Konum"
     }
   }
 }
