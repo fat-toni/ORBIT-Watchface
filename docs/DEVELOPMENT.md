@@ -21,12 +21,15 @@ npm run release-check -- --zab   # the same, then builds and checks dist/ORBIT-<
   [Sora](https://github.com/sora-xor/sora-font), the icons drawn by hand in code, everything that has the accent
   color once per color under `assets/default.w390-s/c/<color>/`, and the previews of the editor. It also writes
   `watchface/sizes.js` with the size of every picture and the color list, which the layout uses.
-  It needs Python with Pillow; with [fontTools](https://github.com/fonttools/fonttools) it also rebuilds the small
-  font for the location name (`assets/default.w390-s/fonts/sora.ttf`).
+  It needs Python with Pillow; with [fontTools](https://github.com/fonttools/fonttools) it also rebuilds the two small
+  Sora fonts in `assets/default.w390-s/fonts/`.
+- Words that change rarely (date, weekday or location, battery, ring labels, AM/PM) are text in those fonts; the words
+  of every language come from `tools/langs.json`. The watch cannot measure text in a font of its own, so
+  `make_assets.py` writes the width of every letter to `sizes.js` (`text19`) for the layout.
 - The location name comes from `Weather.getForecast().cityName` – on the watch only `getForecast()` exists, not the
   `getForecastWeather()` of the Zepp OS docs.
-- The numbers are separate pictures, not a font: the watch draws them as images, which keeps them sharp and lets
-  each digit have its own width.
+- Numbers that change often (time, ring values) are separate pictures, not text: showing a picture costs the watch
+  less than drawing text, and each digit keeps its own width.
 - Weather, temperatures and the always-on time are system widgets, the watch updates them itself.
 
 ## Tests

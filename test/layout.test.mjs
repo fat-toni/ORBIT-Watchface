@@ -2,7 +2,22 @@
 // into their rings, also the longest ones.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { build, shown, pictures, exists, box, rings, editGroups, imgs, KINDS, LANGS, W, H } from './face.mjs'
+import {
+  build,
+  shown,
+  pictures,
+  exists,
+  box,
+  rings,
+  editGroups,
+  imgs,
+  words,
+  textWidth,
+  KINDS,
+  LANGS,
+  W,
+  H,
+} from './face.mjs'
 
 const zos = globalThis.zos
 
@@ -129,8 +144,8 @@ test('in every language and month the date stays clear of the battery at 100 %',
         for (let day = 1; day <= (date === 1 ? 7 : 1); day++) {
           const now = { year: 2028, month, date: days[month - 1] === 31 ? 30 : days[month - 1], day, hours: 10 }
           await build({ lang, date, now, values: { battery: 100 } })
-          const row = imgs(/num\/date_|txt\/\w+\/(mon|mons|wd)_\d+\.png/)
-          const right = Math.max(...row.map((w) => w.props.x + w.props.w))
+          const label = shown().find((w) => w.type === 'TEXT' && w.props.y === 40 && w.props.align_h !== 2)
+          const right = 34 + textWidth(words.date(), label.props.char_space)
           const battery = Math.min(...imgs(/icon\/bat_/).map((w) => w.props.x))
           if (right > battery - 8)
             bad.push(`${lang} style ${date} month ${month} day ${day}: ${right} > ${battery - 8}`)

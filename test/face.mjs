@@ -103,6 +103,31 @@ export function text(widgets) {
     .join('')
 }
 
+// The words of the watchface (TEXT widgets in Sora), found by their place; null when not shown.
+const word = (pred) => {
+  const w = shown().find((w) => w.type === 'TEXT' && pred(w))
+  return w ? w.props.text : null
+}
+export const words = {
+  date: () => word((w) => w.props.y === 40 && w.props.align_h !== 2),
+  battery: () => word((w) => w.props.y === 40 && w.props.align_h === 2),
+  row: () => word((w) => w.props.y === 200),
+  ampm: () => word((w) => w.props.text_size === 16),
+  units: () =>
+    shown()
+      .filter((w) => w.type === 'TEXT' && w.props.text_size === 11)
+      .map((w) => w.props.text),
+}
+export const textWidget = (pred) => shown().find((w) => w.type === 'TEXT' && pred(w))
+
+// Width of a text in Sora Regular 19, from the letter table of make_assets.py (as in index.js).
+export function textWidth(text, space) {
+  const adv = SIZES.text19.adv
+  let w = 0
+  for (const c of text) w += adv[c] !== undefined ? adv[c] : adv.M
+  return Math.ceil(w + space * Math.max(0, text.length - 1))
+}
+
 // Shown IMG widgets whose picture path matches re.
 export const imgs = (re) => shown().filter((w) => w.type === 'IMG' && re.test(w.props.src))
 

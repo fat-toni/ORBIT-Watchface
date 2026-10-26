@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { build, imgs, tick, KINDS } from './face.mjs'
+import { build, imgs, tick, words, KINDS } from './face.mjs'
 
 const zos = globalThis.zos
 const SENSORS = ['step', 'heart', 'cal', 'distance', 'pai', 'stand', 'spo2', 'stress']
@@ -62,7 +62,7 @@ test('one minute changes only the time pictures', async () => {
   const before = zos.changes
   const changed = tick({ minutes: 9 })
   assert.ok(changed.length <= 5, `${changed.length} widgets changed`)
-  for (const w of changed) assert.match(w.props.src, /num\/time_[hm]_|txt\/(am|pm)/)
+  for (const w of changed) assert.match(w.props.src, /num\/time_[hm]_/)
   assert.ok(zos.changes - before <= 10)
 })
 
@@ -74,6 +74,6 @@ test('waking up reads the settings again: language and time format', async () =>
   zos.now.hours = 15
   resume()
   assert.equal(face.lang, 'de')
-  assert.equal(imgs(/txt\/de\/day_/).length, 1)
-  assert.equal(imgs(/txt\/pm\.png/).length, 1)
+  assert.equal(words.row(), 'MONTAG')
+  assert.equal(words.ampm(), 'PM')
 })

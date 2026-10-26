@@ -3,8 +3,8 @@
 
 Digits and labels use the free font Sora (tools/fonts, SIL OFL), the icons are drawn by hand.
 Run with a Python that has Pillow: python3 tools/make_assets.py
-With fontTools installed it also writes the small Sora font for the city name (fonts/sora.ttf); without, the
-font that is there stays.
+With fontTools installed it also writes the small Sora fonts for the words on the watch (fonts/); without, the
+fonts that are there stay.
 Also writes watchface/sizes.js with the width of every glyph and the accent colors, the layout in
 watchface/index.js uses it.
 
@@ -106,14 +106,6 @@ def glyph_set(name, f, color, extra=(), cell=False, trim=True, count=10, prefix=
     sizes[name] = {'h': digits[0].height, 'w': widths}
 
 
-def label(path, text, f, color, tracking=0, key=None):
-    img = text_img(text, f, color, tracking)
-    save(img, path)
-    if key:
-        sizes.setdefault(key, {})[path] = img.width
-    return img
-
-
 def canvas(w, h):
     img = Image.new('RGBA', (w * S, h * S), (0, 0, 0, 0))
     return img, ImageDraw.Draw(img)
@@ -140,21 +132,13 @@ DAY_TRACK = 10
 
 
 def texts():
-    f_date = font(19, 'Regular')
-    f_cap = font(11, 'SemiBold')
-    for lang, L in LANGS.items():
-        for i in range(7):
-            label(f'txt/{lang}/day_{i}.png', L['days'][i], f_date, GRAY, DAY_TRACK, key='txt')
-            label(f'txt/{lang}/wd_{i}.png', L['daysShort'][i], f_date, LIGHT, DATE_TRACK, key='txt')
-        for i in range(12):
-            label(f'txt/{lang}/mon_{i}.png', L['months'][i], f_date, LIGHT, DATE_TRACK, key='txt')
-            label(f'txt/{lang}/mons_{i}.png', L['monthsShort'][i], f_date, LIGHT, DATE_TRACK, key='txt')
-    for key, text in UNITS.items():
-        sizes['unit_h'] = label(f'txt/u_{key}.png', text, f_cap, GRAY, 2, key='txt').height
-    # next to the minutes in the 12-hour format
-    f_ampm = font(16, 'SemiBold')
-    label('txt/am.png', 'AM', f_ampm, GRAY, 1, key='txt')
-    sizes['ampm'] = {'h': label('txt/pm.png', 'PM', f_ampm, GRAY, 1, key='txt').height}
+    """Words are text in Sora on the watch (fonts/, see fonts()), not pictures. The watch cannot measure text
+    in its own font, so the advance width of every letter is written to sizes.js for the layout."""
+    f = font(19, 'Regular')
+    chars = [chr(c) for c in FONT_CHARS if c >= 0x20]
+    asc, desc = f.getmetrics()
+    sizes['text19'] = {'h': asc + desc, 'adv': {c: round(f.getlength(c), 2) for c in chars}}
+    sizes['units'] = UNITS
 
 
 def numbers():
@@ -166,11 +150,6 @@ def numbers():
     # always-on time: IMG_TIME needs cells of equal width
     glyph_set('aod_h', font(110, 'Light'), AOD_WHITE, cell=True)
     glyph_set('aod_m', font(110, 'Light'), AOD_MINT, cell=True)
-    signs = [('dot', '.'), ('slash', '/'), ('dash', '-'), ('comma', ',')]
-    glyph_set('date', font(19, 'Regular'), LIGHT, signs, trim=False)
-    for key, col in COLORS:
-        glyph_set('bat', font(19, 'Regular'), col, [('pct', '%')], trim=False, prefix=f'c/{key}/')
-    glyph_set('batlow', font(19, 'Regular'), RED, [('pct', '%')], trim=False, count=5)  # 0-4 %
     signs = [('dot', '.'), ('comma', ','), ('k', 'k')]
     glyph_set('val', font(24, 'SemiBold'), WHITE, signs)
     glyph_set('big', font(30, 'SemiBold'), WHITE, signs)  # value in the larger middle ring
@@ -570,28 +549,34 @@ def row_previews():
             save(out, f'edit/{lang}/row_{kind}.png')
 
 
-def city_font():
-    """Sora Regular cut down to Latin letters, for the city name (TEXT widget, any name the watch sends)."""
+# Basic Latin, Latin-1, Latin Extended-A and the Romanian Ș/Ț: every letter of tools/langs.json and of
+# European city names
+FONT_CHARS = [*range(0x20, 0x7f), *range(0xa0, 0x180), *range(0x218, 0x21c)]
+
+
+def fonts():
+    """Sora cut down to the letters above, for the words on the watch: Regular for date, weekday, city and
+    battery, SemiBold (only A-Z, digits and signs) for the ring labels and AM/PM."""
     try:
         from fontTools.ttLib import TTFont
         from fontTools.varLib.instancer import instantiateVariableFont
         from fontTools import subset
     except ImportError:
-        print('fontTools missing, fonts/sora.ttf not rebuilt')
+        print('fontTools missing, the fonts in fonts/ stay as they are')
         return
-    f = instantiateVariableFont(TTFont(FONT), {'wght': 400})
-    opts = subset.Options()
-    opts.name_IDs = ['*']  # keep copyright and license (SIL OFL) in the font
-    sub = subset.Subsetter(opts)
-    # Basic Latin, Latin-1, Latin Extended-A, the Romanian Ș/Ț and a few punctuation marks
-    sub.populate(unicodes=[*range(0x20, 0x7f), *range(0xa0, 0x180), *range(0x218, 0x21c), 0x2019, 0x2013])
-    sub.subset(f)
     os.makedirs(os.path.join(OUT, 'fonts'), exist_ok=True)
-    f.save(os.path.join(OUT, 'fonts', 'sora.ttf'))
+    for name, weight, chars in (('sora', 400, FONT_CHARS), ('sora-sb', 600, range(0x20, 0x7f))):
+        f = instantiateVariableFont(TTFont(FONT), {'wght': weight})
+        opts = subset.Options()
+        opts.name_IDs = ['*']  # keep copyright and license (SIL OFL) in the font
+        sub = subset.Subsetter(opts)
+        sub.populate(unicodes=list(chars))
+        sub.subset(f)
+        f.save(os.path.join(OUT, 'fonts', f'{name}.ttf'))
 
 
 def clean():
-    """Removes the old pictures, so renamed ones don't stay behind. The font stays (see city_font())."""
+    """Removes the old pictures, so renamed ones don't stay behind. The fonts stay (see fonts())."""
     if not os.path.isdir(OUT):
         return
     for name in os.listdir(OUT):
@@ -602,8 +587,8 @@ def clean():
 
 def write_sizes():
     sizes['colors'] = [[key, (col[0] << 16) | (col[1] << 8) | col[2]] for key, col in COLORS]
-    # what the watchface needs of every language; the words themselves are pictures
-    rules = ('zepp', 'group', 'decimal', 'minGroup', 'dates', 'titles')
+    # what the watchface needs of every language
+    rules = ('zepp', 'group', 'decimal', 'minGroup', 'dates', 'titles', 'days', 'daysShort', 'months', 'monthsShort')
     sizes['langs'] = {lang: {k: L[k] for k in rules} for lang, L in LANGS.items()}
     with open(SIZES, 'w') as f:
         f.write('// Written by tools/make_assets.py, do not edit. Widths and heights of the pictures in px.\n')
@@ -624,8 +609,8 @@ if __name__ == '__main__':
     ring_previews()
     color_previews()
     row_previews()
-    city_font()
+    fonts()
     write_sizes()
-    for k in ('time_h', 'date', 'bat', 'val', 'big', 'temp', 'hilo'):
+    for k in ('time_h', 'val', 'big', 'temp', 'hilo'):
         print(k, sizes[k]['h'], sizes[k]['w'])
     print('done:', OUT)
