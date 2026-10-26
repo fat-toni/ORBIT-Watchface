@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Draws the preview picture of the watchface (assets/default.w390-s/icon.png): the watch's watchface list and
 the Zepp App Store show it. Zepp asks for 10:09 and sample data, in 266x307 for the 390x450 screen.
-Also writes store/preview.png in full screen size for the store form.
+Also writes store/preview_<lang>.png in full screen size for the store form, one per store language.
 
 The watchface itself decides what is drawn where: tools/preview_widgets.mjs builds it on the simulated Bip 6
 of the tests and lists the widgets, this script paints them with the watchface's own pictures and fonts.
@@ -26,9 +26,12 @@ S = 4  # rings are drawn 4x larger and scaled down for smooth edges
 TEMPS = {11: 22, 12: 25, 13: 16}
 
 
-def widgets():
+STORE_LANGS = ['en', 'de']
+
+
+def widgets(lang):
     out = subprocess.run(
-        ['node', '--import', './test/mock/setup.mjs', 'tools/preview_widgets.mjs'],
+        ['node', '--import', './test/mock/setup.mjs', 'tools/preview_widgets.mjs', lang],
         cwd=ROOT, check=True, capture_output=True, text=True,
     ).stdout
     return json.loads(out)
@@ -87,9 +90,9 @@ def arc(img, w):
     img.alpha_composite(big.resize((W, H), Image.LANCZOS))
 
 
-def main():
+def draw(lang):
     img = Image.new('RGBA', (W, H), (0, 0, 0, 255))
-    for w in widgets():
+    for w in widgets(lang):
         t = w['widget']
         if t == 'IMG' and not w['src'].startswith('icon/hit'):
             img.alpha_composite(asset(w['src']), (w['x'], w['y']))
@@ -101,11 +104,17 @@ def main():
             text_img(img, w)
         elif t == 'ARC':
             arc(img, w)
+    return img
+
+
+def main():
+    img = draw('en')
     img.resize(PREVIEW, Image.LANCZOS).save(os.path.join(ASSETS, 'icon.png'), optimize=True)
     # full size for the "Watch Face Preview" of the store form (390x450, up to 1 MB); store/ stays local
     os.makedirs(STORE, exist_ok=True)
-    img.convert('RGB').save(os.path.join(STORE, 'preview.png'), optimize=True)
-    print('done:', os.path.join(ASSETS, 'icon.png'), os.path.join(STORE, 'preview.png'))
+    for lang in STORE_LANGS:
+        (img if lang == 'en' else draw(lang)).convert('RGB').save(os.path.join(STORE, f'preview_{lang}.png'), optimize=True)
+    print('done:', os.path.join(ASSETS, 'icon.png'), STORE)
 
 
 if __name__ == '__main__':
