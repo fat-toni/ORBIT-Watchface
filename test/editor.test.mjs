@@ -46,7 +46,7 @@ test('after installing: mint, calories | steps | heart rate, long date, weekday'
   await build()
   assert.deepEqual(
     rings().map((r) => r.cx),
-    [60, 195, 330],
+    [65, 195, 325],
   )
   assert.equal(imgs(/^c\/mint\/icon\/cal\.png$/).length, 1)
   assert.equal(imgs(/^c\/mint\/icon\/step\.png$/).length, 1)
