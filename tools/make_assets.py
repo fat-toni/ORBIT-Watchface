@@ -526,6 +526,10 @@ def date_text(lang, style):
 
 def row_previews():
     f_date = font(19, 'Regular')
+    w, h = EDIT['row']
+    out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    paste_center(out, text_img('·  ·  ·', f_date, DIM, DAY_TRACK), w / 2, h / 2)
+    save(out, 'edit/row_empty.png')  # the same in every language
     for lang, L in LANGS.items():
         w, h = EDIT['date']
         for style in range(DATE_STYLES):
@@ -534,10 +538,9 @@ def row_previews():
             out.alpha_composite(t, (10, (h - t.height) // 2))  # the area starts 10 px left of the date
             save(out, f'edit/{lang}/date_{style}.png')
         w, h = EDIT['row']
-        rows = (('day', L['days'][SAMPLE['wd']]), ('city', L['titles']['city'].upper()), ('empty', '·  ·  ·'))
-        for kind, text in rows:
+        for kind, text in (('day', L['days'][SAMPLE['wd']]), ('city', L['titles']['city'].upper())):
             out = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-            t = text_img(text, f_date, GRAY if kind != 'empty' else DIM, DAY_TRACK)
+            t = text_img(text, f_date, GRAY, DAY_TRACK)
             if kind == 'city':
                 # a location pin in front of the word, the real city name only exists on the watch
                 pin = ring_icon('distance', GRAY).resize((14, 18), Image.LANCZOS)
