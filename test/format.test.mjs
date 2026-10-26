@@ -22,6 +22,18 @@ test('time: 24-hour with leading zero, 12-hour without, AM/PM only in the 12-hou
   assert.equal(text(imgs(/txt\/(am|pm)\.png/)), '[pm]')
 })
 
+test('a single hour digit gets more room before the minutes', async () => {
+  const gap = () => {
+    const h = imgs(/num\/time_h_/)
+    const m = imgs(/num\/time_m_/)
+    return Math.min(...m.map((w) => w.props.x)) - Math.max(...h.map((w) => w.props.x + w.props.w))
+  }
+  await build({ hour12: true, now: { hours: 13, minutes: 58 } })
+  const single = gap()
+  await build({ hour12: true, now: { hours: 22, minutes: 58 } })
+  assert.ok(single >= gap() + 10, `${single} vs ${gap()}`)
+})
+
 test('the time is centered', async () => {
   for (const hours of [1, 10, 11, 20]) {
     await build({ now: { hours, minutes: 11 } })

@@ -251,7 +251,8 @@ export const SIZES = {
           "Números"
         ],
         "day": "Dia de la setmana",
-        "empty": "Buit"
+        "empty": "Buit",
+        "pai": "PAI (setmana)"
       },
       "zepp": [
         25
@@ -302,7 +303,8 @@ export const SIZES = {
           "Čísla"
         ],
         "day": "Den v týdnu",
-        "empty": "Prázdné"
+        "empty": "Prázdné",
+        "pai": "PAI (týden)"
       },
       "zepp": [
         22
@@ -351,7 +353,8 @@ export const SIZES = {
           "Tal"
         ],
         "day": "Ugedag",
-        "empty": "Tom"
+        "empty": "Tom",
+        "pai": "PAI (uge)"
       },
       "zepp": [
         28
@@ -400,7 +403,8 @@ export const SIZES = {
           "Zahlen"
         ],
         "day": "Wochentag",
-        "empty": "Leer"
+        "empty": "Leer",
+        "pai": "PAI (Woche)"
       },
       "zepp": [
         7
@@ -447,7 +451,8 @@ export const SIZES = {
           "Numbers"
         ],
         "day": "Weekday",
-        "empty": "Empty"
+        "empty": "Empty",
+        "pai": "PAI (week)"
       },
       "zepp": [
         2
@@ -494,7 +499,8 @@ export const SIZES = {
           "Números"
         ],
         "day": "Día de la semana",
-        "empty": "Vacío"
+        "empty": "Vacío",
+        "pai": "PAI (semana)"
       },
       "zepp": [
         3
@@ -543,7 +549,8 @@ export const SIZES = {
           "Numerot"
         ],
         "day": "Viikonpäivä",
-        "empty": "Tyhjä"
+        "empty": "Tyhjä",
+        "pai": "PAI (viikko)"
       },
       "zepp": [
         26
@@ -590,7 +597,8 @@ export const SIZES = {
           "Chiffres"
         ],
         "day": "Jour",
-        "empty": "Vide"
+        "empty": "Vide",
+        "pai": "PAI (semaine)"
       },
       "zepp": [
         6
@@ -642,7 +650,8 @@ export const SIZES = {
           "Számok"
         ],
         "day": "A hét napja",
-        "empty": "Üres"
+        "empty": "Üres",
+        "pai": "PAI (hét)"
       },
       "zepp": [
         30
@@ -689,7 +698,8 @@ export const SIZES = {
           "Numeri"
         ],
         "day": "Giorno",
-        "empty": "Vuoto"
+        "empty": "Vuoto",
+        "pai": "PAI (settimana)"
       },
       "zepp": [
         10
@@ -738,7 +748,8 @@ export const SIZES = {
           "Tall"
         ],
         "day": "Ukedag",
-        "empty": "Tom"
+        "empty": "Tom",
+        "pai": "PAI (uke)"
       },
       "zepp": [
         27
@@ -785,7 +796,8 @@ export const SIZES = {
           "Cijfers"
         ],
         "day": "Weekdag",
-        "empty": "Leeg"
+        "empty": "Leeg",
+        "pai": "PAI (week)"
       },
       "zepp": [
         16
@@ -832,7 +844,8 @@ export const SIZES = {
           "Cyfry"
         ],
         "day": "Dzień tygodnia",
-        "empty": "Puste"
+        "empty": "Puste",
+        "pai": "PAI (tydzień)"
       },
       "zepp": [
         9
@@ -879,7 +892,8 @@ export const SIZES = {
           "Números"
         ],
         "day": "Dia da semana",
-        "empty": "Vazio"
+        "empty": "Vazio",
+        "pai": "PAI (semana)"
       },
       "zepp": [
         15,
@@ -927,7 +941,8 @@ export const SIZES = {
           "Cifre"
         ],
         "day": "Ziua săptămânii",
-        "empty": "Gol"
+        "empty": "Gol",
+        "pai": "PAI (săptămână)"
       },
       "zepp": [
         21
@@ -978,7 +993,8 @@ export const SIZES = {
           "Čísla"
         ],
         "day": "Deň v týždni",
-        "empty": "Prázdne"
+        "empty": "Prázdne",
+        "pai": "PAI (týždeň)"
       },
       "zepp": [
         32
@@ -1030,7 +1046,8 @@ export const SIZES = {
           "Brojevi"
         ],
         "day": "Dan u nedelji",
-        "empty": "Prazno"
+        "empty": "Prazno",
+        "pai": "PAI (nedelja)"
       },
       "zepp": [
         24
@@ -1077,7 +1094,8 @@ export const SIZES = {
           "Siffror"
         ],
         "day": "Veckodag",
-        "empty": "Tom"
+        "empty": "Tom",
+        "pai": "PAI (vecka)"
       },
       "zepp": [
         29
@@ -1124,7 +1142,8 @@ export const SIZES = {
           "Rakamlar"
         ],
         "day": "Haftanın günü",
-        "empty": "Boş"
+        "empty": "Boş",
+        "pai": "PAI (hafta)"
       },
       "zepp": [
         17

@@ -34,6 +34,14 @@ test('titles in the language of the watch', async () => {
   )
 })
 
+test('PAI is the PAI of the week, with its own title', async () => {
+  await build({ lang: 'de' })
+  const pai = group(EDIT.rings[0]).props.optional_types.find((t) => t.type === 100110)
+  assert.equal(pai.title_en, 'PAI (Woche)')
+  await build({ rings: ['pai', 'empty', 'empty'], values: { pai: 87 } })
+  assert.equal(rings()[0].text, '87')
+})
+
 test('after installing: mint, calories | steps | heart rate, long date, weekday', async () => {
   await build()
   assert.deepEqual(

@@ -27,7 +27,8 @@
       "empty": "Empty",
       "dates": ["Long date", "With weekday", "Numbers"],
       "day": "Weekday",
-      "city": "Location"
+      "city": "Location",
+      "pai": "PAI (week)"
     }
   },
   "de": {
@@ -49,7 +50,8 @@
       "empty": "Leer",
       "dates": ["Datum lang", "Mit Wochentag", "Zahlen"],
       "day": "Wochentag",
-      "city": "Standort"
+      "city": "Standort",
+      "pai": "PAI (Woche)"
     }
   },
   "es": {
@@ -71,7 +73,8 @@
       "empty": "Vacío",
       "dates": ["Fecha larga", "Con día", "Números"],
       "day": "Día de la semana",
-      "city": "Ubicación"
+      "city": "Ubicación",
+      "pai": "PAI (semana)"
     }
   },
   "fr": {
@@ -93,7 +96,8 @@
       "empty": "Vide",
       "dates": ["Date longue", "Avec le jour", "Chiffres"],
       "day": "Jour",
-      "city": "Lieu"
+      "city": "Lieu",
+      "pai": "PAI (semaine)"
     }
   },
   "it": {
@@ -115,7 +119,8 @@
       "empty": "Vuoto",
       "dates": ["Data lunga", "Con il giorno", "Numeri"],
       "day": "Giorno",
-      "city": "Località"
+      "city": "Località",
+      "pai": "PAI (settimana)"
     }
   },
   "pt": {
@@ -137,7 +142,8 @@
       "empty": "Vazio",
       "dates": ["Data longa", "Com o dia", "Números"],
       "day": "Dia da semana",
-      "city": "Localização"
+      "city": "Localização",
+      "pai": "PAI (semana)"
     }
   },
   "nl": {
@@ -159,7 +165,8 @@
       "empty": "Leeg",
       "dates": ["Lange datum", "Met weekdag", "Cijfers"],
       "day": "Weekdag",
-      "city": "Locatie"
+      "city": "Locatie",
+      "pai": "PAI (week)"
     }
   },
   "ca": {
@@ -181,7 +188,8 @@
       "empty": "Buit",
       "dates": ["Data llarga", "Amb el dia", "Números"],
       "day": "Dia de la setmana",
-      "city": "Ubicació"
+      "city": "Ubicació",
+      "pai": "PAI (setmana)"
     }
   },
   "da": {
@@ -203,7 +211,8 @@
       "empty": "Tom",
       "dates": ["Lang dato", "Med ugedag", "Tal"],
       "day": "Ugedag",
-      "city": "Sted"
+      "city": "Sted",
+      "pai": "PAI (uge)"
     }
   },
   "sv": {
@@ -225,7 +234,8 @@
       "empty": "Tom",
       "dates": ["Långt datum", "Med veckodag", "Siffror"],
       "day": "Veckodag",
-      "city": "Plats"
+      "city": "Plats",
+      "pai": "PAI (vecka)"
     }
   },
   "nb": {
@@ -247,7 +257,8 @@
       "empty": "Tom",
       "dates": ["Lang dato", "Med ukedag", "Tall"],
       "day": "Ukedag",
-      "city": "Sted"
+      "city": "Sted",
+      "pai": "PAI (uke)"
     }
   },
   "fi": {
@@ -269,7 +280,8 @@
       "empty": "Tyhjä",
       "dates": ["Pitkä päiväys", "Viikonpäivällä", "Numerot"],
       "day": "Viikonpäivä",
-      "city": "Sijainti"
+      "city": "Sijainti",
+      "pai": "PAI (viikko)"
     }
   },
   "pl": {
@@ -291,7 +303,8 @@
       "empty": "Puste",
       "dates": ["Długa data", "Z dniem tygodnia", "Cyfry"],
       "day": "Dzień tygodnia",
-      "city": "Lokalizacja"
+      "city": "Lokalizacja",
+      "pai": "PAI (tydzień)"
     }
   },
   "cs": {
@@ -313,7 +326,8 @@
       "empty": "Prázdné",
       "dates": ["Dlouhé datum", "S dnem v týdnu", "Čísla"],
       "day": "Den v týdnu",
-      "city": "Místo"
+      "city": "Místo",
+      "pai": "PAI (týden)"
     }
   },
   "sk": {
@@ -335,7 +349,8 @@
       "empty": "Prázdne",
       "dates": ["Dlhý dátum", "S dňom v týždni", "Čísla"],
       "day": "Deň v týždni",
-      "city": "Miesto"
+      "city": "Miesto",
+      "pai": "PAI (týždeň)"
     }
   },
   "hu": {
@@ -357,7 +372,8 @@
       "empty": "Üres",
       "dates": ["Hosszú dátum", "A nappal", "Számok"],
       "day": "A hét napja",
-      "city": "Helyszín"
+      "city": "Helyszín",
+      "pai": "PAI (hét)"
     }
   },
   "ro": {
@@ -379,7 +395,8 @@
       "empty": "Gol",
       "dates": ["Dată lungă", "Cu ziua", "Cifre"],
       "day": "Ziua săptămânii",
-      "city": "Locație"
+      "city": "Locație",
+      "pai": "PAI (săptămână)"
     }
   },
   "sr": {
@@ -401,7 +418,8 @@
       "empty": "Prazno",
       "dates": ["Dugi datum", "Sa danom", "Brojevi"],
       "day": "Dan u nedelji",
-      "city": "Lokacija"
+      "city": "Lokacija",
+      "pai": "PAI (nedelja)"
     }
   },
   "tr": {
@@ -423,7 +441,8 @@
       "empty": "Boş",
       "dates": ["Uzun tarih", "Gün adıyla", "Rakamlar"],
       "day": "Haftanın günü",
-      "city": "Konum"
+      "city": "Konum",
+      "pai": "PAI (hafta)"
     }
   }
 }

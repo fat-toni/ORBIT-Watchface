@@ -21,7 +21,7 @@ const EDIT_TYPE = {
   cal: 202,
   battery: 203,
   distance: 204,
-  pai: 205,
+  pai: 100110,
   stand: 206,
   spo2: 207,
   stress: 208,
