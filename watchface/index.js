@@ -45,6 +45,7 @@ import {
   ring,
   tapArea,
   dataTap,
+  statusIcon,
 } from './lib/draw'
 import { langOf, loadLang, chars, stepChars, distChars } from './lib/lang'
 import { readEditor } from './lib/editor'
@@ -118,6 +119,9 @@ WatchFace({
       align_h: hmUI.align.RIGHT,
       char_space: L.BAT_TRACK,
     })
+
+    // --- top center: phone not connected; the system shows and hides it ---
+    statusIcon(Math.round((L.W - SIZES.status.phone[0]) / 2), L.STATUS_Y, 'icon/status_phone.png', 'DISCONNECT')
 
     // --- time: tight digits drawn one by one, so a 1 leaves no gap ---
     this.timeH = numberRow('time_h', 2, L.TIME_Y, L.TIME_TRACK)

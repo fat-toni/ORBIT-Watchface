@@ -470,6 +470,16 @@ def arrows():
         save(small(img, 10, 8), f'icon/{name}.png')
 
 
+def status_icons():
+    """Phone not connected: a gray crossed-out phone; the system shows it."""
+    img, d = canvas(18, 20)
+    d.rounded_rectangle((4 * S, 1 * S, 14 * S, 19 * S), radius=2 * S, outline=GRAY, width=int(1.8 * S))
+    d.line((2 * S, 2 * S, 16 * S, 18 * S), fill=(0, 0, 0, 0), width=int(4.2 * S))  # gap around the stroke
+    d.line((2 * S, 2 * S, 16 * S, 18 * S), fill=GRAY, width=int(1.8 * S))
+    save(small(img, 18, 20), 'icon/status_phone.png')
+    sizes['status'] = {'phone': [18, 20]}
+
+
 def hit():
     """Invisible picture for the tap areas."""
     save(Image.new('RGBA', (4, 4), (0, 0, 0, 0)), 'icon/hit.png')
@@ -686,6 +696,7 @@ if __name__ == '__main__':
     ring_icons()
     weather_icons()
     arrows()
+    status_icons()
     hit()
     frames()
     ring_previews()

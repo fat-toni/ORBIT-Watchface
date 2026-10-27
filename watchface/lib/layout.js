@@ -3,6 +3,7 @@
 export const W = 390
 export const SIDE = 34
 export const TOP_Y = 40
+export const STATUS_Y = 12 // phone not connected, top center
 export const DATE_TRACK = 3 // letter spacing of the date
 export const BAT_TRACK = 1
 export const BAT_GAP = 9 // between battery icon and percent

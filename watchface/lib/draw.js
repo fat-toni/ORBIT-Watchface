@@ -144,3 +144,12 @@ export function dataTap(x, y, w, h, dataType, appId) {
     tapArea(x, y, w, h, appId)
   }
 }
+
+// System status icon (hmUI.system_status name): the system shows it only while that status is on.
+// Not every firmware has IMG_STATUS, then nothing is drawn.
+export function statusIcon(x, y, src, status) {
+  try {
+    if (hmUI.widget.IMG_STATUS === undefined || hmUI.system_status[status] === undefined) return
+    hmUI.createWidget(hmUI.widget.IMG_STATUS, { x, y, src, type: hmUI.system_status[status], ...NORMAL })
+  } catch (e) {}
+}

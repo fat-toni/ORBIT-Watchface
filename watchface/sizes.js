@@ -297,6 +297,12 @@ export const SIZES = {
       "pai": "PAI (week)"
     }
   },
+  "status": {
+    "phone": [
+      18,
+      20
+    ]
+  },
   "temp": {
     "h": 29,
     "w": {

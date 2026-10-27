@@ -16,6 +16,8 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 - **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
   and a tap on it opens [Padel Punto](https://github.com/fat-toni/PadelPunto).
   Without Padel Punto on the watch, the tap shows where to get it: "Padel Punto – in the Zepp App Store".
+- **Phone connection:** a small gray crossed-out phone at the top when the phone is not connected – shown by the
+  watch itself, nothing when all is fine.
 - **Music ring:** a note that opens the music player.
 - **Padel color:** a new accent color, the ball lime of Padel Punto.
 

@@ -54,6 +54,7 @@ export const widget = {
   IMG_LEVEL: 'IMG_LEVEL',
   TEXT_IMG: 'TEXT_IMG',
   IMG_CLICK: 'IMG_CLICK',
+  IMG_STATUS: 'IMG_STATUS',
   WIDGET_DELEGATE: 'WIDGET_DELEGATE',
   WATCHFACE_EDIT_GROUP: 'WATCHFACE_EDIT_GROUP',
   WATCHFACE_EDIT_MASK: 'WATCHFACE_EDIT_MASK',
@@ -62,6 +63,7 @@ export const widget = {
 export const prop = { MORE: 'more', VISIBLE: 'visible', TEXT: 'text', CURRENT_TYPE: 'current_type' }
 export const align = { LEFT: 0, CENTER_H: 1, RIGHT: 2, CENTER_V: 3 }
 export const text_style = { NONE: 0, WRAP: 1, ELLIPSIS: 2 }
+export const system_status = { DISCONNECT: 'disconnect', DISTURB: 'disturb', LOCK: 'lock', CLOCK: 'clock' }
 export const event = { CLICK_DOWN: 'down', CLICK_UP: 'up' }
 export const show_level = { ONLY_NORMAL: 1, ONLY_AOD: 2, ONLY_EDIT: 4 }
 const KINDS = ['STEP', 'HEART', 'CAL', 'BATTERY', 'DISTANCE', 'PAI', 'STAND', 'SPO2', 'STRESS']

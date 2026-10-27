@@ -46,6 +46,7 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender or Padel** – the ball lime o
 
 - **Time** in large Sora digits, hours white and minutes in your color; 12- or 24-hour format as set on the watch
 - **Date and battery** on top; the battery turns red below 5 %
+- **Phone connection:** a small gray icon at the top when the phone is not connected
 - **Weather:** icon, current temperature, high and low of the day
 - **Three rings** that fill up towards your goal; the middle one is larger and shows up to 99,999 in full
 - **Tap a ring** to open the matching app, tap the weather for the forecast

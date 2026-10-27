@@ -179,3 +179,14 @@ test('on a Zepp OS 3 watch there is no padel ring and the lime color is called L
   await build({ lang: 'de' })
   assert.equal(group(EDIT.color).props.optional_types.find((t) => t.type === 100007).title_en, 'Padel')
 })
+
+test('phone not connected: a gray system status icon top center', async () => {
+  await build()
+  const st = zos.widgets.filter((w) => w.type === 'IMG_STATUS')
+  assert.deepEqual(
+    st.map((w) => [w.props.type, w.props.src]),
+    [['disconnect', 'icon/status_phone.png']],
+  )
+  assert.equal(st[0].props.x + 9, 195, 'centered')
+  assert.ok(st[0].props.y + 20 < 40, 'above the date and battery')
+})
