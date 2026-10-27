@@ -13,7 +13,12 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 - **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
   and a tap on it opens [Padel Punto](https://github.com/fat-toni/PadelPunto).
   Without Padel Punto on the watch, the tap shows where to get it: "Padel Punto – in the Zepp App Store".
-- **Padel color:** a seventh accent color, the ball lime of Padel Punto.
+- **Padel color:** a new accent color, the ball lime of Padel Punto.
+
+### 🎨 Changed
+
+- **Stronger colors:** Mint, Ice blue, Amber, Rose and Lavender are as vivid as the padel lime now.
+- **Silver is gone:** next to the white hours it hardly stood out. If you had it picked, ORBIT switches to Mint.
 
 ## 1.0.1 · 2026-10-26
 

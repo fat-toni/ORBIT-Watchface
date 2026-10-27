@@ -25,15 +25,18 @@ FONT = os.path.join(ROOT, 'tools', 'fonts', 'Sora.ttf')
 SIZES = os.path.join(ROOT, 'watchface', 'sizes.js')
 
 # Accent colors of the editor, the first one is the default. The order is the order in the editor.
+# Accent colors, about as strong as the padel lime since 1.1.0. The number of each color is its editor type
+# (see COLOR_TYPE in watchface/lib/editor.js) and never changes; 5 was Silver until 1.0.1, so a watch that
+# had it picked falls back to Mint.
 COLORS = [
-    ('mint', (112, 192, 152)),  # 0x70c098, a tick darker than VOLT's 0x7ed6aa
-    ('ice', (111, 179, 224)),
-    ('amber', (224, 168, 88)),
-    ('rose', (224, 138, 168)),
-    ('lavender', (165, 155, 224)),
-    ('silver', (196, 200, 204)),
+    ('mint', (76, 237, 157)),  # 0x4ced9d
+    ('ice', (76, 173, 237)),
+    ('amber', (237, 171, 76)),
+    ('rose', (237, 76, 132)),
+    ('lavender', (130, 110, 245)),
     ('padel', (212, 245, 60)),  # 0xd4f53c, the ball lime of Padel Punto (utils/theme.js)
 ]
+COLOR_NUMBERS = {'mint': 0, 'ice': 1, 'amber': 2, 'rose': 3, 'lavender': 4, 'padel': 6}
 MINT = COLORS[0][1]
 WHITE = (245, 245, 245)
 LIGHT = (218, 220, 222)
@@ -41,7 +44,7 @@ GRAY = (150, 154, 158)
 DIM = (70, 76, 80)  # rings and frames in the editor previews
 RED = (232, 86, 76)  # battery below 5 %
 AOD_WHITE = (120, 122, 124)
-AOD_MINT = (66, 116, 92)
+AOD_MINT = (46, 142, 94)  # mint at 60 %
 MARK = (255, 0, 255)  # stands for the accent color while drawing the weather icons
 
 S = 4  # icons are drawn 4x larger and scaled down for smooth edges
@@ -641,7 +644,7 @@ def clean():
 
 
 def write_sizes():
-    sizes['colors'] = [[key, (col[0] << 16) | (col[1] << 8) | col[2]] for key, col in COLORS]
+    sizes['colors'] = [[key, (col[0] << 16) | (col[1] << 8) | col[2], COLOR_NUMBERS[key]] for key, col in COLORS]
     # Every language in its own small file (lang/<code>.json); the watchface reads only the one of the watch,
     # so the words of the other languages never take up memory. ASCII with \u escapes, the watch reads bytes.
     # sizes.js only knows which watch language code belongs to which file, and English as a fallback.

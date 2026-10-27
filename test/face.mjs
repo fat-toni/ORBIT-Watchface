@@ -33,7 +33,7 @@ const EDIT_TYPE = {
   padel: 100120,
 }
 
-// Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: 0-5, rings: [kind x3],
+// Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: index in SIZES.colors, rings: [kind x3],
 // date: 0-2, row: 'day'|'city'|'empty', city: name of the forecast, now: {...}, values: {...}, edit: {...raw editor choices} }
 export async function build(o = {}) {
   resetZos()
@@ -43,7 +43,7 @@ export async function build(o = {}) {
   if (o.city !== undefined) zos.city = o.city
   if (o.now) Object.assign(zos.now, o.now)
   if (o.values) Object.assign(zos.values, o.values)
-  if (o.color !== undefined) zos.edit[EDIT.color] = TYPE.color + o.color
+  if (o.color !== undefined) zos.edit[EDIT.color] = TYPE.color + SIZES.colors[o.color][2]
   if (o.rings) o.rings.forEach((k, i) => (zos.edit[EDIT.rings[i]] = k === 'empty' ? TYPE.empty : EDIT_TYPE[k]))
   if (o.date !== undefined) zos.edit[EDIT.date] = TYPE.date + o.date
   if (o.row) zos.edit[EDIT.row] = TYPE.row[o.row]

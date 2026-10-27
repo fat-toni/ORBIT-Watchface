@@ -4,7 +4,7 @@ import { SIZES } from '../sizes'
 import { W, SIDE, TOP_Y, TIME_Y, DAY_Y, RING_Y, SLOTS, KINDS, KIND } from './layout'
 
 // Own editor types (the editor allows numbers from 100000 for these).
-const COLOR_TYPE = 100001 // + index in SIZES.colors
+const COLOR_TYPE = 100001 // + the number of the color (third entry in SIZES.colors)
 const RING_EMPTY = 100100
 const DATE_TYPE = 100201 // + date style 0-2, see 'dates' in tools/langs.json
 const DATE_STYLES = 3
@@ -49,11 +49,12 @@ export function readEditor(f) {
   const et = hmUI.edit_type || {}
 
   const colors = SIZES.colors.map((c, i) => ({
-    type: COLOR_TYPE + i,
+    type: COLOR_TYPE + c[2],
     preview: `c/${c[0]}/edit.png`,
     title: T.colors[i],
   }))
-  const ci = editGroup(101, 30, TIME_Y - 7, 'color', COLOR_TYPE, colors, true) - COLOR_TYPE
+  const picked = editGroup(101, 30, TIME_Y - 7, 'color', COLOR_TYPE, colors, true)
+  const ci = colors.findIndex((c) => c.type === picked)
   const color = { dir: `c/${SIZES.colors[ci][0]}/`, hex: SIZES.colors[ci][1] }
 
   // ring contents; a type the firmware does not know is left out

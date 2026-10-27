@@ -7,9 +7,9 @@ import { build, imgs, rings, shown, editGroups, words, EDIT, TYPE, SIZES } from 
 const zos = globalThis.zos
 const group = (id) => editGroups().find((g) => g.props.edit_id === id)
 
-test('the editor offers 7 colors, 11 ring contents, 3 date styles and 3 rows', async () => {
+test('the editor offers 6 colors, 11 ring contents, 3 date styles and 3 rows', async () => {
   await build()
-  assert.equal(group(EDIT.color).props.count, 7)
+  assert.equal(group(EDIT.color).props.count, 6)
   for (const id of EDIT.rings) assert.equal(group(id).props.count, 11)
   assert.equal(group(EDIT.date).props.count, 3)
   assert.equal(group(EDIT.row).props.count, 3)
@@ -25,7 +25,7 @@ test('titles in the language of the watch', async () => {
   await build({ lang: 'de' })
   assert.deepEqual(
     group(EDIT.color).props.optional_types.map((t) => t.title_en),
-    ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Silber', 'Padel'],
+    ['Mint', 'Eisblau', 'Bernstein', 'Rosé', 'Lavendel', 'Padel'],
   )
   await build({ lang: 'en' })
   assert.deepEqual(
@@ -148,4 +148,11 @@ test('a tap on the padel ring without Padel Punto shows where to get it', async 
   tap.on.up()
   assert.equal(zos.launched, undefined)
   assert.equal(zos.toast, 'Padel Punto \u2013 im Zepp App Store')
+})
+
+test('Silver, picked before 1.1.0, falls back to Mint; Padel keeps its type', async () => {
+  await build({ edit: { [EDIT.color]: TYPE.color + 5 } })
+  assert.ok(imgs(/num\/time_m_/).every((w) => w.props.src.startsWith('c/mint/')))
+  const types = group(EDIT.color).props.optional_types.map((t) => t.type)
+  assert.deepEqual(types, [100001, 100002, 100003, 100004, 100005, 100007])
 })

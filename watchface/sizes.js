@@ -55,31 +55,33 @@ export const SIZES = {
   "colors": [
     [
       "mint",
-      7389336
+      5041565,
+      0
     ],
     [
       "ice",
-      7320544
+      5025261,
+      1
     ],
     [
       "amber",
-      14723160
+      15575884,
+      2
     ],
     [
       "rose",
-      14715560
+      15551620,
+      3
     ],
     [
       "lavender",
-      10853344
-    ],
-    [
-      "silver",
-      12896460
+      8548085,
+      4
     ],
     [
       "padel",
-      13956412
+      13956412,
+      6
     ]
   ],
   "edit": {
@@ -277,7 +279,6 @@ export const SIZES = {
         "Amber",
         "Rose",
         "Lavender",
-        "Silver",
         "Padel"
       ],
       "dates": [

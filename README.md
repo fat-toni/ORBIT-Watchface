@@ -3,10 +3,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fat-toni/ORBIT-Watchface/releases/latest"><img src="https://img.shields.io/github/v/release/fat-toni/ORBIT-Watchface?label=download&color=70c098&labelColor=23272c&style=for-the-badge" alt="Download the latest version"></a>
-  <img src="https://img.shields.io/badge/Amazfit-Bip%206%20%C2%B7%20Active%202%20Square-70c098?labelColor=23272c&style=for-the-badge" alt="Amazfit Bip 6 and Active 2 (Square)">
-  <img src="https://img.shields.io/badge/Zepp%20OS-4%2B-70c098?labelColor=23272c&style=for-the-badge" alt="Zepp OS 4+">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-70c098?labelColor=23272c&style=for-the-badge" alt="GPL-3.0 License"></a>
+  <a href="https://github.com/fat-toni/ORBIT-Watchface/releases/latest"><img src="https://img.shields.io/github/v/release/fat-toni/ORBIT-Watchface?label=download&color=4ced9d&labelColor=23272c&style=for-the-badge" alt="Download the latest version"></a>
+  <img src="https://img.shields.io/badge/Amazfit-Bip%206%20%C2%B7%20Active%202%20Square-4ced9d?labelColor=23272c&style=for-the-badge" alt="Amazfit Bip 6 and Active 2 (Square)">
+  <img src="https://img.shields.io/badge/Zepp%20OS-4%2B-4ced9d?labelColor=23272c&style=for-the-badge" alt="Zepp OS 4+">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-4ced9d?labelColor=23272c&style=for-the-badge" alt="GPL-3.0 License"></a>
 </p>
 
 <p align="center">
@@ -30,14 +30,14 @@
   <img src="docs/images/watch/editor.png" alt="The watchface editor of ORBIT" width="300">
 </p>
 
-## 🎨 Seven colors
+## 🎨 Six colors
 
 Everything that glows mint in the default look – the minutes, the rings, the icons and the battery – takes the color
-you pick: **Mint, Ice blue, Amber, Rose, Lavender, Silver or Padel** – the ball lime of
+you pick: **Mint, Ice blue, Amber, Rose, Lavender or Padel** – the ball lime of
 [Padel Punto](https://github.com/fat-toni/PadelPunto).
 
 <p align="center">
-  <img src="docs/images/watch/colors.png" alt="ORBIT in all seven accent colors">
+  <img src="docs/images/watch/colors.png" alt="ORBIT in all six accent colors">
 </p>
 
 ## ✨ Features
@@ -54,7 +54,7 @@ you pick: **Mint, Ice blue, Amber, Rose, Lavender, Silver or Padel** – the bal
 
 **✏️ In the editor** (long-press the watchface, then the pencil)
 
-- **Accent color:** seven colors
+- **Accent color:** six colors
 - **Each ring:** steps, heart rate, calories, battery, distance (km or miles, as set on the watch), PAI, stand,
   SpO₂, stress, a racket that opens [Padel Punto](https://github.com/fat-toni/PadelPunto) – or empty
 - **Date:** long (“26 OCTOBER”), with the weekday (“MON 26 OCT”) or in numbers (“10/26/2026”)
