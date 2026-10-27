@@ -25,11 +25,13 @@
     "store": "in the Zepp App Store",
     "titles": {
       "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Padel"],
+      "lime": "Lime",
       "empty": "Empty",
       "dates": ["Long date", "With weekday", "Numbers"],
       "day": "Weekday",
       "city": "Location",
-      "pai": "PAI (week)"
+      "pai": "PAI (week)",
+      "music": "Music"
     }
   },
   "de": {
@@ -49,11 +51,13 @@
     "store": "im Zepp App Store",
     "titles": {
       "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Padel"],
+      "lime": "Limette",
       "empty": "Leer",
       "dates": ["Datum lang", "Mit Wochentag", "Zahlen"],
       "day": "Wochentag",
       "city": "Standort",
-      "pai": "PAI (Woche)"
+      "pai": "PAI (Woche)",
+      "music": "Musik"
     }
   },
   "es": {
@@ -73,11 +77,13 @@
     "store": "en la Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Padel"],
+      "lime": "Lima",
       "empty": "Vacío",
       "dates": ["Fecha larga", "Con día", "Números"],
       "day": "Día de la semana",
       "city": "Ubicación",
-      "pai": "PAI (semana)"
+      "pai": "PAI (semana)",
+      "music": "Música"
     }
   },
   "fr": {
@@ -97,11 +103,13 @@
     "store": "dans le Zepp App Store",
     "titles": {
       "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Padel"],
+      "lime": "Citron vert",
       "empty": "Vide",
       "dates": ["Date longue", "Avec le jour", "Chiffres"],
       "day": "Jour",
       "city": "Lieu",
-      "pai": "PAI (semaine)"
+      "pai": "PAI (semaine)",
+      "music": "Musique"
     }
   },
   "it": {
@@ -121,11 +129,13 @@
     "store": "nello Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Padel"],
+      "lime": "Lime",
       "empty": "Vuoto",
       "dates": ["Data lunga", "Con il giorno", "Numeri"],
       "day": "Giorno",
       "city": "Località",
-      "pai": "PAI (settimana)"
+      "pai": "PAI (settimana)",
+      "music": "Musica"
     }
   },
   "pt": {
@@ -145,11 +155,13 @@
     "store": "na Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Padel"],
+      "lime": "Lima",
       "empty": "Vazio",
       "dates": ["Data longa", "Com o dia", "Números"],
       "day": "Dia da semana",
       "city": "Localização",
-      "pai": "PAI (semana)"
+      "pai": "PAI (semana)",
+      "music": "Música"
     }
   },
   "nl": {
@@ -169,11 +181,13 @@
     "store": "in de Zepp App Store",
     "titles": {
       "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Padel"],
+      "lime": "Limoen",
       "empty": "Leeg",
       "dates": ["Lange datum", "Met weekdag", "Cijfers"],
       "day": "Weekdag",
       "city": "Locatie",
-      "pai": "PAI (week)"
+      "pai": "PAI (week)",
+      "music": "Muziek"
     }
   },
   "ca": {
@@ -193,11 +207,13 @@
     "store": "a la Zepp App Store",
     "titles": {
       "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Padel"],
+      "lime": "Llima",
       "empty": "Buit",
       "dates": ["Data llarga", "Amb el dia", "Números"],
       "day": "Dia de la setmana",
       "city": "Ubicació",
-      "pai": "PAI (setmana)"
+      "pai": "PAI (setmana)",
+      "music": "Música"
     }
   },
   "da": {
@@ -217,11 +233,13 @@
     "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Padel"],
+      "lime": "Lime",
       "empty": "Tom",
       "dates": ["Lang dato", "Med ugedag", "Tal"],
       "day": "Ugedag",
       "city": "Sted",
-      "pai": "PAI (uge)"
+      "pai": "PAI (uge)",
+      "music": "Musik"
     }
   },
   "sv": {
@@ -241,11 +259,13 @@
     "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Padel"],
+      "lime": "Lime",
       "empty": "Tom",
       "dates": ["Långt datum", "Med veckodag", "Siffror"],
       "day": "Veckodag",
       "city": "Plats",
-      "pai": "PAI (vecka)"
+      "pai": "PAI (vecka)",
+      "music": "Musik"
     }
   },
   "nb": {
@@ -265,11 +285,13 @@
     "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Padel"],
+      "lime": "Lime",
       "empty": "Tom",
       "dates": ["Lang dato", "Med ukedag", "Tall"],
       "day": "Ukedag",
       "city": "Sted",
-      "pai": "PAI (uke)"
+      "pai": "PAI (uke)",
+      "music": "Musikk"
     }
   },
   "fi": {
@@ -289,11 +311,13 @@
     "store": "Zepp App Storessa",
     "titles": {
       "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Padel"],
+      "lime": "Lime",
       "empty": "Tyhjä",
       "dates": ["Pitkä päiväys", "Viikonpäivällä", "Numerot"],
       "day": "Viikonpäivä",
       "city": "Sijainti",
-      "pai": "PAI (viikko)"
+      "pai": "PAI (viikko)",
+      "music": "Musiikki"
     }
   },
   "pl": {
@@ -313,11 +337,13 @@
     "store": "w Zepp App Store",
     "titles": {
       "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Padel"],
+      "lime": "Limonka",
       "empty": "Puste",
       "dates": ["Długa data", "Z dniem tygodnia", "Cyfry"],
       "day": "Dzień tygodnia",
       "city": "Lokalizacja",
-      "pai": "PAI (tydzień)"
+      "pai": "PAI (tydzień)",
+      "music": "Muzyka"
     }
   },
   "cs": {
@@ -337,11 +363,13 @@
     "store": "v obchodě Zepp App Store",
     "titles": {
       "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Padel"],
+      "lime": "Limetka",
       "empty": "Prázdné",
       "dates": ["Dlouhé datum", "S dnem v týdnu", "Čísla"],
       "day": "Den v týdnu",
       "city": "Místo",
-      "pai": "PAI (týden)"
+      "pai": "PAI (týden)",
+      "music": "Hudba"
     }
   },
   "sk": {
@@ -361,11 +389,13 @@
     "store": "v obchode Zepp App Store",
     "titles": {
       "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Padel"],
+      "lime": "Limetka",
       "empty": "Prázdne",
       "dates": ["Dlhý dátum", "S dňom v týždni", "Čísla"],
       "day": "Deň v týždni",
       "city": "Miesto",
-      "pai": "PAI (týždeň)"
+      "pai": "PAI (týždeň)",
+      "music": "Hudba"
     }
   },
   "hu": {
@@ -385,11 +415,13 @@
     "store": "a Zepp App Store-ban",
     "titles": {
       "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Padel"],
+      "lime": "Lime",
       "empty": "Üres",
       "dates": ["Hosszú dátum", "A nappal", "Számok"],
       "day": "A hét napja",
       "city": "Helyszín",
-      "pai": "PAI (hét)"
+      "pai": "PAI (hét)",
+      "music": "Zene"
     }
   },
   "ro": {
@@ -409,11 +441,13 @@
     "store": "în Zepp App Store",
     "titles": {
       "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Padel"],
+      "lime": "Lime",
       "empty": "Gol",
       "dates": ["Dată lungă", "Cu ziua", "Cifre"],
       "day": "Ziua săptămânii",
       "city": "Locație",
-      "pai": "PAI (săptămână)"
+      "pai": "PAI (săptămână)",
+      "music": "Muzică"
     }
   },
   "sr": {
@@ -433,11 +467,13 @@
     "store": "u Zepp App Store-u",
     "titles": {
       "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Padel"],
+      "lime": "Limeta",
       "empty": "Prazno",
       "dates": ["Dugi datum", "Sa danom", "Brojevi"],
       "day": "Dan u nedelji",
       "city": "Lokacija",
-      "pai": "PAI (nedelja)"
+      "pai": "PAI (nedelja)",
+      "music": "Muzika"
     }
   },
   "tr": {
@@ -457,11 +493,13 @@
     "store": "Zepp App Store'da",
     "titles": {
       "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Padel"],
+      "lime": "Misket limonu",
       "empty": "Boş",
       "dates": ["Uzun tarih", "Gün adıyla", "Rakamlar"],
       "day": "Haftanın günü",
       "city": "Konum",
-      "pai": "PAI (hafta)"
+      "pai": "PAI (hafta)",
+      "music": "Müzik"
     }
   }
 }

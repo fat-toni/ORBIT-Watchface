@@ -10,9 +10,13 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 
 ### ✨ New
 
+- **Three more watches:** Amazfit GTS 4, Active and Cheetah (Square) – same screen, Zepp OS 3 or newer. There is no
+  Padel Punto for Zepp OS 3, so on these the padel ring is left out and its color is called Lime. Tested on the GTS 4
+  in the simulator.
 - **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
   and a tap on it opens [Padel Punto](https://github.com/fat-toni/PadelPunto).
   Without Padel Punto on the watch, the tap shows where to get it: "Padel Punto – in the Zepp App Store".
+- **Music ring:** a note that opens the music player.
 - **Padel color:** a new accent color, the ball lime of Padel Punto.
 
 ### 🎨 Changed

@@ -1,6 +1,6 @@
 // Builds the real watchface on the simulated Bip 6 (test/mock/zos.mjs) and reads back what it drew.
 import { readFileSync, existsSync } from 'node:fs'
-import { resetZos } from './mock/zos.mjs'
+import { resetZos, setApi3 } from './mock/zos.mjs'
 import { SIZES } from '../watchface/sizes.js'
 
 export { SIZES }
@@ -31,12 +31,14 @@ const EDIT_TYPE = {
   spo2: 207,
   stress: 208,
   padel: 100120,
+  music: 100122,
 }
 
 // Builds the watchface. o: { lang: 'de', 'en', 'fr' ... (default English), hour12, imperial, color: index in SIZES.colors, rings: [kind x3],
-// date: 0-2, row: 'day'|'city'|'empty', city: name of the forecast, now: {...}, values: {...}, edit: {...raw editor choices} }
+// api3: a Zepp OS 3 watch, date: 0-2, row: 'day'|'city'|'empty', city: name of the forecast, now: {...}, values: {...}, edit: {...raw editor choices} }
 export async function build(o = {}) {
   resetZos()
+  setApi3(!!o.api3)
   zos.language = Number(Object.keys(SIZES.langCodes).find((c) => SIZES.langCodes[c] === (o.lang || 'en')))
   zos.hour12 = !!o.hour12
   zos.imperial = !!o.imperial

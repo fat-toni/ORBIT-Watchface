@@ -131,6 +131,7 @@ with open(os.path.join(ROOT, 'tools', 'langs.json'), encoding='utf-8') as f:
 UNITS = {
     'step': 'STEPS', 'heart': 'BPM', 'cal': 'KCAL', 'battery': 'BATT', 'km': 'KM', 'mi': 'MI',
     'pai': 'PAI', 'stand': 'STAND', 'spo2': 'SPO2', 'stress': 'STRESS', 'padel': 'PADEL',
+    'music': 'MUSIC',
 }
 
 DATE_TRACK = 3
@@ -290,6 +291,20 @@ def _racket(d, col):
                 d.ellipse((x - 0.95 * S, y - 0.95 * S, x + 0.95 * S, y + 0.95 * S), fill=(0, 0, 0, 0))
 
 
+def _note(d, col):
+    # two beamed eighth notes
+    def head(cx, cy):
+        pts = [(math.cos(t) * 5.6, math.sin(t) * 4.2) for t in (2 * math.pi * k / 48 for k in range(48))]
+        c, s = math.cos(-0.45), math.sin(-0.45)
+        d.polygon([((cx + x * c - y * s) * S, (cy + x * s + y * c) * S) for x, y in pts], fill=col)
+
+    head(10, 33)
+    head(29, 29)
+    d.rectangle((14 * S, 8 * S, 17 * S, 33 * S), fill=col)
+    d.rectangle((33 * S, 4 * S, 36 * S, 29 * S), fill=col)
+    d.polygon([(14 * S, 8 * S), (36 * S, 2 * S), (36 * S, 9 * S), (14 * S, 15 * S)], fill=col)
+
+
 RING_ICONS = {
     'step': (26, 26, _footprints),
     'heart': (26, 24, _heart),
@@ -301,7 +316,10 @@ RING_ICONS = {
     'spo2': (20, 26, _drop),
     'stress': (28, 20, _gauge),
     'padel': (40, 42, _racket),
+    'music': (40, 42, _note),
 }
+# rings without a value that only open an app: the icon sits larger in the middle
+APP_RINGS = ('padel', 'music')
 
 
 def ring_icon(name, col):
@@ -469,7 +487,7 @@ EDIT = {
     'date': (250, 36),
 }
 TIPS_W, TIPS_H = 190, 34
-RING_PREVIEW = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'padel', 'empty']
+RING_PREVIEW = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'padel', 'music', 'empty']
 SAMPLE = {'wd': 0, 'day': 26, 'mon': 9, 'year': 2026}  # Monday, 26 October 2026
 DATE_STYLES = 3  # see 'dates' in tools/langs.json
 
@@ -507,7 +525,7 @@ def ring_previews():
             else:
                 d.ellipse(box, outline=DIM, width=6 * S)
             out = small(img, w, h)
-            if kind == 'padel':  # no value, the racket sits larger in the middle
+            if kind in APP_RINGS:  # no value, the icon sits larger in the middle
                 icon = ring_icon(kind, LIGHT)
                 paste_center(out, icon, w / 2, h / 2 - 7)
                 paste_center(out, text_img(UNITS[kind], f_cap, GRAY, 2), w / 2, h / 2 + 24)

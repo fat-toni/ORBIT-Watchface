@@ -145,6 +145,10 @@ export const SIZES = {
       26,
       24
     ],
+    "music": [
+      40,
+      42
+    ],
     "padel": [
       40,
       42
@@ -288,6 +292,8 @@ export const SIZES = {
       ],
       "day": "Weekday",
       "empty": "Empty",
+      "lime": "Lime",
+      "music": "Music",
       "pai": "PAI (week)"
     }
   },
@@ -673,6 +679,7 @@ export const SIZES = {
     "heart": "BPM",
     "km": "KM",
     "mi": "MI",
+    "music": "MUSIC",
     "padel": "PADEL",
     "pai": "PAI",
     "spo2": "SPO2",

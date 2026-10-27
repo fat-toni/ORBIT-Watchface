@@ -9,7 +9,7 @@
 import * as hmUI from '@zos/ui'
 import { getLanguage, getTimeFormat, getDistanceUnit, TIME_FORMAT_12, DISTANCE_UNIT_IMPERIAL } from '@zos/settings'
 import { getProfile } from '@zos/user'
-import { SYSTEM_APP_STATUS, SYSTEM_APP_HR, SYSTEM_APP_WEATHER } from '@zos/router'
+import { SYSTEM_APP_STATUS, SYSTEM_APP_HR, SYSTEM_APP_WEATHER, SYSTEM_APP_MUSIC } from '@zos/router'
 import {
   Time,
   Battery,
@@ -25,7 +25,7 @@ import {
 } from '@zos/sensor'
 import { SIZES } from './sizes'
 import * as L from './lib/layout'
-import { KIND } from './lib/layout'
+import { KIND, APP_RINGS } from './lib/layout'
 import {
   NORMAL,
   FONT,
@@ -203,7 +203,7 @@ WatchFace({
     // --- rings: icon above the value, unit below; an empty ring draws nothing ---
     this.slots.forEach((s) => {
       if (s.kind === 'empty') return
-      if (s.kind === 'padel') return this.padelRing(s, C)
+      if (APP_RINGS.includes(s.kind)) return this.appRing(s, C)
       const h = SIZES[s.set].h
       const valY = L.RING_Y - Math.round((h - SIZES.val.h) / 2)
       const [iw, ih] = SIZES.icons[s.kind]
@@ -236,11 +236,12 @@ WatchFace({
     })
   },
 
-  // Padel ring: full ring with a racket in the middle and PADEL under it, a tap opens Padel Punto.
-  padelRing(s, C) {
-    const [iw, ih] = SIZES.icons.padel
+  // Ring without a value: full ring with a large icon and its name under it, a tap opens the app
+  // (Padel Punto or the music player).
+  appRing(s, C) {
+    const [iw, ih] = SIZES.icons[s.kind]
     ring(s.x, L.RING_Y, s.r, C.hex)(1)
-    img(s.x - Math.round(iw / 2), L.RING_Y - 7 - Math.round(ih / 2), `${C.dir}icon/padel.png`)
+    img(s.x - Math.round(iw / 2), L.RING_Y - 7 - Math.round(ih / 2), `${C.dir}icon/${s.kind}.png`)
     setText(
       label({
         x: s.x - s.r,
@@ -253,10 +254,12 @@ WatchFace({
         font: FONT_SB,
         align_h: hmUI.align.CENTER_H,
       }),
-      SIZES.units.padel,
+      SIZES.units[s.kind],
     )
+    const box = [s.x - s.r, L.RING_Y - s.r, 2 * s.r, 2 * s.r]
+    if (s.kind === 'music') return tapArea(...box, SYSTEM_APP_MUSIC)
     const k = KIND.padel
-    tapArea(s.x - s.r, L.RING_Y - s.r, 2 * s.r, 2 * s.r, k.app, k.page, `${k.title} \u2013 ${this.f.store}`)
+    tapArea(...box, k.app, k.page, `${k.title} \u2013 ${this.f.store}`)
   },
 
   startSensors() {
@@ -451,7 +454,7 @@ WatchFace({
   // all rings, or only those showing kind
   updateRings(kind) {
     this.slots.forEach((s) => {
-      if (s.kind === 'empty' || s.kind === 'padel' || (kind && s.kind !== kind)) return
+      if (s.kind === 'empty' || APP_RINGS.includes(s.kind) || (kind && s.kind !== kind)) return
       const { items, part } = this.readRing(s.kind, s.set === 'big')
       s.value.draw(items, s.x, 'center')
       s.arc(part)

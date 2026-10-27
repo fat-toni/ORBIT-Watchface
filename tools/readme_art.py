@@ -150,11 +150,11 @@ def banner(shots):
     d.text((84, 400), 'Digital watchface for Amazfit', font=font(25, 'Light'), fill=MUTED)
     f = font(19, 'Regular')
     x = pill(d, 84, 455, '6 accent colors', f)
-    x = pill(d, x, 455, '10 ring contents', f)
+    x = pill(d, x, 455, '11 ring contents', f)
     pill(d, x, 455, 'Weather', f)
     x = pill(d, 84, 505, '19 languages', f)
     pill(d, x, 505, 'Free & open source', f)
-    d.text((84, 590), 'Amazfit Bip 6 · Active 2 (Square) · Zepp OS 4+', font=font(18, 'Regular'), fill=(92, 98, 104))
+    d.text((84, 590), 'Bip 6 · Active 2 (Square) · GTS 4 · Active · Cheetah (Square) · Zepp OS 3+', font=font(18, 'Regular'), fill=(92, 98, 104))
     img.convert('RGB').save(os.path.join(IMAGES, 'banner.png'), optimize=True)
 
 

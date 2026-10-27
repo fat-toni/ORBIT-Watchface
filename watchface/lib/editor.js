@@ -1,7 +1,12 @@
 // The watchface editor: the editable areas and what the user picked in them.
 import * as hmUI from '@zos/ui'
+import { getPackageInfoById } from '@zos/app'
 import { SIZES } from '../sizes'
 import { W, SIDE, TOP_Y, TIME_Y, DAY_Y, RING_Y, SLOTS, KINDS, KIND } from './layout'
+
+// Zepp OS 4 (API 4.0) or newer: only there Padel Punto can be installed, so only there the padel ring
+// is offered and the lime color is called "Padel" (getPackageInfoById is new in API 4.0).
+export const API4 = () => typeof getPackageInfoById === 'function'
 
 // Own editor types (the editor allows numbers from 100000 for these).
 const COLOR_TYPE = 100001 // + the number of the color (third entry in SIZES.colors)
@@ -51,7 +56,7 @@ export function readEditor(f) {
   const colors = SIZES.colors.map((c, i) => ({
     type: COLOR_TYPE + c[2],
     preview: `c/${c[0]}/edit.png`,
-    title: T.colors[i],
+    title: c[0] === 'padel' && !API4() ? T.lime : T.colors[i],
   }))
   const picked = editGroup(101, 30, TIME_Y - 7, 'color', COLOR_TYPE, colors, true)
   const ci = colors.findIndex((c) => c.type === picked)
@@ -63,7 +68,9 @@ export function readEditor(f) {
       ? SLOTS.map((s) => ({ ...s, kind: s.def }))
       : SLOTS.map((s) => {
           const [w, h] = SIZES.edit[s.size]
-          const options = KINDS.filter((k) => KIND[k].own || et[KIND[k].edit] !== undefined).map((k) => ({
+          const options = KINDS.filter(
+            (k) => (KIND[k].own || et[KIND[k].edit] !== undefined) && (k !== 'padel' || API4()),
+          ).map((k) => ({
             type: KIND[k].own || et[KIND[k].edit],
             preview: `edit/${s.size}_${k}.png`,
             title: KIND[k].own ? KIND[k].title || T[k] : undefined,

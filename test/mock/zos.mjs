@@ -115,10 +115,14 @@ export const getProfile = () => ({ age: zos.age, gender: 0 })
 export const SYSTEM_APP_STATUS = 'status'
 export const SYSTEM_APP_HR = 'hr'
 export const SYSTEM_APP_WEATHER = 'weather'
+export const SYSTEM_APP_MUSIC = 'music'
 export const launchApp = (o) => (zos.launched = o)
 
 // ---- @zos/app, @zos/interaction ----
-export const getPackageInfoById = ({ appId }) => (zos.apps.includes(appId) ? { appId, name: 'app' } : undefined)
+const packageInfo = ({ appId }) => (zos.apps.includes(appId) ? { appId, name: 'app' } : undefined)
+// a live binding: undefined on a simulated Zepp OS 3 watch (setApi3), as there the function does not exist
+export let getPackageInfoById = packageInfo
+export const setApi3 = (on) => (getPackageInfoById = on ? undefined : packageInfo)
 export const showToast = (o) => (zos.toast = o.content)
 
 // ---- @zos/sensor ----

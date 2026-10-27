@@ -7,10 +7,10 @@ import { build, imgs, rings, shown, editGroups, words, EDIT, TYPE, SIZES } from 
 const zos = globalThis.zos
 const group = (id) => editGroups().find((g) => g.props.edit_id === id)
 
-test('the editor offers 6 colors, 11 ring contents, 3 date styles and 3 rows', async () => {
+test('the editor offers 6 colors, 12 ring contents, 3 date styles and 3 rows', async () => {
   await build()
   assert.equal(group(EDIT.color).props.count, 6)
-  for (const id of EDIT.rings) assert.equal(group(id).props.count, 11)
+  for (const id of EDIT.rings) assert.equal(group(id).props.count, 12)
   assert.equal(group(EDIT.date).props.count, 3)
   assert.equal(group(EDIT.row).props.count, 3)
   for (const g of editGroups()) {
@@ -155,4 +155,27 @@ test('Silver, picked before 1.1.0, falls back to Mint; Padel keeps its type', as
   assert.ok(imgs(/num\/time_m_/).every((w) => w.props.src.startsWith('c/mint/')))
   const types = group(EDIT.color).props.optional_types.map((t) => t.type)
   assert.deepEqual(types, [100001, 100002, 100003, 100004, 100005, 100007])
+})
+
+test('the music ring shows a note, no value, and a tap opens the music player', async () => {
+  await build({ rings: ['empty', 'music', 'empty'], lang: 'de' })
+  assert.equal(imgs(/^c\/mint\/icon\/music\.png$/).length, 1)
+  assert.equal(rings().length, 1)
+  const tap = zos.widgets.find((w) => w.on && w.on.up && w.props.src === 'icon/hit.png' && w.props.w === 128)
+  tap.on.up()
+  assert.deepEqual(zos.launched, { appId: 'music', native: true })
+  const t = group(EDIT.rings[1]).props.optional_types.find((o) => o.type === 100122)
+  assert.equal(t.title_en, 'Musik')
+})
+
+test('on a Zepp OS 3 watch there is no padel ring and the lime color is called Limette', async () => {
+  await build({ api3: true, lang: 'de' })
+  const colors = group(EDIT.color).props.optional_types
+  assert.equal(colors.find((t) => t.type === 100007).title_en, 'Limette')
+  for (const id of EDIT.rings) {
+    assert.equal(group(id).props.count, 11)
+    assert.ok(!group(id).props.optional_types.some((t) => t.type === 100120))
+  }
+  await build({ lang: 'de' })
+  assert.equal(group(EDIT.color).props.optional_types.find((t) => t.type === 100007).title_en, 'Padel')
 })
