@@ -1,7 +1,7 @@
 {
   "name": "orbit-watchface",
   "version": "1.1.0",
-  "description": "ORBIT: calm digital watchface for the Amazfit Bip 6 and Active 2 Square (Zepp OS)",
+  "description": "ORBIT: calm digital watchface for square Amazfit watches with Zepp OS 3+ (Bip 6, Active 2 Square, GTS 4, Active, Cheetah Square)",
   "main": "app.js",
   "type": "module",
   "scripts": {

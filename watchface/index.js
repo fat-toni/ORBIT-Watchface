@@ -1,4 +1,4 @@
-// ORBIT: digital watchface for the Bip 6 (390x450). Date and battery on top, hours white and minutes in
+// ORBIT: digital watchface for square Zepp OS 3+ watches with a 390x450 screen (Bip 6, GTS 4 ...). Date and battery on top, hours white and minutes in
 // the accent color, the weekday, the weather (icon, temperature, high and low of the day) and
 // three rings. In the watchface editor the accent color, the content of each ring, the date style and
 // the row under the time (weekday, location or nothing) can be chosen.

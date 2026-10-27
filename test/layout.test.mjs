@@ -17,6 +17,7 @@ import {
   LANGS,
   W,
   H,
+  SIZES,
 } from './face.mjs'
 
 const zos = globalThis.zos
@@ -61,7 +62,7 @@ function check(label) {
 
 test('every color, date style, row, language and time format', async () => {
   let n = 0
-  for (let color = 0; color < 6; color++)
+  for (let color = 0; color < SIZES.colors.length; color++)
     for (let date = 0; date < 3; date++)
       for (const row of ['day', 'city', 'empty'])
         for (const lang of LANGS)
@@ -72,7 +73,7 @@ test('every color, date style, row, language and time format', async () => {
             check(JSON.stringify({ color, date, row, lang, hour12 }))
             n++
           }
-  assert.equal(n, 6 * 3 * 3 * LANGS.length * 2)
+  assert.equal(n, SIZES.colors.length * 3 * 3 * LANGS.length * 2)
 })
 
 test('every ring content in every ring, with its longest value', async () => {
@@ -91,8 +92,13 @@ test('random full combinations with the longest values', async () => {
   let seed = 7
   const rnd = (n) => ((seed = (seed * 1103515245 + 12345) % 2 ** 31), seed % n)
   for (let i = 0; i < 300; i++) {
-    const kinds = [KINDS[rnd(10)], KINDS[rnd(10)], KINDS[rnd(10)]]
-    const o = { color: rnd(6), date: rnd(3), row: ['day', 'city', 'empty'][rnd(3)], lang: LANGS[rnd(LANGS.length)] }
+    const kinds = [KINDS[rnd(KINDS.length)], KINDS[rnd(KINDS.length)], KINDS[rnd(KINDS.length)]]
+    const o = {
+      color: rnd(SIZES.colors.length),
+      date: rnd(3),
+      row: ['day', 'city', 'empty'][rnd(3)],
+      lang: LANGS[rnd(LANGS.length)],
+    }
     await build({
       ...o,
       hour12: !!rnd(2),

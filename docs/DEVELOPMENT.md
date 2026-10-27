@@ -47,7 +47,8 @@ The tests run without a watch or simulator: `test/mock/zos.mjs` is a simulated B
 - **Texts and numbers** (`test/format.test.mjs`): time and AM/PM, the date styles of every language, number formats,
   thousands separators, distance in km and miles, battery below 5 %, ring filling.
 - **Editor** (`test/editor.test.mjs`): the options and titles, the default look, the accent color everywhere,
-  unknown choices fall back to the default, a tap opens the app of the ring's content.
+  unknown choices fall back to the default, a tap opens the app of the ring's content, and on a simulated
+  Zepp OS 3 watch (`build({ api3: true })`) no padel ring and the color name Lime.
 - **Battery** (`test/battery.test.mjs`): sensors only for the rings shown, no timers, a minute changes only the time,
   waking up reads the settings again.
 

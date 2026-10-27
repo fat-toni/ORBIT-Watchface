@@ -1,6 +1,6 @@
 # 🔒 Privacy Policy – ORBIT
 
-Last updated: 2026-10-26
+Last updated: 2026-10-28
 
 ORBIT is a watchface for Amazfit watches with Zepp OS. It is free, open source and made by one hobby developer.
 **ORBIT does not collect, save, send or share any data.**
@@ -22,8 +22,9 @@ A value is only read when you show it in one of the rings.
 | Stress (`data:user.hd.stress`) | Stress ring |
 | User info (`data:user.info`) | Your age, for the maximum heart rate (220 minus age) that fills the heart-rate ring |
 
-The weather, the location name (the place of the weather forecast) and the battery level come from the watch
-itself; ORBIT only shows them. The choices you make in the
+The weather, the location name (the place of the weather forecast), the battery level and whether the phone is
+connected come from the watch itself; ORBIT only shows them. A tap on the padel ring asks the watch whether
+Padel Punto is installed, to open it or to say where to get it. The choices you make in the
 watchface editor are kept by the watch.
 
 ORBIT has no internet access, no phone-side part, no account, no analytics, no ads and no third-party SDKs.

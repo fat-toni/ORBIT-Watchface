@@ -37,7 +37,6 @@ COLORS = [
     ('padel', (212, 245, 60)),  # 0xd4f53c, the ball lime of Padel Punto (utils/theme.js)
 ]
 COLOR_NUMBERS = {'mint': 0, 'ice': 1, 'amber': 2, 'rose': 3, 'lavender': 4, 'padel': 6}
-MINT = COLORS[0][1]
 WHITE = (245, 245, 245)
 LIGHT = (218, 220, 222)
 GRAY = (150, 154, 158)

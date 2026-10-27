@@ -13,7 +13,20 @@ export const langData = (lang) =>
   lang === 'en'
     ? SIZES.langEn
     : JSON.parse(readFileSync(new URL(`../assets/default.w390-s/lang/${lang}.json`, import.meta.url)))
-export const KINDS = ['step', 'heart', 'cal', 'battery', 'distance', 'pai', 'stand', 'spo2', 'stress', 'empty']
+export const KINDS = [
+  'step',
+  'heart',
+  'cal',
+  'battery',
+  'distance',
+  'pai',
+  'stand',
+  'spo2',
+  'stress',
+  'padel',
+  'music',
+  'empty',
+]
 const zos = globalThis.zos
 let run = 0
 

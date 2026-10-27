@@ -46,7 +46,7 @@ zeus preview
 ```
 
 The first time, `zeus preview` opens your browser to log in with your Zepp account.
-Then choose **Amazfit Bip 6** and a QR code appears.
+Then choose your watch (for example **Amazfit Bip 6** or **Amazfit GTS 4**) and a QR code appears.
 
 On Windows, if PowerShell says that `zeus.ps1` cannot be loaded, run
 `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use the Command Prompt (`cmd`) instead.

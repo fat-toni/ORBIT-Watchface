@@ -135,7 +135,8 @@ if (zab)
     if (list.includes('.ip-package')) problems.push('still holds the intermediate products (.ip-package)')
     for (const z of manifest.zpks)
       if (z.version.name !== version) problems.push(`${z.name} is version ${z.version.name}`)
-    const screens = manifest.zpks.map((z) => z.platforms.map((p) => p.screenResolution).join()).sort()
+    // one package per chip family (NXP, APOLLO, ZPS), all for the 390x450 screen
+    const screens = [...new Set(manifest.zpks.flatMap((z) => z.platforms.map((p) => p.screenResolution)))]
     if (screens.join() !== '390x450') problems.push(`screen sizes: ${screens.join(', ')}`)
     if (!problems.length) copyFileSync(join(ROOT, built), join(ROOT, 'dist', `ORBIT-${version}.zab`))
     return problems

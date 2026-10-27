@@ -6,7 +6,7 @@ import { W, SIDE, TOP_Y, TIME_Y, DAY_Y, RING_Y, SLOTS, KINDS, KIND } from './lay
 
 // Zepp OS 4 (API 4.0) or newer: only there Padel Punto can be installed, so only there the padel ring
 // is offered and the lime color is called "Padel" (getPackageInfoById is new in API 4.0).
-export const API4 = () => typeof getPackageInfoById === 'function'
+const API4 = () => typeof getPackageInfoById === 'function'
 
 // Own editor types (the editor allows numbers from 100000 for these).
 const COLOR_TYPE = 100001 // + the number of the color (third entry in SIZES.colors)
