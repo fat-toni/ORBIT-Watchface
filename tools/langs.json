@@ -6,7 +6,7 @@
     "'months' in the form used after the day (genitive where the language needs it).",
     "dates: the three date styles of the editor as tokens: d / dd day, m / mm month, yyyy year,",
     "MONTH long month, MON short month, WD short weekday, ' ' a space,",
-    "'.' '/' '-' ',' signs. titles: names in the watchface editor."
+    "'.' '/' '-' ',' signs. store: where Padel Punto is found when it is not installed. titles: names in the watchface editor."
   ],
   "en": {
     "zepp": [2],
@@ -22,6 +22,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["m", "/", "d", "/", "yyyy"]
     ],
+    "store": "in the Zepp App Store",
     "titles": {
       "colors": ["Mint", "Ice blue", "Amber", "Rose", "Lavender", "Silver", "Padel"],
       "empty": "Empty",
@@ -45,6 +46,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "im Zepp App Store",
     "titles": {
       "colors": ["Mint", "Eisblau", "Bernstein", "Rosé", "Lavendel", "Silber", "Padel"],
       "empty": "Leer",
@@ -68,6 +70,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["d", "/", "m", "/", "yyyy"]
     ],
+    "store": "en la Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azul hielo", "Ámbar", "Rosa", "Lavanda", "Plata", "Padel"],
       "empty": "Vacío",
@@ -91,6 +94,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", "/", "mm", "/", "yyyy"]
     ],
+    "store": "dans le Zepp App Store",
     "titles": {
       "colors": ["Menthe", "Bleu glacier", "Ambre", "Rose", "Lavande", "Argent", "Padel"],
       "empty": "Vide",
@@ -114,6 +118,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", "/", "mm", "/", "yyyy"]
     ],
+    "store": "nello Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azzurro ghiaccio", "Ambra", "Rosa", "Lavanda", "Argento", "Padel"],
       "empty": "Vuoto",
@@ -137,6 +142,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", "/", "mm", "/", "yyyy"]
     ],
+    "store": "na Zepp App Store",
     "titles": {
       "colors": ["Menta", "Azul gelo", "Âmbar", "Rosa", "Lavanda", "Prata", "Padel"],
       "empty": "Vazio",
@@ -160,6 +166,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", "-", "mm", "-", "yyyy"]
     ],
+    "store": "in de Zepp App Store",
     "titles": {
       "colors": ["Mint", "IJsblauw", "Amber", "Roze", "Lavendel", "Zilver", "Padel"],
       "empty": "Leeg",
@@ -183,6 +190,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["d", "/", "m", "/", "yyyy"]
     ],
+    "store": "a la Zepp App Store",
     "titles": {
       "colors": ["Menta", "Blau gel", "Ambre", "Rosa", "Lavanda", "Plata", "Padel"],
       "empty": "Buit",
@@ -206,6 +214,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv", "Padel"],
       "empty": "Tom",
@@ -229,6 +238,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["yyyy", "-", "mm", "-", "dd"]
     ],
+    "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Bärnsten", "Rosa", "Lavendel", "Silver", "Padel"],
       "empty": "Tom",
@@ -252,6 +262,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "i Zepp App Store",
     "titles": {
       "colors": ["Mint", "Isblå", "Rav", "Rosa", "Lavendel", "Sølv", "Padel"],
       "empty": "Tom",
@@ -275,6 +286,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["d", ".", "m", ".", "yyyy"]
     ],
+    "store": "Zepp App Storessa",
     "titles": {
       "colors": ["Minttu", "Jäänsininen", "Meripihka", "Roosa", "Laventeli", "Hopea", "Padel"],
       "empty": "Tyhjä",
@@ -298,6 +310,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "w Zepp App Store",
     "titles": {
       "colors": ["Mięta", "Lodowy błękit", "Bursztyn", "Róż", "Lawenda", "Srebro", "Padel"],
       "empty": "Puste",
@@ -321,6 +334,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["d", ".", " ", "m", ".", " ", "yyyy"]
     ],
+    "store": "v obchodě Zepp App Store",
     "titles": {
       "colors": ["Mátová", "Ledově modrá", "Jantarová", "Růžová", "Levandulová", "Stříbrná", "Padel"],
       "empty": "Prázdné",
@@ -344,6 +358,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["d", ".", " ", "m", ".", " ", "yyyy"]
     ],
+    "store": "v obchode Zepp App Store",
     "titles": {
       "colors": ["Mätová", "Ľadovo modrá", "Jantárová", "Ružová", "Levanduľová", "Strieborná", "Padel"],
       "empty": "Prázdne",
@@ -367,6 +382,7 @@
       ["MON", " ", "d", ".", " ", "WD"],
       ["yyyy", ".", " ", "mm", ".", " ", "dd", "."]
     ],
+    "store": "a Zepp App Store-ban",
     "titles": {
       "colors": ["Menta", "Jégkék", "Borostyán", "Rózsa", "Levendula", "Ezüst", "Padel"],
       "empty": "Üres",
@@ -390,6 +406,7 @@
       ["WD", " ", "d", " ", "MON"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "în Zepp App Store",
     "titles": {
       "colors": ["Mentă", "Albastru gheață", "Chihlimbar", "Roz", "Lavandă", "Argintiu", "Padel"],
       "empty": "Gol",
@@ -413,6 +430,7 @@
       ["WD", " ", "d", ".", " ", "MON"],
       ["d", ".", " ", "m", ".", " ", "yyyy", "."]
     ],
+    "store": "u Zepp App Store-u",
     "titles": {
       "colors": ["Menta", "Ledeno plava", "Ćilibar", "Roze", "Lavanda", "Srebrna", "Padel"],
       "empty": "Prazno",
@@ -436,6 +454,7 @@
       ["d", " ", "MON", " ", "WD"],
       ["dd", ".", "mm", ".", "yyyy"]
     ],
+    "store": "Zepp App Store'da",
     "titles": {
       "colors": ["Nane", "Buz mavisi", "Kehribar", "Gül", "Lavanta", "Gümüş", "Padel"],
       "empty": "Boş",

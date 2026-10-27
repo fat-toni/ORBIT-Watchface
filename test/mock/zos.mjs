@@ -38,6 +38,9 @@ export function resetZos() {
     minute: [], // onPerMinute callbacks
     day: [], // onPerDay callbacks
     changes: 0, // setProperty calls
+    apps: [1132340], // installed mini programs
+    toast: null, // content of the last showToast
+    launched: undefined, // the last launchApp option
   })
 }
 resetZos()
@@ -113,6 +116,10 @@ export const SYSTEM_APP_STATUS = 'status'
 export const SYSTEM_APP_HR = 'hr'
 export const SYSTEM_APP_WEATHER = 'weather'
 export const launchApp = (o) => (zos.launched = o)
+
+// ---- @zos/app, @zos/interaction ----
+export const getPackageInfoById = ({ appId }) => (zos.apps.includes(appId) ? { appId, name: 'app' } : undefined)
+export const showToast = (o) => (zos.toast = o.content)
 
 // ---- @zos/sensor ----
 function sensor(name) {

@@ -256,7 +256,7 @@ WatchFace({
       SIZES.units.padel,
     )
     const k = KIND.padel
-    tapArea(s.x - s.r, L.RING_Y - s.r, 2 * s.r, 2 * s.r, k.app, k.page)
+    tapArea(s.x - s.r, L.RING_Y - s.r, 2 * s.r, 2 * s.r, k.app, k.page, `${k.title} \u2013 ${this.f.store}`)
   },
 
   startSensors() {

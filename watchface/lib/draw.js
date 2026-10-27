@@ -2,6 +2,8 @@
 // only when something is different, since every change makes the watch redraw.
 import * as hmUI from '@zos/ui'
 import { launchApp } from '@zos/router'
+import { getPackageInfoById } from '@zos/app'
+import { showToast } from '@zos/interaction'
 import { SIZES } from '../sizes'
 import { RING_LINE } from './layout'
 
@@ -113,13 +115,25 @@ export function ring(cx, cy, r, color) {
 }
 
 // Invisible tap area that opens a system app, or with url a page of an installed mini program.
-export function tapArea(x, y, w, h, appId, url) {
+// missing: the message shown by the system when that mini program is not installed.
+export function tapArea(x, y, w, h, appId, url, missing) {
   const hit = img(x, y, 'icon/hit.png', { w, h })
   hit.addEventListener(hmUI.event.CLICK_UP, () => {
     try {
-      launchApp(url ? { appId, url, native: false } : { appId, native: true })
+      if (missing && !installed(appId)) showToast({ content: missing })
+      else launchApp(url ? { appId, url, native: false } : { appId, native: true })
     } catch (e) {}
   })
+}
+
+// Whether a mini program is installed; only asked on a tap.
+function installed(appId) {
+  try {
+    const info = getPackageInfoById({ appId })
+    return !!(info && (info.appId || info.name))
+  } catch (e) {
+    return false
+  }
 }
 
 // Tap area that opens the system app of a data type (hmUI.data_type name); fallback: appId.

@@ -268,6 +268,7 @@ export const SIZES = {
       "row_city": "edit/l/en_row_city.png",
       "row_day": "edit/l/en_row_day.png"
     },
+    "store": "in the Zepp App Store",
     "titles": {
       "city": "Location",
       "colors": [

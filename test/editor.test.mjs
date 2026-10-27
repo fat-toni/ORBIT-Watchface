@@ -140,3 +140,12 @@ test('the padel ring shows a racket, no value, and a tap opens Padel Punto', asy
   const title = group(EDIT.rings[1]).props.optional_types.find((t) => t.type === 100120).title_en
   assert.equal(title, 'Padel Punto')
 })
+
+test('a tap on the padel ring without Padel Punto shows where to get it', async () => {
+  await build({ rings: ['empty', 'padel', 'empty'], lang: 'de' })
+  zos.apps = []
+  const tap = zos.widgets.find((w) => w.on && w.on.up && w.props.src === 'icon/hit.png' && w.props.w === 128)
+  tap.on.up()
+  assert.equal(zos.launched, undefined)
+  assert.equal(zos.toast, 'Padel Punto \u2013 im Zepp App Store')
+})

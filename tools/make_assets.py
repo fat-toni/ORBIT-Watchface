@@ -645,7 +645,7 @@ def write_sizes():
     # Every language in its own small file (lang/<code>.json); the watchface reads only the one of the watch,
     # so the words of the other languages never take up memory. ASCII with \u escapes, the watch reads bytes.
     # sizes.js only knows which watch language code belongs to which file, and English as a fallback.
-    rules = ('group', 'decimal', 'minGroup', 'dates', 'titles', 'days', 'daysShort', 'months', 'monthsShort', 'previews')
+    rules = ('group', 'decimal', 'minGroup', 'dates', 'store', 'titles', 'days', 'daysShort', 'months', 'monthsShort', 'previews')
     os.makedirs(os.path.join(OUT, 'lang'), exist_ok=True)
     for lang, L in LANGS.items():
         with open(os.path.join(OUT, 'lang', f'{lang}.json'), 'w') as f:
