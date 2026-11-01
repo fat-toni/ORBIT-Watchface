@@ -46,23 +46,16 @@ if (!zab)
   })
 
 // 2. One version everywhere, raised since the last release, with a dated changelog entry.
-check(`version ${version} in package.json, both changelogs and above the last release`, () => {
+check(`version ${version} in package.json, the changelog and above the last release`, () => {
   const problems = []
   const pkg = JSON.parse(read('package.json'))
   if (pkg.version !== version) problems.push(`package.json says ${pkg.version}`)
-  const head = read('CHANGELOG.md').match(/^## (\S+) · (.+)$/m)
-  if (!head || head[1] !== version) problems.push(`CHANGELOG.md: newest entry is ${head && head[1]}`)
-  else if (!/^\d{4}-\d{2}-\d{2}$/.test(head[2])) problems.push(`CHANGELOG.md: "${head[2]}" instead of a date`)
-  if (
-    !read('CHANGELOG.md')
-      .match(/^\*\*Versions:\*\*.*$/m)?.[0]
-      .includes(`[${version}](#`)
-  )
+  const de = read('CHANGELOG.md')
+  const h = de.match(/^## (\S+) · (.+)$/m)
+  if (!h || h[1] !== version) problems.push(`CHANGELOG.md: newest entry is ${h && h[1]}`)
+  else if (!/^\d{2}\.\d{2}\.\d{4}$/.test(h[2])) problems.push(`CHANGELOG.md: "${h[2]}" instead of a date (DD.MM.YYYY)`)
+  if (!de.match(/^\*\*Versionen:\*\*.*$/m)?.[0].includes(`[${version}](#`))
     problems.push('CHANGELOG.md: not in the version index at the top')
-  if (existsSync(join(ROOT, 'CHANGELOG.de.md'))) {
-    const h = read('CHANGELOG.de.md').match(/^## (\S+) · (.+)$/m)
-    if (!h || h[1] !== version) problems.push(`CHANGELOG.de.md: newest entry is ${h && h[1]}`)
-  }
   const tags = git('tag', '--sort=-v:refname').split('\n').filter(Boolean)
   if (tags.includes(`v${version}`)) notes.push(`v${version} is already released; raise the version for a new one`)
   const last = tags.find((t) => t !== `v${version}`)
@@ -93,7 +86,6 @@ check('private files stay local (.gitignore)', () => {
   const local = [
     'TODO.md',
     'UHRTEST.md',
-    'CHANGELOG.de.md',
     'BESCHREIBUNG.md',
     'store/LISTING.md',
     '.claude/x',

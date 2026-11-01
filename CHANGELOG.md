@@ -1,53 +1,54 @@
-# 📝 Changelog – ORBIT
+# 📝 Änderungen – ORBIT
 
-All changes to ORBIT, newest version first.
+Alle Änderungen an ORBIT, die neueste Version zuerst.
 
-**Versions:** [1.0.1](#101--2026-10-26) · [1.0.0](#100--2026-10-26)
+**Versionen:** [1.0.1](#101--26102026) · [1.0.0](#100--26102026)
 
-## 1.1.0 · not released yet
+## 1.1.0 · noch nicht veröffentlicht
 
-### ✨ New
+### ✨ Neu
 
-- **Three more watches:** Amazfit GTS 4, Active and Cheetah (Square) – same screen, Zepp OS 3 or newer. There is no
-  Padel Punto for Zepp OS 3, so on these the padel ring is left out and its color is called Lime. Tested on the GTS 4
-  in the simulator.
-- **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
-  and a tap on it opens Padel Punto.
-  Without Padel Punto on the watch, the tap shows where to get it: "Padel Punto – in the Zepp App Store".
-- **Phone connection:** a small gray crossed-out phone at the top when the phone is not connected – shown by the
-  watch itself, nothing when all is fine.
-- **Music ring:** a note that opens the music player.
-- **Padel color:** a new accent color, the ball lime of Padel Punto.
+- **Drei weitere Uhren:** Amazfit GTS 4, Active und Cheetah (Square) – gleicher Bildschirm, ab Zepp OS 3. Für
+  Zepp OS 3 gibt es kein Padel Punto, dort fehlt der Padel-Ring und die Farbe heißt Limette. GTS 4 im Simulator getestet.
+- **Padel-Ring:** Im Editor kann jeder Ring „Padel Punto“ zeigen – ein Schläger in der Akzentfarbe, ein Tipp
+  darauf öffnet die App (auf der Bip 6 getestet).
+  Ist Padel Punto nicht auf der Uhr, zeigt der Tipp kurz „Padel Punto – im Zepp App Store“ (getestet).
+- **Handy-Verbindung:** kleines graues durchgestrichenes Handy oben, wenn das Handy getrennt ist – die Uhr blendet
+  es selbst ein, sonst ist dort nichts.
+- **Musik-Ring:** eine Note öffnet den Musikplayer.
+- **Padel-Farbe:** neue Akzentfarbe, die Ball-Limette von Padel Punto.
 
-### 🎨 Changed
+### 🎨 Geändert
 
-- **Stronger colors:** Mint, Ice blue, Amber, Rose and Lavender are as vivid as the padel lime now.
-- **Silver is gone:** next to the white hours it hardly stood out. If you had it picked, ORBIT switches to Mint.
-- **Distance goal:** the distance ring is full once you have walked your step goal (step goal × your stride, from
-  your height), not at a fixed 10 km – so it fills like the steps ring, in km and in miles.
-- **12-hour format:** the time and AM/PM are centered together and stay inside the margin of date and battery.
+- **Kräftigere Farben:** Mint, Eisblau, Bernstein, Rosé und Lavendel leuchten jetzt so wie die Padel-Farbe.
+- **Silber fällt weg:** neben den weißen Stunden kaum zu sehen. Wer es gewählt hatte, bekommt Mint.
+- **Distanzziel:** Der Distanz-Ring ist voll, wenn das Schrittziel gelaufen ist (Schrittziel × Schrittlänge aus der
+  Körpergröße, 0,415 × Größe), nicht mehr fest bei 10 km – er füllt sich also wie der Schritte-Ring, in km und Meilen.
+  Dafür wird der Schrittsensor nach dem Ziel gefragt, ohne Änderungs-Ereignis.
+- **12-Stunden-Format:** Uhrzeit und AM/PM sind zusammen zentriert und bleiben innerhalb des Rands von Datum und Akku.
 
-## 1.0.1 · 2026-10-26
+## 1.0.1 · 26.10.2026
 
-> Ready for the Zepp App Store, and a second watch.
+> Bereit für den Zepp App Store, und eine zweite Uhr.
 
-### ✨ New
+### ✨ Neu
 
-- **Amazfit Active 2 (Square):** ORBIT now also runs on it – same screen as the Bip 6, not tested on the watch yet.
-- **Preview picture:** the watchface list on the watch shows ORBIT itself at 10:09 instead of a ring icon.
+- **Amazfit Active 2 (Square):** ORBIT läuft jetzt auch darauf – gleicher Bildschirm wie die Bip 6, auf der Uhr noch
+  nicht getestet.
+- **Vorschaubild:** Die Zifferblatt-Liste auf der Uhr zeigt ORBIT selbst um 10:09 statt eines Ring-Symbols.
 
-## 1.0.0 · 2026-10-26
+## 1.0.0 · 26.10.2026
 
-> The first version: a calm digital watchface for the Amazfit Bip 6 that you make your own in the watchface editor.
+> Die erste Version: ein ruhiges Digital-Watchface für die Amazfit Bip 6, das man im Ziffernblatt-Editor anpasst.
 
-### ✨ New
+### ✨ Neu
 
-- **Time** in large digits, hours white and minutes in the accent color, with AM/PM in the 12-hour format.
-- **Date and battery** on top; the battery turns red below 5 %.
-- **Weather** from the watch: icon, current temperature, high and low of the day. Tap it for the forecast.
-- **Three rings** for steps, calories and heart rate; the middle one is larger and shows up to 99,999 steps in full.
-  Tap a ring to open the matching app.
-- **Watchface editor:** six accent colors (Mint, Ice blue, Amber, Rose, Lavender, Silver), nine ring contents or an
-  empty ring, three date styles, and the weekday, your location or nothing under the time.
-- **Always-on display** with a dimmed time.
-- **19 languages:** English, German, Spanish, French, Italian, Portuguese, Dutch, Catalan, Danish, Swedish, Norwegian, Finnish, Polish, Czech, Slovak, Hungarian, Romanian, Serbian (Latin) and Turkish. Dates and numbers are written the way each language writes them.
+- **Uhrzeit** groß, Stunden weiß, Minuten in der Akzentfarbe, im 12-Stunden-Format mit AM/PM.
+- **Datum und Akku** oben; der Akku wird unter 5 % rot.
+- **Wetter** von der Uhr: Symbol, aktuelle Temperatur, Hoch und Tief. Antippen öffnet die Vorhersage.
+- **Drei Ringe** für Schritte, Kalorien und Puls; der mittlere ist größer und zeigt bis 99.999 Schritte voll an.
+  Antippen öffnet die passende App.
+- **Ziffernblatt-Editor:** 6 Akzentfarben, 9 Ringinhalte oder leer, 3 Datumsvarianten, unter der Uhrzeit
+  Wochentag, Standort oder nichts.
+- **Always-On-Display** mit gedämpfter Uhrzeit.
+- **19 Sprachen:** Englisch, Deutsch, Spanisch, Französisch, Italienisch, Portugiesisch, Niederländisch, Katalanisch, Dänisch, Schwedisch, Norwegisch, Finnisch, Polnisch, Tschechisch, Slowakisch, Ungarisch, Rumänisch, Serbisch (lateinisch) und Türkisch, jeweils mit eigener Schreibweise für Datum und Zahlen.
