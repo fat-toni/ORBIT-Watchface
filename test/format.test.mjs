@@ -44,6 +44,23 @@ test('the time is centered', async () => {
   }
 })
 
+test('12-hour format: time and AM/PM are centered together, inside the side margin', async () => {
+  for (const [hours, minutes] of [
+    [0, 0],
+    [1, 11],
+    [13, 7],
+    [22, 58],
+  ]) {
+    await build({ hour12: true, now: { hours, minutes } })
+    const digits = imgs(/num\/time_[hm]_/)
+    const left = Math.min(...digits.map((w) => w.props.x))
+    const ampm = textWidget((w) => w.props.text_size === 16)
+    const right = ampm.props.x + Math.max(SIZES.ampm.AM, SIZES.ampm.PM)
+    assert.ok(Math.abs(left - (390 - right)) <= 1, `${hours}:${minutes} from ${left} to ${right}`)
+    assert.ok(right <= 390 - 34, `${hours}:${minutes} ends at ${right}`)
+  }
+})
+
 test('date styles, written by hand for a few languages', async () => {
   const want = {
     de: ['26. OKTOBER', 'MO 26. OKT', '26.10.2026'],
@@ -217,6 +234,11 @@ test('ring filling', async () => {
   assert.equal(sweep(hr), 360)
   assert.equal(sweep(stand), 180)
   assert.equal(sweep(pai), 180)
+  // distance: the step goal times the stride (180 cm x 0.415 = 0.747 m), 8000 steps = 5976 m
+  await build({ rings: ['distance', 'step', 'heart'], values: { distance: 2988, step: { current: 0, target: 8000 } } })
+  assert.equal(sweep(arcs()[0]), 180)
+  await build({ rings: ['distance', 'step', 'heart'], values: { distance: 2988, step: { current: 0, target: 4000 } } })
+  assert.equal(sweep(arcs()[0]), 360)
 })
 
 test('a new minute only redraws the time', async () => {

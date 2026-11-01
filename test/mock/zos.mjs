@@ -14,6 +14,7 @@ export function resetZos() {
     hour12: false,
     imperial: false,
     age: 40,
+    height: 180, // cm, stride 0.747 m
     // Monday, 26 October 2026, 10:08; day: 1 = Monday ... 7 = Sunday
     now: { year: 2026, month: 10, date: 26, day: 1, hours: 10, minutes: 8 },
     values: {
@@ -111,7 +112,7 @@ export const getTimeFormat = () => (zos.hour12 ? TIME_FORMAT_12 : TIME_FORMAT_24
 export const getDistanceUnit = () => (zos.imperial ? DISTANCE_UNIT_IMPERIAL : DISTANCE_UNIT_METRIC)
 
 // ---- @zos/user ----
-export const getProfile = () => ({ age: zos.age, gender: 0 })
+export const getProfile = () => ({ age: zos.age, height: zos.height, gender: 0 })
 
 // ---- @zos/router ----
 export const SYSTEM_APP_STATUS = 'status'

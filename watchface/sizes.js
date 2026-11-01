@@ -1,5 +1,9 @@
 // Written by tools/make_assets.py, do not edit. Widths and heights of the pictures in px.
 export const SIZES = {
+  "ampm": {
+    "AM": 29,
+    "PM": 27
+  },
   "aod_h": {
     "h": 86,
     "w": {

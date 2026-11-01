@@ -11,9 +11,14 @@ test('only the sensors of the rings that are shown', async () => {
   for (const kind of KINDS) {
     await build({ rings: [kind, 'empty', 'empty'] })
     const used = SENSORS.filter((s) => zos.sensors[s])
-    assert.deepEqual(used, SENSORS.includes(kind) ? [kind] : [], kind)
+    // the distance ring asks the step sensor for the step goal, without a change event
+    const want = kind === 'distance' ? ['step', 'distance'] : SENSORS.includes(kind) ? [kind] : []
+    assert.deepEqual(used, want, kind)
     for (const s of used) assert.equal(zos.sensors[s], 1, `${s} created once`)
+    if (kind === 'distance') assert.equal(zos.listeners.step, undefined, 'no step events for distance')
   }
+  await build({ rings: ['distance', 'step', 'empty'] })
+  assert.equal(zos.sensors.step, 1, 'one step sensor for the step ring and the distance goal')
   await build({ rings: ['step', 'step', 'step'] })
   assert.equal(zos.sensors.step, 1)
 })

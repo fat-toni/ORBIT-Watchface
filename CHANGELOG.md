@@ -25,6 +25,9 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
 
 - **Stronger colors:** Mint, Ice blue, Amber, Rose and Lavender are as vivid as the padel lime now.
 - **Silver is gone:** next to the white hours it hardly stood out. If you had it picked, ORBIT switches to Mint.
+- **Distance goal:** the distance ring is full once you have walked your step goal (step goal × your stride, from
+  your height), not at a fixed 10 km – so it fills like the steps ring, in km and in miles.
+- **12-hour format:** the time and AM/PM are centered together and stay inside the margin of date and battery.
 
 ## 1.0.1 · 2026-10-26
 

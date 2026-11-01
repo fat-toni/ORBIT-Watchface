@@ -271,11 +271,13 @@ WatchFace({
     this.battery = new Battery()
     // the city name comes with the weather forecast; only read when the row shows it
     if (this.row === 'city') this.weather = new Weather()
+    let profile = {}
     try {
-      this.maxHr = 220 - (getProfile().age || 35)
-    } catch (e) {
-      this.maxHr = 185
-    }
+      profile = getProfile() || {}
+    } catch (e) {}
+    this.maxHr = 220 - (profile.age || 35)
+    // stride length from the body height (cm x 0.415, in m), for the goal of the distance ring
+    this.stride = ((profile.height || 170) * 0.415) / 100
 
     this.updateAll()
 
@@ -315,7 +317,10 @@ WatchFace({
     const m = two(safeRead(() => this.time.getMinutes(), 0))
     // a single hour digit ("1 58") gets more room, so it does not read as one number
     const gap = h.length === 1 ? L.TIME_GAP + 12 : L.TIME_GAP
-    const left = Math.round((L.W - this.timeH.width(h) - gap - this.timeM.width(m)) / 2)
+    // AM/PM is centered with the time, so it stays inside the side margin; the wider of the two, so
+    // the time does not move at noon
+    const ampmW = this.h12 ? L.AMPM_GAP + Math.max(SIZES.ampm.AM, SIZES.ampm.PM) : 0
+    const left = Math.round((L.W - this.timeH.width(h) - gap - this.timeM.width(m) - ampmW) / 2)
     this.timeH.draw(h, left)
     const mx = left + this.timeH.width(h) + gap
     this.timeM.draw(m, mx)
@@ -431,7 +436,10 @@ WatchFace({
       }
       case 'distance': {
         const m = read((s) => s.getCurrent()) // meters
-        return { items: distChars(this.miles ? m / 1609.344 : m / 1000, f), part: m / 10000 }
+        // there is no distance goal on the watch: the step goal walked, so both rings fill alike.
+        // The step sensor is only asked for its goal here, it gets no change event.
+        const steps = safeRead(() => this.sensor('step').getTarget(), 0) || 8000
+        return { items: distChars(this.miles ? m / 1609.344 : m / 1000, f), part: m / (steps * this.stride) }
       }
       case 'pai': {
         const p = read((s) => s.getTotal())

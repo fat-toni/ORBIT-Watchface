@@ -145,6 +145,9 @@ def texts():
     asc, desc = f.getmetrics()
     sizes['text19'] = {'h': asc + desc, 'adv': {c: round(f.getlength(c), 2) for c in chars}}
     sizes['units'] = UNITS
+    # AM/PM next to the time (SemiBold 16, letter spacing 1), so the time and AM/PM are centered together
+    f = font(16, 'SemiBold')
+    sizes['ampm'] = {t: math.ceil(f.getlength(t) + len(t) - 1) for t in ('AM', 'PM')}
 
 
 def numbers():
