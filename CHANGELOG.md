@@ -1,10 +1,8 @@
 # 📝 Changelog – ORBIT
 
-All changes to ORBIT, newest version first. Downloads are on the [Releases page](https://github.com/fat-toni/ORBIT-Watchface/releases).
+All changes to ORBIT, newest version first.
 
 **Versions:** [1.0.1](#101--2026-10-26) · [1.0.0](#100--2026-10-26)
-
-← [Back to the README](README.md)
 
 ## 1.1.0 · not released yet
 
@@ -14,7 +12,7 @@ All changes to ORBIT, newest version first. Downloads are on the [Releases page]
   Padel Punto for Zepp OS 3, so on these the padel ring is left out and its color is called Lime. Tested on the GTS 4
   in the simulator.
 - **Padel ring:** pick "Padel Punto" for any ring in the watchface editor – a racket in your accent color,
-  and a tap on it opens [Padel Punto](https://github.com/fat-toni/PadelPunto).
+  and a tap on it opens Padel Punto.
   Without Padel Punto on the watch, the tap shows where to get it: "Padel Punto – in the Zepp App Store".
 - **Phone connection:** a small gray crossed-out phone at the top when the phone is not connected – shown by the
   watch itself, nothing when all is fine.

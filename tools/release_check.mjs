@@ -1,7 +1,7 @@
 // Everything a machine can check before a release, in one run. Prints one line per check and
 // exits with 1 if any fails.
 // Usage: npm run release-check            formatting, tests, versions, pictures, private files, privacy policy
-//        npm run release-check -- --zab   the same, then builds the .zab for GitHub and checks it
+//        npm run release-check -- --zab   the same, then builds the slim .zab and checks it
 import { spawnSync } from 'node:child_process'
 import { readFileSync, readdirSync, existsSync, copyFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -74,11 +74,9 @@ check(`version ${version} in package.json, both changelogs and above the last re
   return problems
 })
 
-// 3. Pictures and sizes.js come from tools/make_assets.py, the README pictures from
-// tools/readme_art.py: drawn again, nothing may change.
+// 3. Pictures and sizes.js come from tools/make_assets.py: drawn again, nothing may change.
 for (const [name, script, paths] of [
   ['watchface pictures up to date (tools/make_assets.py)', 'tools/make_assets.py', ['assets', 'watchface/sizes.js']],
-  ['README pictures up to date (tools/readme_art.py)', 'tools/readme_art.py', ['docs/images']],
 ])
   check(name, () => {
     const dirty = () => git('status', '--porcelain', '--', ...paths)
@@ -90,7 +88,7 @@ for (const [name, script, paths] of [
     return after ? ['were outdated and are redrawn now; look at them and commit:', ...after.split('\n')] : []
   })
 
-// 4. The local-only files stay off GitHub.
+// 4. The local-only files stay out of git.
 check('private files stay local (.gitignore)', () => {
   const local = [
     'TODO.md',
@@ -116,11 +114,11 @@ check('PRIVACY.md explains every permission', () => {
   return app.permissions.filter((p) => !privacy.includes(`\`${p}\``)).map((p) => `PRIVACY.md: permission ${p}`)
 })
 
-// 6. --zab: the package for the GitHub release, without intermediate products, copied to
+// 6. --zab: the slim package, without intermediate products, copied to
 // dist/ORBIT-<version>.zab.
 if (zab)
-  check(`dist/ORBIT-${version}.zab (npm run build -- --github)`, () => {
-    const r = sh('bash', ['tools/build.sh', '--github'])
+  check(`dist/ORBIT-${version}.zab (npm run build -- --slim)`, () => {
+    const r = sh('bash', ['tools/build.sh', '--slim'])
     if (r.status !== 0) return ['the build failed:', ...(r.stdout + r.stderr).trim().split('\n').slice(-12)]
     const built = files('dist')
       .filter((f) => f.includes(`-${version}-`) && f.endsWith('.zab'))
