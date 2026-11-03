@@ -17,5 +17,9 @@
   "devDependencies": {
     "@zeppos/device-types": "^3.0.0",
     "prettier": "^3.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fat-toni/ORBIT-Watchface.git"
   }
 }

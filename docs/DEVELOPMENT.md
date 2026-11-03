@@ -1,6 +1,6 @@
 # Development
 
-Needs Node.js and the Zeus CLI (`npm install -g @zeppos/zeus-cli`).
+Get the code and the tools first, as in [INSTALL.md](INSTALL.md) steps 1 and 2.
 
 ```bash
 npm install
@@ -64,3 +64,11 @@ On the watch every picture takes about width × height bytes, transparent or not
 uncompressed format). So the editor previews are cut to what they show, and languages with the same preview share
 one picture. The editor centers a preview in its area and shows all options in the size of the first one, so the
 previews of one area keep one size.
+
+## README pictures
+
+`python3 tools/readme_art.py` draws the banner and the watch pictures in `docs/images/` from the simulator
+screenshots in `docs/images/screenshots/` (390×450, taken without the mouse). The simulator often has no weather
+data, so the script draws the weather row from the watchface's own pictures.
+
+← [Back to the README](../README.md)

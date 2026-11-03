@@ -67,9 +67,11 @@ check(`version ${version} in package.json, the changelog and above the last rele
   return problems
 })
 
-// 3. Pictures and sizes.js come from tools/make_assets.py: drawn again, nothing may change.
+// 3. Pictures and sizes.js come from tools/make_assets.py, the README pictures from
+// tools/readme_art.py: drawn again, nothing may change.
 for (const [name, script, paths] of [
   ['watchface pictures up to date (tools/make_assets.py)', 'tools/make_assets.py', ['assets', 'watchface/sizes.js']],
+  ['README pictures up to date (tools/readme_art.py)', 'tools/readme_art.py', ['docs/images']],
 ])
   check(name, () => {
     const dirty = () => git('status', '--porcelain', '--', ...paths)
@@ -83,14 +85,7 @@ for (const [name, script, paths] of [
 
 // 4. The local-only files stay out of git.
 check('private files stay local (.gitignore)', () => {
-  const local = [
-    'TODO.md',
-    'UHRTEST.md',
-    'BESCHREIBUNG.md',
-    'store/LISTING.md',
-    '.claude/x',
-    'sim-debug.log',
-  ]
+  const local = ['TODO.md', 'UHRTEST.md', 'BESCHREIBUNG.md', 'store/LISTING.md', '.claude/x', 'sim-debug.log']
   const problems = []
   for (const f of local) {
     if (sh('git', ['check-ignore', '-q', '--no-index', f]).status !== 0) problems.push(`${f} is not in .gitignore`)

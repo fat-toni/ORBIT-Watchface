@@ -1,6 +1,6 @@
 # 📝 Änderungen – ORBIT
 
-Alle Änderungen an ORBIT, die neueste Version zuerst.
+Alle Änderungen an ORBIT, die neueste Version zuerst. Downloads gibt es auf der [Release-Seite](https://github.com/fat-toni/ORBIT-Watchface/releases).
 
 **Versionen:** [1.0.1](#101--26102026) · [1.0.0](#100--26102026)
 
@@ -52,3 +52,5 @@ Alle Änderungen an ORBIT, die neueste Version zuerst.
   Wochentag, Standort oder nichts.
 - **Always-On-Display** mit gedämpfter Uhrzeit.
 - **19 Sprachen:** Englisch, Deutsch, Spanisch, Französisch, Italienisch, Portugiesisch, Niederländisch, Katalanisch, Dänisch, Schwedisch, Norwegisch, Finnisch, Polnisch, Tschechisch, Slowakisch, Ungarisch, Rumänisch, Serbisch (lateinisch) und Türkisch, jeweils mit eigener Schreibweise für Datum und Zahlen.
+
+← [Zurück zum README](README.md)

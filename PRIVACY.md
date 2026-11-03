@@ -36,4 +36,8 @@ The watchface collects no personal data from anyone, including children.
 ## Changes
 
 If this policy changes, the new version is published here, with a new date at the top. The full history is in the
-Git history of this file.
+[Git history](https://github.com/fat-toni/ORBIT-Watchface/commits/main/PRIVACY.md) of this file.
+
+## Contact
+
+Questions? Open an [issue](https://github.com/fat-toni/ORBIT-Watchface/issues).
