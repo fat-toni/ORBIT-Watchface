@@ -21,6 +21,7 @@ STORE = os.path.join(ROOT, 'store')
 W, H = 390, 450
 PREVIEW = (266, 307)  # "Watchface preview image resolution" of the Bip 6 and Active 2 (Square)
 S = 4  # rings are drawn 4x larger and scaled down for smooth edges
+CORNER = 58  # radius of the screen corners (390x450), same as tools/readme_art.py; Zepp rejects square corners
 
 # sample weather for the data types of IMG_LEVEL / TEXT_IMG (11 current, 12 high, 13 low)
 TEMPS = {11: 22, 12: 25, 13: 16}
@@ -107,13 +108,23 @@ def draw(lang):
     return img
 
 
+def round_corners(img):
+    """Makes the four corners outside the rounded screen transparent; the store rejects previews with
+    square black corners. The mask is drawn 4x larger for a smooth edge."""
+    mask = Image.new('L', (W * S, H * S), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, W * S - 1, H * S - 1], radius=CORNER * S, fill=255)
+    img = img.copy()
+    img.putalpha(mask.resize((W, H), Image.LANCZOS))
+    return img
+
+
 def main():
-    img = draw('en')
+    img = round_corners(draw('en'))
     img.resize(PREVIEW, Image.LANCZOS).save(os.path.join(ASSETS, 'icon.png'), optimize=True)
     # full size for the "Watch Face Preview" of the store form (390x450, up to 1 MB); store/ stays local
     os.makedirs(STORE, exist_ok=True)
     for lang in STORE_LANGS:
-        (img if lang == 'en' else draw(lang)).convert('RGB').save(os.path.join(STORE, f'preview_{lang}.png'), optimize=True)
+        (img if lang == 'en' else round_corners(draw(lang))).save(os.path.join(STORE, f'preview_{lang}.png'), optimize=True)
     print('done:', os.path.join(ASSETS, 'icon.png'), STORE)
 
 

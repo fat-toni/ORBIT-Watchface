@@ -26,6 +26,8 @@ Alle Änderungen an ORBIT, die neueste Version zuerst. Downloads gibt es auf der
   Körpergröße, 0,415 × Größe), nicht mehr fest bei 10 km – er füllt sich also wie der Schritte-Ring, in km und Meilen.
   Dafür wird der Schrittsensor nach dem Ziel gefragt, ohne Änderungs-Ereignis.
 - **12-Stunden-Format:** Uhrzeit und AM/PM sind zusammen zentriert und bleiben innerhalb des Rands von Datum und Akku.
+- **Vorschaubild mit runden Ecken:** Die Vorschau (Zifferblatt-Liste und Store) hat jetzt transparente, abgerundete
+  Ecken wie der Bildschirm – der Zepp App Store hatte die eckige Vorschau abgelehnt.
 
 ## 1.0.1 · 26.10.2026
 
