@@ -2,9 +2,11 @@
 
 Alle Änderungen an ORBIT, die neueste Version zuerst. Downloads gibt es auf der [Release-Seite](https://github.com/fat-toni/ORBIT-Watchface/releases).
 
-**Versionen:** [1.0.1](#101--26102026) · [1.0.0](#100--26102026)
+**Versionen:** [1.1.0](#110--21112026) · [1.0.1](#101--26102026) · [1.0.0](#100--26102026)
 
-## 1.1.0 · noch nicht veröffentlicht
+## 1.1.0 · 21.11.2026
+
+> Im Zepp App Store, mit drei weiteren Uhren und dem Padel-Ring.
 
 ### ✨ Neu
 
