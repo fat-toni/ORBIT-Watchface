@@ -1,6 +1,6 @@
 # Install ORBIT on your watch
 
-ORBIT is not in the Zepp app store yet. Every version is on the
+The easiest way: search for “ORBIT” in the watch face store of the Zepp app. Without the store, every version is on the
 **[Releases page](https://github.com/fat-toni/ORBIT-Watchface/releases)**, and there are two ways to get it onto your watch:
 
 | | You use | You need |

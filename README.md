@@ -72,8 +72,9 @@ Padel Punto.
 
 ORBIT runs on square Amazfit watches with the 390×450 screen: the **Bip 6**, **Active 2 (Square)**, **GTS 4**,
 **Active** and **Cheetah (Square)** (Zepp OS 3 or newer). Tested on the Bip 6; the GTS 4 in the simulator, the others
-not yet. On Zepp OS 3 watches there is no Padel Punto, so there the padel ring is left out and its color is called Lime. It is not in the Zepp app store yet;
-grab the newest version from the **[Releases](https://github.com/fat-toni/ORBIT-Watchface/releases/latest)**.
+not yet. On Zepp OS 3 watches there is no Padel Punto, so there the padel ring is left out and its color is called Lime. ORBIT is in the **Zepp App Store**:
+search for “ORBIT” in the watch face store of the Zepp app. Or grab the newest version from the
+**[Releases](https://github.com/fat-toni/ORBIT-Watchface/releases/latest)** and install it one of these ways:
 
 | | 📱 With the Zepp app | 🤖 With Gadgetbridge |
 |---|---|---|
